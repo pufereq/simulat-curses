@@ -21,8 +21,12 @@
     <a href="https://github.com/pufereq/simulat/pulse">
         <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/pufereq/simulat">
     </a>
-    <a href="https://github.com/pufereq/simulat">
-        <img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/pufereq/simulat">
+    <br>
+    <a href="https://github.com/pufereq/simulat/tree/main">
+        <img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/pufereq/simulat/main?label=code%20quality%20%28main%29">
+    </a>
+    <a href="https://github.com/pufereq/simulat/tree/develop">
+        <img alt="CodeFactor Grade" src="https://img.shields.io/codefactor/grade/github/pufereq/simulat/develop?label=code%20quality%20%28develop%29">
     </a>
     <br>
     <a href="https://github.com/pufereq/simulat/releases">
