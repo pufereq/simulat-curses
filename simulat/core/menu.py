@@ -40,9 +40,6 @@ class Menu():
         """
         # initialize panels
 
-        # if description == '':
-        #     description = ' ' * 10
-
         self.added_description_height = math.ceil(len(description) / 40) + 1
         self.root_vertical_length = len(items) + self.added_description_height
         self.vertical_length = len(items)
@@ -145,11 +142,6 @@ class Menu():
         # add description window border
         separator = '┡' + '━' * (self.horizontal_length - 2) + '┩'
 
-        # separator = 'abcd'
-        # self.description_window_border.attron(cs.A_BOLD)
-        # self.description_window_border.border(0, 0, 0, 0, 0, 0, 0, 0)
-        # self.description_window_border.attroff(cs.A_BOLD)
-
         try:
             for line in range(self.added_description_height - 1):
                 self.description_window_border.addstr(line, 0, LINE_HEAVY)
@@ -167,6 +159,7 @@ class Menu():
         # add title on bar
         self.root_window_border.addstr(0, (self.root_window_border.getmaxyx()[1] - len(title)) // 2, title, cs.A_REVERSE)
         self.root_window.keypad(1)
+
         self.panel = panel.new_panel(self.root_window)
         self.panel.hide()
 
@@ -191,7 +184,6 @@ class Menu():
     def display(self):
         self.panel.top()
         self.panel.show()
-        # self.root_window.clear()
 
         while True:
             self.root_window.refresh()
@@ -260,7 +252,6 @@ class Menu():
                 # this gibberish formats the label to be shown on the menu.
                 label = ' ' * (text_pos) + label + ' ' * (text_pos - right_spacing)
                 self.menu_window.addstr(0 + idx, padding, label, mode)
-                # self.menu_window.addstr("test" * 2)
                 self.menu_window.refresh()
                 self.info_window.refresh()
 
