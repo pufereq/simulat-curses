@@ -273,10 +273,12 @@ class Menu():
 
                 # if chosen menu entry's target function is none, break.
                 # user can later use `self.result` returned by self.results()
-                if chosen_item['target'] is None:
+                if 'target' not in chosen_item or chosen_item['target'] is None:
                     break
 
-                if type(chosen_item['args']) is dict:
+                if 'args' not in chosen_item:
+                    chosen_item['target']()
+                elif type(chosen_item['args']) is dict:
                     chosen_item['target'](**chosen_item['args'])
                 elif type(chosen_item['args']) is list:
                     chosen_item['target'](*chosen_item['args'])
