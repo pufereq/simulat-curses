@@ -48,6 +48,9 @@ class Menu():
         self.vertical_length = len(items)
         self.size = window.getmaxyx()
 
+        self.parent_window = window
+        self.parent_window_horizontal_length = self.parent_window.getmaxyx()[1]
+
         self.description = description
 
         # iterate through menu entries (items) and set `label` to `name` if
@@ -77,6 +80,9 @@ class Menu():
         # labels.remove(title)
         root_height = (self.size[0] // 2) - self.root_vertical_length if centered else self.size[0] - self.root_vertical_length - 3
         root_width = (self.size[1] - self.horizontal_length - 4) // 2
+
+        self.info_height = root_height + self.root_vertical_length + 5
+
         # create windows
         # try:
         self.root_window_border = window.subwin(
@@ -113,9 +119,28 @@ class Menu():
             root_width + 1
         )
 
+        self.info_window_border = cs.newwin(
+            3,
+            1,
+            self.info_height,
+            root_width
+        )
+
+        self.info_window = cs.newwin(
+            1,
+            1,
+            self.info_height + 1,
+            root_width + 1
+        )
+
         # except cs.error:
         #     raise Exception("Window too small!")
         self.root_window_border.border(0, 0, 1, 0, 0, 1, 0, 0)
+        self.info_window.border()
+
+        self.info_panel = panel.new_panel(self.info_window)
+        self.info_panel_border = panel.new_panel(self.info_window_border)
+        self.info_panel.hide()
 
         # add description window border
         separator = '┡' + '━' * (self.horizontal_length - 2) + '┩'
@@ -174,6 +199,41 @@ class Menu():
             for idx, item in enumerate(self.items):
                 if idx == self.pos:
                     mode = cs.A_REVERSE
+                    entry_info_str = item['info']
+
+                    if entry_info_str != '':
+                        self.info_window_horizontal_length = len(entry_info_str) + 1 if len(entry_info_str) <= 40 else 40
+                        self.info_width = (self.parent_window_horizontal_length - self.info_window_horizontal_length) // 2 - 2
+
+                        self.added_info_height = math.ceil(len(entry_info_str) / 40) + 0
+
+                        self.info_panel.move(self.info_height, self.info_width + 1)
+                        self.info_panel_border.move(self.info_height - 1, self.info_width)
+
+                        self.info_window.resize(self.added_info_height, self.info_window_horizontal_length - 1)
+                        self.info_window_border.resize(self.added_info_height + 2, self.info_window_horizontal_length + 1)
+
+                        self.info_window.clear()
+                        self.info_window_border.clear()
+                        self.info_window_border.border()
+                        self.info_window_border.refresh()
+
+                        self.info_panel_border.replace(self.info_window_border)
+                        self.info_panel.replace(self.info_window)
+
+                        self.info_panel.top()
+
+                        try:
+                            self.info_window.addstr(entry_info_str)
+                        except cs.error:
+                            pass
+
+                        self.info_window.refresh()
+
+                    # self.info_window.refresh()
+                    panel.update_panels()
+                    cs.doupdate()
+
                 else:
                     mode = cs.A_NORMAL
 
@@ -202,6 +262,7 @@ class Menu():
                 self.menu_window.addstr(0 + idx, padding, label, mode)
                 # self.menu_window.addstr("test" * 2)
                 self.menu_window.refresh()
+                self.info_window.refresh()
 
             key = self.root_window.getch()
 
@@ -225,6 +286,10 @@ class Menu():
                 self.navigate(-1)
             elif key in (cs.KEY_DOWN, ord('j')):
                 self.navigate(1)
+
+            self.info_window.clear()
+            self.info_window_border.clear()
+            self.info_window.refresh()
 
         # cleanup
         self.panel.hide()
