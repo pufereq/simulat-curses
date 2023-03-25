@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import sys
 from curses import wrapper
 
 from simulat.core.init import init_curses
@@ -27,6 +28,11 @@ def main_menu(stdscr, content_win):
                 'label': "new game",
                 'info': "create a new game (not implemented yet)",
                 'target': None
+            },
+            {
+                'name': "exit",
+                'info': "the most useful button",
+                'target': sys.exit
             },
         ],
         content_win
