@@ -25,6 +25,7 @@ def main_menu(stdscr, content_win):
             {
                 'name': "new_game",
                 'label': "new game",
+                'info': "create a new game (not implemented yet)",
                 'target': None
             },
         ],
