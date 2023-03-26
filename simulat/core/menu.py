@@ -2,6 +2,7 @@
 """Curses menu handler."""
 
 import math
+import itertools
 import curses as cs
 from curses import panel
 
@@ -40,7 +41,11 @@ class Menu():
         """
         # initialize panels
 
-        self.added_description_height = math.ceil(len(description) / 50) + 2
+        added_height = 0
+        for line in description.split('\n'):
+            added_height += math.ceil(len(line) / 50) if line != '' else 1
+        self.added_description_height = added_height + 2
+
         self.root_vertical_length = len(items) + self.added_description_height - 1
         self.vertical_length = len(items)
         self.size = window.getmaxyx()
@@ -67,6 +72,10 @@ class Menu():
         strings.append(title)
         strings.append(description)
 
+        for idx, _str in enumerate(strings):
+            strings[idx] = _str.split('\n')
+
+        strings = list(itertools.chain.from_iterable(strings))
         self.horizontal_length = int(len(max(strings, key=len)))
 
         if self.horizontal_length >= 50:
@@ -96,7 +105,7 @@ class Menu():
         )
 
         self.menu_window = self.root_window.subwin(
-            self.vertical_length,
+            self.vertical_length + 1,
             self.horizontal_length - 2,
             root_height + 1 + self.added_description_height,
             root_width + 1
@@ -191,19 +200,30 @@ class Menu():
             for idx, item in enumerate(self.items):
                 if idx == self.pos:
                     mode = cs.A_REVERSE
+                    if 'info' not in item:
+                        item['info'] = ''
                     entry_info_str = item['info']
 
                     if entry_info_str != '':
-                        self.info_window_horizontal_length = len(entry_info_str) + 1 if len(entry_info_str) <= 50 else 50
+                        info_str = []
+                        for _str in entry_info_str.split('\n'):
+                            info_str.append(_str)
+
+                        info_len = len(max(info_str, key=len))
+
+                        self.info_window_horizontal_length = info_len + 1 if info_len <= 50 else 50
                         self.info_width = (self.parent_window_horizontal_length - self.info_window_horizontal_length) // 2 - 2
 
-                        self.added_info_height = math.ceil(len(entry_info_str) / 50) + 0
+                        added_height = 0
+                        for line in entry_info_str.split('\n'):
+                            added_height += math.ceil(len(line) / 50) if line != '' else 1
+                        self.added_info_height = added_height
 
                         self.info_panel.move(self.info_height, self.info_width + 1)
                         self.info_panel_border.move(self.info_height - 1, self.info_width)
 
-                        self.info_window.resize(self.added_info_height, self.info_window_horizontal_length - 1)
-                        self.info_window_border.resize(self.added_info_height + 2, self.info_window_horizontal_length + 1)
+                        self.info_window.resize(self.added_info_height, self.info_window_horizontal_length)
+                        self.info_window_border.resize(self.added_info_height + 2, self.info_window_horizontal_length + 2)
 
                         self.info_window.clear()
                         self.info_window_border.clear()
