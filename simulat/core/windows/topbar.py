@@ -2,6 +2,8 @@
 
 import curses as cs
 
+from simulat.core.decorators.error_handler import error_handler
+
 
 class TopBar():
     """
@@ -25,6 +27,7 @@ class TopBar():
     title - set to current screen (action) name e.g. panel.
     details - displays game time. (TODO)
     """
+    @error_handler
     def __init__(self, stdscr, debug_text: str = 'simulat'):
         global top_bar
         """Initialize top bar.
@@ -75,34 +78,41 @@ class TopBar():
         self.details_win.refresh()
         self.top_bar.refresh()
 
+    @error_handler
     def clear_debug_win(self):
         self.debug_win.clear()
         self.debug_win.refresh()
 
+    @error_handler
     def update_debug_win(self, new_debug_text: str):
         self.debug_win.clear()
         self.debug_win.addstr(new_debug_text)
         self.debug_win.refresh()
 
+    @error_handler
     def clear_title(self):
         self.title_win.clear()
         self.title_win.refresh()
 
+    @error_handler
     def update_title(self, new_title: str):
         self.title_win.clear()
         self.title_win.addstr(0, (self.title_width - len(new_title)) // 2, new_title)
         # self.title_win.addstr(new_title)
         self.title_win.refresh()
 
+    @error_handler
     def clear_details(self):
         self.details_win.clear()
         self.details_win.refresh()
 
+    @error_handler
     def update_details(self, new_details: str):
         self.details_win.addstr(0, self.details_width - len(new_details) - 1, new_details)
         self.details_win.refresh()
 
 
+@error_handler
 def init_topbar(stdscr, debug_text: str = 'simulat'):
     global topbar
 

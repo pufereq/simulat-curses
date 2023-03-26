@@ -5,6 +5,7 @@ from curses import wrapper
 
 from simulat.core.init import init_curses
 from simulat.core.menu import Menu
+from simulat.core.decorators.error_handler import error_handler
 
 
 def main():
@@ -15,6 +16,7 @@ def main():
     wrapper(main_menu, content_win)
 
 
+@error_handler
 def main_menu(stdscr, content_win):
     from simulat.core.windows.topbar import topbar
 
