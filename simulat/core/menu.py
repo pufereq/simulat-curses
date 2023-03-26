@@ -40,8 +40,8 @@ class Menu():
         """
         # initialize panels
 
-        self.added_description_height = math.ceil(len(description) / 40) + 1
-        self.root_vertical_length = len(items) + self.added_description_height
+        self.added_description_height = math.ceil(len(description) / 50) + 2
+        self.root_vertical_length = len(items) + self.added_description_height - 1
         self.vertical_length = len(items)
         self.size = window.getmaxyx()
 
@@ -69,8 +69,8 @@ class Menu():
 
         self.horizontal_length = int(len(max(strings, key=len)))
 
-        if self.horizontal_length >= 40:
-            self.horizontal_length = 40
+        if self.horizontal_length >= 50:
+            self.horizontal_length = 50
 
         self.horizontal_length += 2 if len(self.description) > len(max(labels, key=len)) else 6
 
@@ -98,7 +98,7 @@ class Menu():
         self.menu_window = self.root_window.subwin(
             self.vertical_length,
             self.horizontal_length - 2,
-            root_height + 2 + self.added_description_height,
+            root_height + 1 + self.added_description_height,
             root_width + 1
         )
 
@@ -110,7 +110,7 @@ class Menu():
         )
 
         self.description_window = self.root_window.subwin(
-            self.added_description_height,
+            self.added_description_height - 2,
             self.horizontal_length - 2,
             root_height + 1,
             root_width + 1
@@ -194,10 +194,10 @@ class Menu():
                     entry_info_str = item['info']
 
                     if entry_info_str != '':
-                        self.info_window_horizontal_length = len(entry_info_str) + 1 if len(entry_info_str) <= 40 else 40
+                        self.info_window_horizontal_length = len(entry_info_str) + 1 if len(entry_info_str) <= 50 else 50
                         self.info_width = (self.parent_window_horizontal_length - self.info_window_horizontal_length) // 2 - 2
 
-                        self.added_info_height = math.ceil(len(entry_info_str) / 40) + 0
+                        self.added_info_height = math.ceil(len(entry_info_str) / 50) + 0
 
                         self.info_panel.move(self.info_height, self.info_width + 1)
                         self.info_panel_border.move(self.info_height - 1, self.info_width)
