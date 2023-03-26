@@ -36,6 +36,11 @@ def main_menu(stdscr, content_win):
                 'info': "the most useful button",
                 'target': sys.exit
             },
+            {
+                'name': "exception",
+                'info': "DEBUG: raise an exception",
+                'target': None
+            },
         ],
         content_win
     )
@@ -43,6 +48,8 @@ def main_menu(stdscr, content_win):
 
     if menu.result == 'new_game':
         raise NotImplementedError('not implemented (yet!)')
+    elif menu.result == 'exception':
+        raise Exception('this is a test exception')
 
 
 if __name__ == '__main__':
