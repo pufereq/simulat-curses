@@ -285,6 +285,13 @@ class Menu():
             self.info_window.refresh()
 
         # cleanup
+        self.root_window.clear()
+        self.info_window.clear()
+        self.info_window_border.clear()
+        self.root_window.refresh()
+        self.info_window.refresh()
+        self.info_window_border.refresh()
+
         self.panel.hide()
         panel.update_panels()
         cs.doupdate()
