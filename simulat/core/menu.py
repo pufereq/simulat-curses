@@ -254,16 +254,10 @@ class Menu():
 
                 window_size = self.menu_window.getmaxyx()
 
-                if self.horizontal_length < label_len:
-                    if label_len % 2 == 0:
-                        right_spacing: int = 0
-                    else:
-                        right_spacing: int = 1
+                if label_len % 2 == 0:
+                    right_spacing: int = -1
                 else:
-                    if self.horizontal_length % 2 != 0:
-                        right_spacing: int = -1
-                    else:
-                        right_spacing: int = 1
+                    right_spacing: int = 0
 
                 padding = 1
 
