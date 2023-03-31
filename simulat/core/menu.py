@@ -41,19 +41,19 @@ class Menu():
         """
         # initialize panels
 
-        added_height = 0
+        added_height: int = 0
         for line in description.split('\n'):
             added_height += math.ceil(len(line) / 50) if line != '' else 1
-        self.added_description_height = added_height + 2
+        self.added_description_height: int = added_height + 2
 
-        self.root_vertical_length = len(items) + self.added_description_height - 1
-        self.vertical_length = len(items)
+        self.root_vertical_length: int = len(items) + self.added_description_height - 1
+        self.vertical_length: int = len(items)
         self.size = window.getmaxyx()
 
         self.parent_window = window
         self.parent_window_horizontal_length = self.parent_window.getmaxyx()[1]
 
-        self.description = description
+        self.description: str = description
 
         # iterate through menu entries (items) and set `label` to `name` if
         # no `label` was specified.
@@ -63,12 +63,12 @@ class Menu():
 
         # create `labels` list and populate it with `label` variables
         # from each item.
-        labels = list((_dict['label'] for _dict in items))
+        labels: list = list((_dict['label'] for _dict in items))
 
         # add `title` of menu to `labels`, then set max horizontal length
         # of all labels. cheesy af.
         # labels.append(title)
-        strings = labels.copy()
+        strings: list = labels.copy()
         strings.append(title)
         strings.append(description)
 
@@ -76,7 +76,7 @@ class Menu():
             strings[idx] = _str.split('\n')
 
         strings = list(itertools.chain.from_iterable(strings))
-        self.horizontal_length = int(len(max(strings, key=len)))
+        self.horizontal_length: int = len(max(strings, key=len))
 
         if self.horizontal_length >= 50:
             self.horizontal_length = 50
@@ -84,10 +84,10 @@ class Menu():
         self.horizontal_length += 2 if len(self.description) > len(max(labels, key=len)) else 6
 
         # labels.remove(title)
-        root_height = (self.size[0] // 2) - self.root_vertical_length if centered else self.size[0] - self.root_vertical_length - 3
-        root_width = (self.size[1] - self.horizontal_length) // 2
+        root_height: int = (self.size[0] // 2) - self.root_vertical_length if centered else self.size[0] - self.root_vertical_length - 3
+        root_width: int = (self.size[1] - self.horizontal_length) // 2
 
-        self.info_height = root_height + self.root_vertical_length + 5
+        self.info_height: int = root_height + self.root_vertical_length + 5
 
         # create windows
         # try:
@@ -180,8 +180,8 @@ class Menu():
 
         panel.update_panels()
 
-        self.pos = 0
-        self.items = items
+        self.pos: int = 0
+        self.items: list = items
 
     def navigate(self, n):
         self.pos += n
@@ -202,19 +202,19 @@ class Menu():
                     mode = cs.A_REVERSE
                     if 'info' not in item:
                         item['info'] = ''
-                    entry_info_str = item['info']
+                    entry_info_str: str = item['info']
 
                     if entry_info_str != '':
-                        info_str = []
+                        info_str: list = []
                         for _str in entry_info_str.split('\n'):
                             info_str.append(_str)
 
-                        info_len = len(max(info_str, key=len))
+                        info_len: int = len(max(info_str, key=len))
 
                         self.info_window_horizontal_length = info_len + 1 if info_len <= 50 else 50
                         self.info_width = (self.parent_window_horizontal_length - self.info_window_horizontal_length) // 2 - 2
 
-                        added_height = 0
+                        added_height: int = 0
                         for line in entry_info_str.split('\n'):
                             added_height += math.ceil(len(line) / 50) if line != '' else 1
                         self.added_info_height = added_height
@@ -256,21 +256,21 @@ class Menu():
 
                 if self.horizontal_length < label_len:
                     if label_len % 2 == 0:
-                        right_spacing = 0
+                        right_spacing: int = 0
                     else:
-                        right_spacing = 1
+                        right_spacing: int = 1
                 else:
                     if self.horizontal_length % 2 != 0:
-                        right_spacing = -1
+                        right_spacing: int = -1
                     else:
-                        right_spacing = 1
+                        right_spacing: int = 1
 
                 padding = 1
 
                 text_pos = (window_size[1] - len(label)) // 2 - padding
 
                 # this gibberish formats the label to be shown on the menu.
-                label = ' ' * (text_pos) + label + ' ' * (text_pos - right_spacing)
+                label: str = ' ' * (text_pos) + label + ' ' * (text_pos - right_spacing)
                 self.menu_window.addstr(0 + idx, padding, label, mode)
                 self.menu_window.refresh()
                 self.info_window.refresh()
@@ -280,7 +280,7 @@ class Menu():
             # item chosen
             if key in [cs.KEY_ENTER, ord('\n')]:
                 chosen_item = self.items[self.pos]
-                self.result = chosen_item['name']
+                self.result: str = chosen_item['name']
 
                 # if chosen menu entry's target function is none, break.
                 # user can later use `self.result` returned by self.results()
