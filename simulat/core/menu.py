@@ -85,7 +85,7 @@ class Menu():
 
         # labels.remove(title)
         root_height = (self.size[0] // 2) - self.root_vertical_length if centered else self.size[0] - self.root_vertical_length - 3
-        root_width = (self.size[1] - self.horizontal_length - 4) // 2
+        root_width = (self.size[1] - self.horizontal_length) // 2
 
         self.info_height = root_height + self.root_vertical_length + 5
 
