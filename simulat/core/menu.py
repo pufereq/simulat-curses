@@ -212,7 +212,7 @@ class Menu():
                         info_len: int = len(max(info_str, key=len))
 
                         self.info_window_horizontal_length = info_len + 1 if info_len <= 50 else 50
-                        self.info_width = (self.parent_window_horizontal_length - self.info_window_horizontal_length) // 2 - 2
+                        self.info_width = (self.parent_window_horizontal_length - self.info_window_horizontal_length) // 2 - 1
 
                         added_height: int = 0
                         for line in entry_info_str.split('\n'):
