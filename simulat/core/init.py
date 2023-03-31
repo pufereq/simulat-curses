@@ -28,5 +28,5 @@ def init_content_win():
 
 def init_curses():
     stdscr = init_stdscr()
-    init_topbar(stdscr)
     init_content_win()
+    init_topbar(stdscr)
