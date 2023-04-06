@@ -84,7 +84,7 @@ class Menu():
         self.horizontal_length += 2 if len(self.description) > len(max(labels, key=len)) else 6
 
         # labels.remove(title)
-        root_height: int = (self.size[0] // 2) - self.root_vertical_length if centered else self.size[0] - self.root_vertical_length - 3
+        root_height: int = (self.size[0] // 2) - self.root_vertical_length if centered else self.size[0] - self.root_vertical_length - self.added_description_height - 4
         root_width: int = (self.size[1] - self.horizontal_length) // 2
 
         self.info_height: int = root_height + self.root_vertical_length + 5
