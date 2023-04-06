@@ -48,7 +48,7 @@ class Board():
             self.root_window_location[0],
             self.root_window_location[1]
         )
-        self.player_window = self.root_window.subwin(
+        self.player_window = cs.newwin(
             1,
             1,
             self.root_window_location[0] + 1,
@@ -63,6 +63,7 @@ class Board():
         self.set_abs_position()
         self.player_panel.move(self.abs_player_y, self.abs_player_x)
         self.player_window.refresh()
+        self.player_window.insch(PLAYER)
         # self.player_window.clear()
 
         # prepare board
@@ -96,7 +97,6 @@ class Board():
 
     def display(self):
 
-        self.player_window.insch('@')
         self.player_panel.top()
         while True:
             self.set_abs_position()
