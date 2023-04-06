@@ -88,15 +88,10 @@ class Board():
                 self.board_window.addstr(y, x, char)
                 self.board_window.refresh()
 
-        # get collision positions
-        self.collision = []
-        for y, line in enumerate(self.board):
-            for x, char in enumerate(line):
-                if char == '#':
-                    self.collision.append((y, x))
+        # finishing up, fixes arrow keys not working
+        self.player_window.keypad(True)
 
     def display(self):
-
         self.player_panel.top()
         while True:
             self.set_abs_position()
