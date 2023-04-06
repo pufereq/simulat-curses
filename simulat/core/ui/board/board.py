@@ -27,7 +27,7 @@ boardstr = """\
 
 class Board():
     def __init__(self, window, board_str: str = boardstr) -> None:
-        BOARD_SIZE_Y, BOARD_SIZE_X = 16, 32
+        board_size_y, board_size_x = 16, 32
         # WALL = ''
         # DOOR = ''
         PLAYER = '@'
@@ -35,16 +35,16 @@ class Board():
 
         self.parent_window_y, self.parent_window_x = window.getmaxyx()
 
-        self.root_window_location = (self.parent_window_y - BOARD_SIZE_Y) // 2, (self.parent_window_x - BOARD_SIZE_X) // 2
+        self.root_window_location = (self.parent_window_y - board_size_y) // 2, (self.parent_window_x - board_size_x) // 2
         self.root_window = window.subwin(
-            BOARD_SIZE_Y + 2,
-            BOARD_SIZE_X + 4,
+            board_size_y + 2,
+            board_size_x + 4,
             self.root_window_location[0] - 1,
             self.root_window_location[1] - 2
         )
         self.board_window = self.root_window.subwin(
-            BOARD_SIZE_Y,
-            BOARD_SIZE_X,
+            board_size_y,
+            board_size_x,
             self.root_window_location[0],
             self.root_window_location[1]
         )
