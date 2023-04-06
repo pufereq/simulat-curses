@@ -4,17 +4,20 @@ import curses as cs
 from curses import panel
 # from simulat.core.init import content_win
 
+from simulat.core.menu import Menu
+from simulat.core.init import content_win
+
 
 boardstr = """\
 ###############################
+#        a                    #
 #                             #
 #                             #
 #                             #
 #                             #
 #                             #
 #                             #
-#                             #
-#                             #
+#             b               #
 #                             #
 #                             #
 #                             #
@@ -27,11 +30,13 @@ boardstr = """\
 
 class Board():
     def __init__(self, window, board_str: str = boardstr) -> None:
+        self.board_str = board_str
+        self.materials = self.define_materials()
+        self.define_actions('')
         board_size_y, board_size_x = 16, 32
         # WALL = ''
         # DOOR = ''
         PLAYER = '@'
-
 
         self.parent_window_y, self.parent_window_x = window.getmaxyx()
 
@@ -115,11 +120,75 @@ class Board():
             elif key in [cs.KEY_RIGHT, ord('l'), ord('d')]:
                 self.move(0, 1)
 
+    def define_materials(self):
+        self.materials = {
+            '#': 'wall',
+            'X': 'door'
+        }
+        for letter in 'abcdefghijklmnopqrstuvwxyz':
+            self.materials[letter] = 'action'
+
+        # get collision positions
+        self.interactive_positions = {
+            'colliding': [],
+            'actions': [],
+            'doors': []
+        }
+
+        for y, line in enumerate(self.board_str.splitlines()):
+            for x, char in enumerate(line):
+                if char == '\n' or char == ' ':
+                    pass
+                elif self.materials[char] == 'wall':
+                    self.interactive_positions['colliding'].append((y, x))
+                elif self.materials[char] == 'action':
+                    self.interactive_positions['actions'].append((y, x))
+                elif self.materials[char] == 'door':
+                    self.interactive_positions['doors'].append((y, x))
+        print()
+
+    def define_actions(self, actions: dict[dict]):
+        self.actions = {
+            'a': {
+                'title': 'foo',
+                'description': 'lorem ipsum',
+                'actions': [
+                    {
+                        'name': 'use',
+                        'label': 'use that shit!',
+                        'info': 'lorem ipsum dolor sit amet',
+                        'target': print()
+                    }
+                ]
+            }
+        }
+        for idx, name in enumerate(self.actions):
+            self.actions[name]['actions'].append(
+                {
+                    'name': 'back'
+                }
+            )
+
+
+
+
+
     def move(self, y: int, x: int):
         new_pos = (self.player_y + y, self.player_x + x)
-        if new_pos in self.collision:
-            # pass
+        if new_pos in self.interactive_positions['colliding']:
             return
+        elif new_pos in self.interactive_positions['actions']:
+            action_id = self.board[new_pos[0]][new_pos[1]]
+            action = self.actions[action_id]
+            action_menu = Menu(
+                action['title'],
+                action['description'],
+                action['actions'],
+                content_win,
+                False
+            )
+            action_menu.display()
+
         self.player_y += y
         self.player_x += x
         self.set_abs_position()
