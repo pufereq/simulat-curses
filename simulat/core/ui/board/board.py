@@ -2,7 +2,6 @@
 
 import curses as cs
 from curses import panel
-# from simulat.core.init import content_win
 
 from simulat.core.menu import Menu
 from simulat.core.init import content_win
@@ -35,8 +34,6 @@ class Board():
         self.materials = self.define_materials()
         self.define_interactions()
         board_size_y, board_size_x = 16, 32
-        # WALL = ''
-        # DOOR = ''
         PLAYER = '@'
 
         self.parent_window_y, self.parent_window_x = window.getmaxyx()
@@ -70,7 +67,6 @@ class Board():
         self.player_panel.move(self.abs_player_y, self.abs_player_x)
         self.player_window.refresh()
         self.player_window.insch(PLAYER)
-        # self.player_window.clear()
 
         # prepare board
         # split board into nested lists of characters in lines
@@ -90,7 +86,6 @@ class Board():
         # draw board
         for y, line in enumerate(self.board):
             for x, char in enumerate(line):
-                # line = 'haga'
                 self.board_window.addstr(y, x, char)
                 self.board_window.refresh()
 
@@ -141,7 +136,6 @@ class Board():
 
         for y, line in enumerate(self.board_layout.splitlines()):
             for x, char in enumerate(line):
-                # if char == '\n' or char == ' ':
                 if char not in self.materials:
                     pass
                 elif self.materials[char] == 'wall':
