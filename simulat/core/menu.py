@@ -287,10 +287,12 @@ class Menu():
                 if 'target' not in chosen_item or chosen_item['target'] is None:
                     break
 
-                if 'args' not in chosen_item and 'kwargs' not in chosen_item:
-                    chosen_item['target']()
-                else:
-                    chosen_item['target'](*chosen_item['args'], **chosen_item['kwargs'])
+                if 'args' not in chosen_item:
+                    chosen_item['args'] = []
+                if 'kwargs' not in chosen_item:
+                    chosen_item['kwargs'] = {}
+
+                chosen_item['target'](*chosen_item['args'], **chosen_item['kwargs'])
 
             # navigation
             elif key in (cs.KEY_UP, ord('k')):
