@@ -12,7 +12,7 @@ class Board():
 
     Draws a board on which the user can interact with objects on it.
     """
-    def __init__(self, window, board_layout: str) -> None:
+    def __init__(self, window, title: str, board_layout: str, interactions: dict) -> None:
         """Initialize Board().
 
         Args:
@@ -74,6 +74,7 @@ class Board():
         self.board_layout = board_layout
         self.interactions = interactions
         self.materials = self.define_materials()
+        self.title = title
         board_size_y, board_size_x = 16, 32
         PLAYER = '@'
 
@@ -131,6 +132,11 @@ class Board():
 
         # draw border around root_window
         self.root_window.border()
+
+        # draw board title
+        _, root_window_width = self.root_window.getmaxyx()
+        self.root_window.addstr(0, (root_window_width - len(self.title)) // 2, self.title)
+
         self.root_window.refresh()
 
         # draw board
