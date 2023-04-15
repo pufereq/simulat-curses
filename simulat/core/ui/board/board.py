@@ -4,27 +4,6 @@ import curses as cs
 from curses import panel
 
 from simulat.core.menu import Menu
-from simulat.core.init import content_win
-
-
-boardstr = """\
-###############################
-#        a                    #
-#                             #
-#                             #
-#                             #
-#                             #
-#                             #
-#                             A
-#             b               #
-#                             #
-#                             #
-#                             #
-#                             #
-#                             #
-#                             #
-###############################\
-"""
 
 
 class Board():
@@ -107,6 +86,7 @@ class Board():
             )
 
         self.parent_window_y, self.parent_window_x = window.getmaxyx()
+        self.parent_window = window
 
         self.root_window_location = (self.parent_window_y - board_size_y) // 2, (self.parent_window_x - board_size_x) // 2
         self.root_window = window.subwin(
@@ -253,7 +233,7 @@ class Board():
                     interaction['title'],
                     interaction['description'],
                     interaction['actions'],
-                    content_win,
+                    self.parent_window,
                     False
                 )
                 action_menu.display()
