@@ -19,7 +19,9 @@ class Board():
             window (_CursesWindow): Window to display board in. The board
             is centered both horizontally and vertically. Also needs
             window size at least 20x36.
+            title (str): Board's title. Displayed in top-center of board border.
             board_layout (str): Board layout, details below. Defaults to boardstr.
+            interactions (dict): Interaction dict. Example in ./example.py.
 
         Board Layout (board_layout):
             A str containing the layout.
@@ -46,15 +48,18 @@ class Board():
 
                     NOTE: Characters not specified above are ignored and
                     without colission.
+                    NOTE: There can be more than one same action IDs
+                    used (letters). Example below.
 
                 Conventions:
                     Board MUST be enclosed in characters (walls, doors)
                     to prevent the player escaping the board.
 
                 Example:
+                    See more detailed examples in ./example.py
                     \"\"\"\
                     ###############################
-                    #        a                    #
+                    #        a      a             #
                     #                             #
                     #                             #
                     #                             #
