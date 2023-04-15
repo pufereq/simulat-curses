@@ -29,7 +29,8 @@ class Menu():
                     'label': "(str) Label of the button".
                     'target': "(func | None) Target function".
                     Leave none if checked manually using menu.result().
-                    'args': "(dict) Function arguments. Leave empty if none."
+                    'args': "(list) Function arguments. Leave empty if none."
+                    'kwargs': "(dict) Function keyword arguments. Leave empty if none."
                 },
                 {
                     'label': "foo",
@@ -84,7 +85,7 @@ class Menu():
         self.horizontal_length += 2 if len(self.description) > len(max(labels, key=len)) else 6
 
         # labels.remove(title)
-        root_height: int = (self.size[0] // 2) - self.root_vertical_length if centered else self.size[0] - self.root_vertical_length - 3
+        root_height: int = (self.size[0] // 2) - self.root_vertical_length if centered else self.size[0] - self.root_vertical_length - self.added_description_height - 4
         root_width: int = (self.size[1] - self.horizontal_length) // 2
 
         self.info_height: int = root_height + self.root_vertical_length + 5
@@ -254,11 +255,16 @@ class Menu():
 
                 window_size = self.menu_window.getmaxyx()
 
-                if label_len % 2 == 0:
-                    right_spacing: int = -1
+                if self.horizontal_length % 2 == 0:
+                    if label_len % 2 == 0:
+                        right_spacing: int = 0
+                    else:
+                        right_spacing: int = -1
                 else:
-                    right_spacing: int = 0
-
+                    if label_len % 2 == 0:
+                        right_spacing: int = -1
+                    else:
+                        right_spacing: int = 0
                 padding = 1
 
                 text_pos = (window_size[1] - len(label)) // 2 - padding
@@ -282,11 +288,11 @@ class Menu():
                     break
 
                 if 'args' not in chosen_item:
-                    chosen_item['target']()
-                elif type(chosen_item['args']) is dict:
-                    chosen_item['target'](**chosen_item['args'])
-                elif type(chosen_item['args']) is list:
-                    chosen_item['target'](*chosen_item['args'])
+                    chosen_item['args'] = []
+                if 'kwargs' not in chosen_item:
+                    chosen_item['kwargs'] = {}
+
+                chosen_item['target'](*chosen_item['args'], **chosen_item['kwargs'])
 
             # navigation
             elif key in (cs.KEY_UP, ord('k')):

@@ -16,7 +16,7 @@ def main():
     wrapper(main_menu, content_win)
 
 
-@error_handler
+# @error_handler
 def main_menu(stdscr, content_win):
     from simulat.core.windows.topbar import topbar
 
@@ -36,6 +36,11 @@ def main_menu(stdscr, content_win):
                 'info': "the most useful button",
                 'target': sys.exit
             },
+            {
+                'name': "board",
+                'label': "DEBUG: Example Board",
+                'target': None
+            }
         ],
         content_win
     )
@@ -43,6 +48,10 @@ def main_menu(stdscr, content_win):
 
     if menu.result == 'new_game':
         raise NotImplementedError('not implemented (yet!)')
+    elif menu.result == 'board':
+        from simulat.core.ui.board.example import init_exampleboard
+        init_exampleboard(content_win)
+        # pass
 
 
 if __name__ == '__main__':
