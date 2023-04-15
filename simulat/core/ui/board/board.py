@@ -16,7 +16,7 @@ boardstr = """\
 #                             #
 #                             #
 #                             #
-#                             #
+#                             A
 #             b               #
 #                             #
 #                             #
@@ -124,10 +124,13 @@ class Board():
     def define_materials(self):
         self.materials = {
             '#': 'wall',
-            'X': 'door'
         }
+
         for letter in 'abcdefghijklmnopqrstuvwxyz':
             self.materials[letter] = 'action'
+
+        for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ':
+            self.materials[letter] = 'door'
 
         # get collision positions
         self.interactive_positions = {
