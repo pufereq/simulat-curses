@@ -38,6 +38,7 @@ def main_menu(stdscr, content_win):
             },
             {
                 'name': "board",
+                'label': "DEBUG: Example Board",
                 'target': None
             }
         ],
