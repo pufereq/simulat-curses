@@ -33,7 +33,7 @@ class Board():
     def __init__(self, window, board_layout: str) -> None:
         self.board_layout = board_layout
         self.materials = self.define_materials()
-        self.define_actions('')
+        self.define_interactions()
         board_size_y, board_size_x = 16, 32
         # WALL = ''
         # DOOR = ''
@@ -152,8 +152,8 @@ class Board():
                     self.interactive_positions['doors'].append((y, x))
         print()
 
-    def define_actions(self, actions: dict[dict]):
-        self.actions = {
+    def define_interactions(self):
+        actions = {
             'a': {
                 'title': 'foo',
                 'description': 'lorem ipsum',
@@ -167,32 +167,59 @@ class Board():
                 ]
             }
         }
-        for idx, name in enumerate(self.actions):
-            self.actions[name]['actions'].append(
+        doors = {
+            'A': {
+                'goto': exit,
+                'args': [],
+                'kwargs': {'code': 127}
+            }
+        }
+
+        self.interactions = {
+            'actions': actions,
+            'doors': doors
+        }
+
+        for idx, name in enumerate(self.interactions['actions']):
+            self.interactions['actions'][name]['actions'].append(
                 {
                     'name': 'back'
                 }
             )
 
-
-
-
-
     def move(self, y: int, x: int):
         new_pos = (self.player_y + y, self.player_x + x)
         if new_pos in self.interactive_positions['colliding']:
             return
-        elif new_pos in self.interactive_positions['actions']:
-            action_id = self.board[new_pos[0]][new_pos[1]]
-            action = self.actions[action_id]
-            action_menu = Menu(
-                action['title'],
-                action['description'],
-                action['actions'],
-                content_win,
-                False
-            )
-            action_menu.display()
+
+        elif new_pos in self.interactive_positions['actions'] or \
+                new_pos in self.interactive_positions['doors']:
+
+            interaction_symbol = self.board[new_pos[0]][new_pos[1]]  # interaction_symbol is the letter representing the action (e.g. 'b')
+
+            # define type of interaction (action, door)
+            for _dict in self.interactions:
+                if interaction_symbol in self.interactions[_dict]:
+                    interaction_type = _dict
+                    break
+            else:
+                raise KeyError(f"Interaction {interaction_symbol} not found in self.interactions (but on board)")
+
+            interaction = self.interactions[interaction_type][interaction_symbol]
+
+            if interaction_type == 'actions':
+                action_menu = Menu(
+                    interaction['title'],
+                    interaction['description'],
+                    interaction['actions'],
+                    content_win,
+                    False
+                )
+                action_menu.display()
+
+            elif interaction_type == 'doors':
+                interaction = self.interactions['doors'][interaction_symbol]
+                interaction['goto'](*interaction['args'], **interaction['kwargs'])
 
         self.player_y += y
         self.player_x += x
