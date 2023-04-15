@@ -18,7 +18,7 @@ def main():
 
 # @error_handler
 def main_menu(stdscr, content_win):
-    from simulat.core.windows.topbar import topbar
+    from simulat.core.ui.windows.topbar import topbar
 
     topbar.update_title("main menu")
     menu = Menu(
