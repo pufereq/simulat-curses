@@ -254,11 +254,16 @@ class Menu():
 
                 window_size = self.menu_window.getmaxyx()
 
-                if label_len % 2 == 0:
-                    right_spacing: int = -1
+                if self.horizontal_length % 2 == 0:
+                    if label_len % 2 == 0:
+                        right_spacing: int = 0
+                    else:
+                        right_spacing: int = -1
                 else:
-                    right_spacing: int = 0
-
+                    if label_len % 2 == 0:
+                        right_spacing: int = -1
+                    else:
+                        right_spacing: int = 0
                 padding = 1
 
                 text_pos = (window_size[1] - len(label)) // 2 - padding
