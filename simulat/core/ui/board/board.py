@@ -93,10 +93,18 @@ class Board():
                     \"\"\"
         """
         self.board_layout = board_layout
+        self.interactions = interactions
         self.materials = self.define_materials()
-        self.define_interactions()
         board_size_y, board_size_x = 16, 32
         PLAYER = '@'
+
+        # add back button to every action's menu
+        for idx, name in enumerate(self.interactions['actions']):
+            self.interactions['actions'][name]['actions'].append(
+                {
+                    'name': 'back'
+                }
+            )
 
         self.parent_window_y, self.parent_window_x = window.getmaxyx()
 
@@ -207,46 +215,6 @@ class Board():
                     self.interactive_positions['actions'].append((y, x))
                 elif self.materials[char] == 'door':
                     self.interactive_positions['doors'].append((y, x))
-        print()
-
-    def define_interactions(self):
-        """
-        Actions and doors variables are temporary and for debugging
-        purposes, ideally they will be provided by board files.
-        """
-        actions = {
-            'a': {
-                'title': 'foo',
-                'description': 'lorem ipsum',
-                'actions': [
-                    {
-                        'name': 'use',
-                        'label': 'use that shit!',
-                        'info': 'lorem ipsum dolor sit amet',
-                        'target': print()
-                    }
-                ]
-            }
-        }
-        doors = {
-            'A': {
-                'goto': exit,
-                'args': [],
-                'kwargs': {'code': 127}
-            }
-        }
-
-        self.interactions = {
-            'actions': actions,
-            'doors': doors
-        }
-
-        for idx, name in enumerate(self.interactions['actions']):
-            self.interactions['actions'][name]['actions'].append(
-                {
-                    'name': 'back'
-                }
-            )
 
     def move(self, y: int, x: int):
         """Move the player character
