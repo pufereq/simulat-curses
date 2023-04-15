@@ -28,8 +28,70 @@ boardstr = """\
 
 
 class Board():
+    """
+    Board object.
 
+    Draws a board on which the user can interact with objects on it.
+    """
     def __init__(self, window, board_layout: str) -> None:
+        """Initialize Board().
+
+        Args:
+            window (_CursesWindow): Window to display board in. The board
+            is centered both horizontally and vertically. Also needs
+            window size at least 20x36.
+            board_layout (str): Board layout, details below. Defaults to boardstr.
+
+        Board Layout (board_layout):
+            A str containing the layout.
+            Recommended approach is to use multiline strings.
+
+            Board should be of size 16x32 (y, x). The player always spawns
+            at (7, 15).
+
+            Layout:
+                Player interacts with objects assigned to characters.
+
+                Characters:
+                    Colliders:
+                    #: wall, a collider. Player cannot move through it.
+
+                    Interactive:
+                    A-Z: door, upon making contact with it, executes
+                    defined function without confirmation.
+                    a-z: action, upon contact displays menu (Menu()) with specified
+                    items.
+
+                    Other:
+                    @: the player.
+
+                    NOTE: Characters not specified above are ignored and
+                    without colission.
+
+                Conventions:
+                    Board MUST be enclosed in characters (walls, doors)
+                    to prevent the player escaping the board.
+
+                Example:
+                    \"\"\"\
+                    ###############################
+                    #        a                    #
+                    #                             #
+                    #                             #
+                    #                             #
+                    #                             #
+                    #                             #
+                    #                             A
+                    #             b               #
+                    #                             #
+                    #                             #
+                    #                             #
+                    #                             #
+                    #                             #
+                    #                             #
+                    ###############################\
+                    \"\"\"
+        """
         self.board_layout = board_layout
         self.materials = self.define_materials()
         self.define_interactions()
@@ -93,6 +155,7 @@ class Board():
         self.player_window.keypad(True)
 
     def display(self):
+        """Display player and board."""
         self.player_panel.top()
         while True:
             self.set_abs_position()
@@ -147,6 +210,10 @@ class Board():
         print()
 
     def define_interactions(self):
+        """
+        Actions and doors variables are temporary and for debugging
+        purposes, ideally they will be provided by board files.
+        """
         actions = {
             'a': {
                 'title': 'foo',
@@ -182,9 +249,21 @@ class Board():
             )
 
     def move(self, y: int, x: int):
+        """Move the player character
+
+        Args:
+            y (int): relative y axis
+            x (int): relative x axis
+
+        Raises:
+            KeyError: if no details for action specified
+
+        Returns:
+            NoneType: aborts if new position is a collider
+        """
         new_pos = (self.player_y + y, self.player_x + x)
         if new_pos in self.interactive_positions['colliding']:
-            return
+            return  # if new position is a collider, abort
 
         elif new_pos in self.interactive_positions['actions'] or \
                 new_pos in self.interactive_positions['doors']:
@@ -220,5 +299,6 @@ class Board():
         self.set_abs_position()
 
     def set_abs_position(self):
+        """Set absolute position on screen."""
         self.abs_player_y = self.player_y + self.root_window_location[0]
         self.abs_player_x = self.player_x + self.root_window_location[1]
