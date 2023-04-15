@@ -246,6 +246,12 @@ class Board():
 
             elif interaction_type == 'doors':
                 interaction = self.interactions['doors'][interaction_symbol]
+
+                if 'args' not in interaction:
+                    interaction['args'] = []
+                if 'kwargs' not in interaction:
+                    interaction['kwargs'] = {}
+
                 interaction['goto'](*interaction['args'], **interaction['kwargs'])
 
         self.player_y += y
