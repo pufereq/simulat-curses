@@ -29,8 +29,9 @@ boardstr = """\
 
 
 class Board():
-    def __init__(self, window, board_str: str = boardstr) -> None:
-        self.board_str = board_str
+
+    def __init__(self, window, board_layout: str) -> None:
+        self.board_layout = board_layout
         self.materials = self.define_materials()
         self.define_actions('')
         board_size_y, board_size_x = 16, 32
@@ -74,7 +75,7 @@ class Board():
         # prepare board
         # split board into nested lists of characters in lines
         self.board = []
-        for line in board_str.splitlines():
+        for line in board_layout.splitlines():
             line_list = []
 
             for char in line:
@@ -135,9 +136,10 @@ class Board():
             'doors': []
         }
 
-        for y, line in enumerate(self.board_str.splitlines()):
+        for y, line in enumerate(self.board_layout.splitlines()):
             for x, char in enumerate(line):
-                if char == '\n' or char == ' ':
+                # if char == '\n' or char == ' ':
+                if char not in self.materials:
                     pass
                 elif self.materials[char] == 'wall':
                     self.interactive_positions['colliding'].append((y, x))
