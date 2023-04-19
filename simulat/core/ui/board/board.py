@@ -4,6 +4,7 @@ import curses as cs
 from curses import panel
 
 from simulat.core.menu import Menu
+from simulat.core.ui.windows.topbar import topbar
 
 
 class Board():
@@ -152,6 +153,7 @@ class Board():
 
         # finishing up, fixes arrow keys not working
         self.player_window.keypad(True)
+        topbar.update_title(f'board - {self.title}')
 
     def display(self):
         """Display player and board."""
