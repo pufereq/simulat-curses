@@ -224,6 +224,7 @@ class Board():
         """
         new_pos = (self.player_y + y, self.player_x + x)
         if new_pos in self.interactive_positions['colliding']:
+            cs.beep()
             return  # if new position is a collider, abort
 
         elif new_pos in self.interactive_positions['actions'] or \
