@@ -36,6 +36,8 @@ class SubWindow(Window):
             For curses to decide location (behavior when
                 curses's addstr() function is supplied
                 with only str (ad attr)), set x AND y to -2.
+            For _str to be aligned right, set x to -3.
+
         """
 
         if y == -1:
@@ -44,8 +46,15 @@ class SubWindow(Window):
         if x == -1:
             x = (self.max_x - len(_str)) // 2
 
+        if x == -3:
+            x = self.window.getmaxyx()[1] - len(_str) - 1
+
+        # add string
         if x == -2 and y == -2:
             self.window.addstr(_str, attr)
         else:
             self.window.addstr(y, x, _str, attr)
+
+
+        self.refresh()
 
