@@ -4,13 +4,17 @@ import curses as cs
 
 
 class Window():
-    def __init__(self, nlines: int, ncols: int, y: int, x: int, reverse: bool):
+    def __init__(self, nlines: int, ncols: int, y: int, x: int, reverse: bool, attrs: tuple | int = cs.A_NORMAL):
         self.window = cs.newwin(nlines, ncols, y, x)
         if reverse:
             self.window.bkgd(' ', cs.A_REVERSE)
             self.window.attrset(cs.A_REVERSE)
 
-
+        if type(attrs) is tuple:
+            for atrr in attrs:
+                self.window.attrset(attr)
+        else:
+            self.window.attrset(attrs)
 
     def clear(self):
         self.window.clear()
