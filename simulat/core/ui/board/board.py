@@ -153,7 +153,9 @@ class Board():
 
         # finishing up, fixes arrow keys not working
         self.player_window.keypad(True)
-        topbar.update_title(f'board - {self.title}')
+
+        # set title on topbar
+        topbar.title_win.addstr(0, -1, f"board: {title}", cs.A_BOLD)
 
     def display(self):
         """Display player and board."""
