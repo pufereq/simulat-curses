@@ -11,7 +11,7 @@ class Window():
             self.window.attrset(cs.A_REVERSE)
 
         if type(attrs) is tuple:
-            for atrr in attrs:
+            for attr in attrs:
                 self.window.attrset(attr)
         else:
             self.window.attrset(attrs)
