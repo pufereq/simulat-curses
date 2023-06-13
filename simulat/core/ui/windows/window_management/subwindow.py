@@ -55,6 +55,4 @@ class SubWindow(Window):
         else:
             self.window.addstr(y, x, _str, attr)
 
-
         self.refresh()
-
