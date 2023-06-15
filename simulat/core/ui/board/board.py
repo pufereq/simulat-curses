@@ -58,7 +58,7 @@ class Board():
 
                 Example:
                     See more detailed examples in ./example.py
-                    \"\"\"\
+                    \"\"\"
                     ###############################
                     #        a      a             #
                     #                             #
