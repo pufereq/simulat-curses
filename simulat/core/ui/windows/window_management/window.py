@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
 import curses as cs
+import curses.panel
 
 
 class Window():
-    def __init__(self, nlines: int, ncols: int, y: int, x: int, reverse: bool, attrs: tuple | int = cs.A_NORMAL):
+    def __init__(self, nlines: int, ncols: int, y: int, x: int, reverse: bool, make_panel: bool = True, attrs: tuple | int = cs.A_NORMAL):
         self.window = cs.newwin(nlines, ncols, y, x)
         if reverse:
             self.window.bkgd(' ', cs.A_REVERSE)
@@ -15,6 +16,9 @@ class Window():
                 self.window.attrset(attr)
         else:
             self.window.attrset(attrs)
+
+        if make_panel:
+            self.panel = curses.panel.new_panel(self.window)
 
     def clear(self):
         self.window.clear()
@@ -36,3 +40,9 @@ class Window():
 
     def getmaxyx(self):
         return self.window.getmaxyx()
+
+    def resize(self, nlines: int, ncols: int):
+        self.window.resize(nlines, ncols)
+
+    def move(self, y: int, x: int):
+        self.panel.move(y, x)
