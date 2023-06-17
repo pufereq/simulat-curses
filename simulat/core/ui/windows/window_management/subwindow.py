@@ -58,7 +58,10 @@ class SubWindow(Window):
 
         # add string
         if x == -2 and y == -2:
-            self.window.addstr(_str, attr)
+            if type(self.window) != SubWindow:
+                self.window.addstr(_str, attr)
+            else:
+                self.window.cs_addstr(_str, attr)
         else:
             self.window.addstr(y, x, _str, attr)
 
