@@ -63,3 +63,6 @@ class SubWindow(Window):
             self.window.addstr(y, x, _str, attr)
 
         self.refresh()
+
+    def cs_addstr(self, *args):
+        self.window.addstr(*args)
