@@ -20,7 +20,10 @@ class SubWindow(Window):
             self.window.attrset(cs.A_REVERSE)
 
         if make_panel:
-            self.panel = curses.panel.new_panel(self.window)
+            if type(self.window) == SubWindow:
+                self.panel = curses.panel.new_panel(self.window.window)
+            else:
+                self.panel = curses.panel.new_panel(self.window)
 
     def addstr(self, y: int, x: int, _str: str, attr: int = cs.A_NORMAL):
         """
