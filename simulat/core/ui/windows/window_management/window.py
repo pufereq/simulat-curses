@@ -5,7 +5,7 @@ import curses.panel
 
 
 class Window():
-    def __init__(self, nlines: int, ncols: int, y: int, x: int, reverse: bool, make_panel: bool = True, attrs: tuple | int = cs.A_NORMAL):
+    def __init__(self, nlines: int, ncols: int, y: int, x: int, reverse: bool = False, make_panel: bool = True, attrs: tuple | int = cs.A_NORMAL):
         self.window = cs.newwin(nlines, ncols, y, x)
         if reverse:
             self.window.bkgd(' ', cs.A_REVERSE)
@@ -19,6 +19,8 @@ class Window():
 
         if make_panel:
             self.panel = curses.panel.new_panel(self.window)
+
+    # def _common_init(self)
 
     def clear(self):
         self.window.clear()
@@ -38,8 +40,20 @@ class Window():
         from .subwindow import SubWindow
         return SubWindow(self.window, nlines, ncols, y, x, reverse)
 
+    def getch(self, *args):
+        return self.window.getch(*args)
+
+    def keypad(self, yes: bool):
+        self.window.keypad(yes)
+
     def getmaxyx(self):
         return self.window.getmaxyx()
+
+    def attron(self, attr: int):
+        self.window.attron(attr)
+
+    def attroff(self, attr: int):
+        self.window.attroff(attr)
 
     def resize(self, nlines: int, ncols: int):
         self.window.resize(nlines, ncols)
