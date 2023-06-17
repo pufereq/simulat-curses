@@ -43,6 +43,9 @@ class Window():
     def getch(self, *args):
         return self.window.getch(*args)
 
+    def insch(self, ch, attr: int = cs.A_NORMAL):
+        self.window.insch(ch, attr)
+
     def keypad(self, yes: bool):
         self.window.keypad(yes)
 
