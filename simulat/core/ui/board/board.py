@@ -6,6 +6,9 @@ from curses import panel
 from simulat.core.menu import Menu
 from simulat.core.ui.windows.topbar import topbar
 
+from simulat.core.ui.windows.window_management.window import Window
+from simulat.core.ui.windows.window_management.subwindow import SubWindow
+
 
 class Board():
     """
@@ -96,27 +99,29 @@ class Board():
         self.parent_window = window
 
         self.root_window_location = (self.parent_window_y - board_size_y) // 2, (self.parent_window_x - board_size_x) // 2
-        self.root_window = window.subwin(
+        self.root_window = SubWindow(
+            self.parent_window,
             board_size_y + 2,
             board_size_x + 4,
             self.root_window_location[0] - 1,
             self.root_window_location[1] - 2
         )
-        self.board_window = self.root_window.subwin(
+        self.board_window = SubWindow(
+            self.parent_window,
             board_size_y,
             board_size_x,
             self.root_window_location[0],
             self.root_window_location[1]
         )
-        self.player_window = cs.newwin(
+        self.player_window = Window(
             1,
             1,
             self.root_window_location[0] + 1,
             self.root_window_location[1] + 1
         )
 
-        self.player_panel = panel.new_panel(self.player_window)
-        self.board_panel = panel.new_panel(self.board_window)
+        self.player_panel = self.player_window.panel
+        self.board_panel = self.board_window.panel
 
         # draw player
         self.player_y, self.player_x = 7, 15
