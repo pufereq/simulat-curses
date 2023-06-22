@@ -2,7 +2,7 @@
 
 import curses as cs
 
-from simulat.core.windows.topbar import init_topbar
+from simulat.core.ui.windows.topbar import init_topbar
 
 
 def init_stdscr():

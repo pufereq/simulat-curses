@@ -9,6 +9,10 @@
 </div>
 
 <div align="center">
+    <a href="https://wakatime.com/@pufereq/projects/bmqprcjeek">
+    	<img src="https://wakatime.com/badge/user/d3784eea-797e-46bc-84f0-75275a82657d/project/4d243e3e-d201-4344-aa42-479c3633d16b.svg" alt="wakatime">
+    </a>
+    <br>
     <a href="https://github.com/pufereq/simulat/blob/main/LICENSE">
         <img alt="LICENSE" src=https://img.shields.io/github/license/pufereq/simulat>
     </a>
