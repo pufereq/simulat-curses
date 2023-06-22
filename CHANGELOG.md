@@ -1,16 +1,50 @@
-## Unreleased
+## 0.2.0 (2023-06-22)
 
 ### BREAKING CHANGE
 
+- BREAKING CHANGE: remove obsolete functions
 - move core folder to subfolder
 
 ### Feat
 
+- **board.py**: add error_handler decorators
+- **main.py**: add error_handler decorator back
+- **.cz.toml**: remove gpg_sign
+- **bump_version.yml**: comment out gpg key import
+- **board.py**: implement window management
+- **window.py**: add insch() method
+- **menu.py**: implement window management
+- **subwindow.py**: add cs_addstr method
+- **init.py**: implement window management
+- **window.py**: add curses methods to Window via encapsulation
+- **window.py**: add curses.panel support
+- **subwindow.py**: add curses.panel support
+- **board.py**: update topbar call to match new implementation
+- **main.py**: update topbar call to match new implementation
+- **window.py**: add support for curses atrributes in whole window
+- **topbar.py**: implement window management
+- **subwindow.py**: add right alignment of text
+- add window management
 - **board.py**: add curses.beep when interacted with a collider
 - **board.py**: add support for displaying board title on topbar
 
+### Fix
+
+- **bump_version.yml**: use new token
+- **bump_version.yml**: add permission bypass to omit branch protection
+- **bump_version.yml**: change token back to default
+- **bump_version.yml**: fix permission denied when creating tag
+- **bump_version.yml**: omit error when signing tag
+- **subwindow.py**: fix error when using addstr() in a nested subwindow
+- **subwindow.py**: fix error when nesting subwindows
+- **window.py**: variable name typo
+
 ### Refactor
 
+- **.cz.toml**: remove commented code
+- **window.py**: remove unnecesarry blank lines
+- **window.py**: fix whitespace in function definitions
+- **topbar.py**: remove obsolete clear* and update* functions
 - move simulat/core/windows to simulat/core/ui/windows
 
 ## 0.1.0 (2023-04-15)
