@@ -30,6 +30,7 @@ jobs:
           github_token: "${{ env.GH_TOKEN }}"
           changelog_increment_filename: body.md
           gpg_sign: false
+          push: true
       - name: 🔖 release
         uses: softprops/action-gh-release@v1
         with:
