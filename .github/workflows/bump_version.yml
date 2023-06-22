@@ -22,12 +22,12 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: "${{ secrets.GITHUB_TOKEN }}"
+          token: "${{ env.GH_TOKEN }}"
       - id: cz
         name: 🔖 create tag and changelog
         uses: commitizen-tools/commitizen-action@master
         with:
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          github_token: "${{ env.GH_TOKEN }}"
           changelog_increment_filename: body.md
           gpg_sign: false
       - name: 🔖 release
@@ -36,6 +36,6 @@ jobs:
           body_path: "body.md"
           tag_name: "${{ env.REVISION }}"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_TOKEN: "${{ env.GH_TOKEN }}"
       - name: ✅ print new version
         run: echo "Bumped to version ${{ steps.cz.outputs.version }}"
