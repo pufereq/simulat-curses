@@ -20,7 +20,7 @@ def main():
 def main_menu(stdscr, content_win):
     from simulat.core.ui.windows.topbar import topbar
 
-    topbar.update_title("main menu")
+    topbar.title_win.addstr(0, -1, "main menu")
     menu = Menu(
         'main menu',
         'welcome to simulat!',
