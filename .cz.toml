@@ -5,5 +5,4 @@ version_type = "semver"
 version = "0.1.0"
 update_changelog_on_bump = true
 major_version_zero = true
-# gpg_sign = true
 annotated_tag = true
