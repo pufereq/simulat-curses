@@ -6,6 +6,8 @@ import itertools
 import curses as cs
 from curses import panel
 
+from .ui.windows.window_management.subwindow import SubWindow
+
 LINE_HEAVY = "┃"
 
 
@@ -92,13 +94,15 @@ class Menu():
 
         # create windows
         # try:
-        self.root_window_border = window.subwin(
+        self.root_window_border = SubWindow(
+            window,
             self.root_vertical_length + 4,
             self.horizontal_length,
             root_height,
             root_width
         )
-        self.root_window = window.subwin(
+        self.root_window = SubWindow(
+            window,
             self.root_vertical_length + 4,
             self.horizontal_length,
             root_height,
@@ -170,12 +174,12 @@ class Menu():
         self.root_window_border.addstr(0, (self.root_window_border.getmaxyx()[1] - len(title)) // 2, title, cs.A_REVERSE)
         self.root_window.keypad(1)
 
-        self.panel = panel.new_panel(self.root_window)
+        self.panel = self.root_window.panel
         self.panel.hide()
 
         # add description
         try:
-            self.description_window.addstr(description)  # same as before; passing does not break anything
+            self.description_window.addstr(-2, -2, description)  # same as before; passing does not break anything
         except cs.error:
             pass
 
