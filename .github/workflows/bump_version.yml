@@ -1,9 +1,11 @@
 name: Bump version
 
-on:
+on:  
+  workflow_dispatch:
   push:
     branches:
       - main
+  
 env:
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
