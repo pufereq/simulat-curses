@@ -16,7 +16,7 @@ def main():
     wrapper(main_menu, content_win)
 
 
-# @error_handler
+@error_handler
 def main_menu(stdscr, content_win):
     from simulat.core.ui.windows.topbar import topbar
 
