@@ -40,6 +40,12 @@ class Window():
         from .subwindow import SubWindow
         return SubWindow(self.window, nlines, ncols, y, x, reverse)
 
+    def innerwin(self, make_panel: bool = True, reverse: bool = False):
+        from .subwindow import SubWindow
+        size = self.window.getmaxyx()
+        location = self.window.getbegyx()
+        return SubWindow(self.window, size[0] - 2, size[1] - 2, location[0] + 1, location[1] + 1, make_panel, reverse)
+
     def getch(self, *args):
         return self.window.getch(*args)
 
