@@ -69,3 +69,6 @@ class SubWindow(Window):
 
     def cs_addstr(self, *args):
         self.window.addstr(*args)
+
+    def set_title(self, title: str):
+        self.addstr(0, -1, title, cs.A_BOLD)
