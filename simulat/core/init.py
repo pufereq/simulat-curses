@@ -4,6 +4,7 @@ import curses as cs
 
 from simulat.core.ui.windows.topbar import init_topbar
 from simulat.core.ui.windows.window_management.window import Window
+from simulat.core.ui.windows.sidebar import init_sidebar
 
 
 def init_stdscr():
@@ -31,3 +32,4 @@ def init_curses():
     stdscr = init_stdscr()
     init_content_win()
     init_topbar(stdscr)
+    init_sidebar()
