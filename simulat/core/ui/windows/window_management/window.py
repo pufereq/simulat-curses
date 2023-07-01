@@ -55,6 +55,9 @@ class Window():
     def keypad(self, yes: bool):
         self.window.keypad(yes)
 
+    def getbegyx(self):
+        return self.window.getbegyx()
+
     def getmaxyx(self):
         return self.window.getmaxyx()
 
