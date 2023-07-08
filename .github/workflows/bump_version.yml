@@ -1,11 +1,11 @@
 name: Bump version
 
-on:  
+on:
   workflow_dispatch:
   push:
     branches:
       - main
-  
+
 env:
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     name: "Bump version and create changelog with commitizen"
     steps:
-      - name: GH_TOKEN 
-        if: env.GH_TOKEN == '' 
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+      - name: GH_TOKEN
+        if: env.GH_TOKEN == ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: echo "GH_TOKEN=${GITHUB_TOKEN}" >> $GITHUB_ENV
       - name: 🔀 checkout
         uses: actions/checkout@v3
