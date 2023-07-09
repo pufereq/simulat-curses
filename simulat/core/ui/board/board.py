@@ -90,7 +90,7 @@ class Board():
         PLAYER = '@'
 
         # add back button to every action's menu
-        for idx, name in enumerate(self.interactions['actions']):
+        for name in self.interactions['actions']:
             self.interactions['actions'][name]['actions'].append(
                 {
                     'name': 'back'
