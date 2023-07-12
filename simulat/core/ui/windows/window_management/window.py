@@ -7,9 +7,6 @@ import curses.panel
 class Window():
     def __init__(self, nlines: int, ncols: int, y: int, x: int, reverse: bool = False, make_panel: bool = True, attrs: tuple | int = cs.A_NORMAL):
         self.window = cs.newwin(nlines, ncols, y, x)
-        if reverse:
-            self.window.bkgd(' ', cs.A_REVERSE)
-            self.window.attrset(cs.A_REVERSE)
 
         if type(attrs) is tuple:
             for attr in attrs:
@@ -17,10 +14,20 @@ class Window():
         else:
             self.window.attrset(attrs)
 
-        if make_panel:
-            self.panel = curses.panel.new_panel(self.window)
+        self._common_init(reverse, make_panel)
 
-    # def _common_init(self)
+    def _common_init(self, reverse: bool, make_panel: bool):
+        if reverse:
+            self.window.bkgd(' ', cs.A_REVERSE)
+            self.window.attrset(cs.A_REVERSE)
+
+        if make_panel:
+            from .subwindow import SubWindow
+            if type(self.window) is SubWindow:
+                self.panel = curses.panel.new_panel(self.window.window)
+            else:
+                self.panel = curses.panel.new_panel(self.window)
+
 
     def clear(self):
         self.window.clear()
