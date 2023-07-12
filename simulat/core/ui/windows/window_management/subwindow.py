@@ -15,15 +15,7 @@ class SubWindow(Window):
         self.window = parent_window.subwin(nlines, ncols, y, x)
         self.max_y, self.max_x = self.window.getmaxyx()
 
-        if reverse:
-            self.window.bkgd(' ', cs.A_REVERSE)
-            self.window.attrset(cs.A_REVERSE)
-
-        if make_panel:
-            if type(self.window) == SubWindow:
-                self.panel = curses.panel.new_panel(self.window.window)
-            else:
-                self.panel = curses.panel.new_panel(self.window)
+        super()._common_init(reverse, make_panel)
 
     def addstr(self, y: int, x: int, _str: str, attr: int = cs.A_NORMAL):
         """
