@@ -255,23 +255,9 @@ class Menu():
                     mode = cs.A_NORMAL
 
                 label = item['label']
-                label_len = len(label)
 
                 window_size = self.menu_window.getmaxyx()
-
-                if self.horizontal_length % 2 == 0:
-                    if label_len % 2 == 0:
-                        right_spacing: int = 0
-                    else:
-                        right_spacing: int = -1
-                else:
-                    if label_len % 2 == 0:
-                        right_spacing: int = -1
-                    else:
-                        right_spacing: int = 0
                 padding = 1
-
-                text_pos = (window_size[1] - len(label)) // 2 - padding
 
                 # this gibberish formats the label to be shown on the menu.
                 label: str = f"{label:^{window_size[1] - 2}}"
