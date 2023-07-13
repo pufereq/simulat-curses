@@ -274,7 +274,7 @@ class Menu():
                 text_pos = (window_size[1] - len(label)) // 2 - padding
 
                 # this gibberish formats the label to be shown on the menu.
-                label: str = ' ' * (text_pos) + label + ' ' * (text_pos - right_spacing)
+                label: str = f"{label:^{window_size[1] - 2}}"
                 self.menu_window.addstr(0 + idx, padding, label, mode)
                 self.menu_window.refresh()
                 self.info_window.refresh()
