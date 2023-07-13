@@ -107,25 +107,25 @@ class Menu():
             root_width
         )
 
-        self.menu_window = self.root_window.subwin(
+        self.menu_window = self.root_window.derwin(
             self.vertical_length + 1,
             self.horizontal_length - 2,
-            root_height + 1 + self.added_description_height,
-            root_width + 1
+            1 + self.added_description_height,
+            1
         )
 
-        self.description_window_border = self.root_window_border.subwin(
+        self.description_window_border = self.root_window_border.derwin(
             self.added_description_height,
             self.horizontal_length,
-            root_height if self.added_description_height > 2 else root_height + 1,
-            root_width
+            0 if self.added_description_height > 2 else 1,
+            0
         )
 
-        self.description_window = self.root_window.subwin(
+        self.description_window = self.root_window.derwin(
             self.added_description_height - 2,
             self.horizontal_length - 2,
-            root_height + 1,
-            root_width + 1
+            1,
+            1
         )
 
         self.info_window_border = cs.newwin(
