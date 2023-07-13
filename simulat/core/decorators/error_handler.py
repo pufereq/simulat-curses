@@ -31,11 +31,8 @@ def error_menu(full_path: str, func_name: str, exc: Exception, func, arguments):
     title = f"{exc_name}"
     # message = f"an exception occured in:\n{full_path}:{func_name}()\n\n{exc_name}: {exc}"
     message = f"""\
-an exception occured in file:
-{full_path}
-
-in function: {func_name}()
-
+an exception occured in
+{full_path}:{func_name}()
 {exc_name}: {exc}\
 """
 
