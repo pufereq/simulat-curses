@@ -6,7 +6,7 @@ import itertools
 import curses as cs
 from curses import panel
 
-from .ui.windows.window_management.subwindow import SubWindow
+from .ui.windows.window_management.window import Window
 
 LINE_HEAVY = "┃"
 
@@ -94,15 +94,13 @@ class Menu():
 
         # create windows
         # try:
-        self.root_window_border = SubWindow(
-            window,
+        self.root_window_border = Window(
             self.root_vertical_length + 4,
             self.horizontal_length,
             root_height,
             root_width
         )
-        self.root_window = SubWindow(
-            window,
+        self.root_window = Window(
             self.root_vertical_length + 4,
             self.horizontal_length,
             root_height,
