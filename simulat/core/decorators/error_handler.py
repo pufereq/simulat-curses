@@ -12,16 +12,17 @@ def error_handler(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         try:
+            arguments = args, kwargs
             return func(*args, **kwargs)
         except Exception as exc:
             filepath = inspect.getsourcefile(func)
             full_path = os.path.relpath(filepath, 'simulat/../..')
 
-            error_menu(full_path, func.__name__, exc)
+            error_menu(full_path, func.__name__, exc, func, arguments)
     return wrapper
 
 
-def error_menu(full_path: str, func_name: str, exc: Exception):
+def error_menu(full_path: str, func_name: str, exc: Exception, func, arguments):
     from simulat.core.init import content_win
 
     exc_name = type(exc).__name__
@@ -45,6 +46,11 @@ in function: {func_name}()
             {
                 'name': "continue",
                 'info': "(DANGEROUS) continue runtime anyway",
+                'target': None
+            },
+            {
+                'name': "retry",
+                'info': "retry runtime",
                 'target': None
             },
             {
@@ -83,6 +89,8 @@ in function: {func_name}()
         elif submenu.result == 'yes':
             pass
 
+    elif menu.result == 'retry':
+        func(*arguments[0], **arguments[1])
     elif menu.result == 'exit':
         cs.endwin()
         raise exc
