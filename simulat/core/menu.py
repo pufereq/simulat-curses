@@ -128,14 +128,14 @@ class Menu():
             1
         )
 
-        self.info_window_border = cs.newwin(
+        self.info_window_border = Window(
             3,
             1,
             self.info_height,
             root_width
         )
 
-        self.info_window = cs.newwin(
+        self.info_window = Window(
             1,
             1,
             self.info_height + 1,
@@ -147,8 +147,10 @@ class Menu():
         self.root_window_border.border(0, 0, 1, 0, 0, 1, 0, 0)
         self.info_window.border()
 
-        self.info_panel = panel.new_panel(self.info_window)
-        self.info_panel_border = panel.new_panel(self.info_window_border)
+        self.root_window_border.refresh()
+
+        self.info_panel = self.info_window.panel
+        self.info_panel_border = self.info_window_border.panel
         self.info_panel.hide()
 
         # add description window border
@@ -233,13 +235,13 @@ class Menu():
                         self.info_window_border.border()
                         self.info_window_border.refresh()
 
-                        self.info_panel_border.replace(self.info_window_border)
-                        self.info_panel.replace(self.info_window)
+                        self.info_panel_border.replace(self.info_window_border.window)
+                        self.info_panel.replace(self.info_window.window)
 
                         self.info_panel.top()
 
                         try:
-                            self.info_window.addstr(entry_info_str)
+                            self.info_window.cs_addstr(entry_info_str)
                         except cs.error:
                             pass
 
