@@ -47,6 +47,10 @@ class Window():
         from .subwindow import SubWindow
         return SubWindow(self.window, nlines, ncols, y, x, reverse)
 
+    def derwin(self, nlines: int, ncols: int, y: int, x: int, reverse: bool = False):
+        from .derwindow import DerWindow
+        return DerWindow(self.window, nlines, ncols, y, x, reverse)
+
     def getch(self, *args):
         return self.window.getch(*args)
 
