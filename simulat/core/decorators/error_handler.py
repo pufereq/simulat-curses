@@ -11,18 +11,21 @@ from simulat.core.menu import Menu
 def error_handler(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        global function, arguments
+        function = func
+        arguments = args, kwargs
+
         try:
-            arguments = args, kwargs
             return func(*args, **kwargs)
         except Exception as exc:
             filepath = inspect.getsourcefile(func)
             full_path = os.path.relpath(filepath, 'simulat/../..')
 
-            error_menu(full_path, func.__name__, exc, func, arguments)
+            error_menu(full_path, func.__name__, exc)
     return wrapper
 
 
-def error_menu(full_path: str, func_name: str, exc: Exception, func, arguments):
+def error_menu(full_path: str, func_name: str, exc: Exception):
     from simulat.core.init import content_win
 
     exc_name = type(exc).__name__
@@ -87,7 +90,12 @@ an exception occured in
             pass
 
     elif menu.result == 'retry':
-        func(*arguments[0], **arguments[1])
+        _retry(function, *arguments[0], **arguments[1])
     elif menu.result == 'exit':
         cs.endwin()
         raise exc
+
+
+@error_handler
+def _retry(func, *args, **kwargs):
+    func(*args, *kwargs)
