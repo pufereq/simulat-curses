@@ -19,7 +19,8 @@ def error_handler(func):
             return func(*args, **kwargs)
         except Exception as exc:
             filepath = inspect.getsourcefile(func)
-            full_path = os.path.relpath(filepath, 'simulat/../..')
+            full_path = os.path.relpath(filepath, '.')
+            full_path = './' + full_path
 
             error_menu(full_path, func.__name__, exc)
     return wrapper
