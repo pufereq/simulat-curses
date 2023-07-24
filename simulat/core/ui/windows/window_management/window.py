@@ -88,13 +88,13 @@ class Window():
         self.window.border(ls, rs, ts, bs, tl, tr, bl, br)
         self.refresh()
 
-    def subwin(self, nlines: int, ncols: int, y: int, x: int, reverse: bool = False):
+    def subwin(self, nlines: int, ncols: int, y: int, x: int, *, make_panel: bool = False, reverse: bool = False):
         from .subwindow import SubWindow
-        return SubWindow(self.window, nlines, ncols, y, x, reverse)
+        return SubWindow(self.window, nlines, ncols, y, x, make_panel=make_panel, reverse=reverse)
 
-    def derwin(self, nlines: int, ncols: int, y: int, x: int, reverse: bool = False):
+    def derwin(self, nlines: int, ncols: int, rel_y: int, rel_x: int, *, make_panel: bool = False, reverse: bool = False):
         from .derwindow import DerWindow
-        return DerWindow(self.window, nlines, ncols, y, x, reverse)
+        return DerWindow(self.window, nlines, ncols, rel_y, rel_x, make_panel=make_panel, reverse=reverse)
 
     def getch(self, *args):
         return self.window.getch(*args)
