@@ -200,11 +200,14 @@ class Menu():
             self.pos = len(self.items) - 1
 
     def display(self):
+        self.root_window_border.panel.show()
         self.panel.top()
         self.panel.show()
+        self.root_window_border.panel.top()
 
         while True:
             self.root_window.refresh()
+            self.root_window_border.refresh()
             cs.doupdate()
             for idx, item in enumerate(self.items):
                 if idx == self.pos:
@@ -300,9 +303,11 @@ class Menu():
 
         # cleanup
         self.root_window.clear()
+        self.root_window_border.clear()
         self.info_window.clear()
         self.info_window_border.clear()
         self.root_window.refresh()
+        self.root_window_border.refresh()
         self.info_window.refresh()
         self.info_window_border.refresh()
 
