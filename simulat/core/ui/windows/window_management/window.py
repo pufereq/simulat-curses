@@ -5,7 +5,7 @@ import curses.panel
 
 
 class Window():
-    def __init__(self, nlines: int, ncols: int, y: int, x: int, reverse: bool = False, make_panel: bool = True, attrs: tuple | int = cs.A_NORMAL):
+    def __init__(self, nlines: int, ncols: int, y: int, x: int, *, make_panel: bool, reverse: bool = False, attrs: tuple | int = cs.A_NORMAL):
         self.window = cs.newwin(nlines, ncols, y, x)
 
         if type(attrs) is tuple:
