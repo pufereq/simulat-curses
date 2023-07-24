@@ -11,7 +11,7 @@ from .window import Window
 class SubWindow(Window):
     def __init__(self, parent_window,
                  nlines: int, ncols: int,
-                 y: int, x: int, make_panel: bool = True, reverse: bool = False):
+                 y: int, x: int, *, make_panel: bool = False, reverse: bool = False):
         self.window = parent_window.subwin(nlines, ncols, y, x)
         self.max_y, self.max_x = self.window.getmaxyx()
 
