@@ -28,6 +28,51 @@ class Window():
             else:
                 self.panel = curses.panel.new_panel(self.window)
 
+    def addstr(self, y: int, x: int, _str: str, attr: int = cs.A_NORMAL):
+        """
+        Add a string to self.window.
+
+        Args:
+            y (int): Vertical location.
+            x (int): Horizontal location.
+            _str (str): String to add.
+            atrr (int): Curses addstr string attribute.
+            Defaults to cs.A_NORMAL.
+
+        Location details:
+            For _str to be centered on:
+                x axis (horizontal), set x to -1.
+                y axis (vertical), set y to -1.
+            For curses to decide location (behavior when
+                curses's addstr() function is supplied
+                with only str (ad attr)), set x AND y to -2.
+            For _str to be aligned right, set x to -3.
+
+        """
+        from .subwindow import SubWindow
+
+        if y == -1:
+            y = self.max_y // 2
+
+        if x == -1:
+            x = (self.max_x - len(_str)) // 2
+
+        if x == -3:
+            x = self.window.getmaxyx()[1] - len(_str) - 1
+
+        # add string
+        if x == -2 and y == -2:
+            if type(self.window) != SubWindow:
+                self.window.addstr(_str, attr)
+            else:
+                self.window.cs_addstr(_str, attr)
+        else:
+            self.window.addstr(y, x, _str, attr)
+
+        self.refresh()
+
+    def cs_addstr(self, *args):
+        self.window.addstr(*args)
 
     def clear(self):
         self.window.clear()
