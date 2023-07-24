@@ -111,13 +111,15 @@ class Board():
             board_size_y,
             board_size_x,
             self.root_window_location[0],
-            self.root_window_location[1]
+            self.root_window_location[1],
+            make_panel=True
         )
         self.player_window = Window(
             1,
             1,
             self.root_window_location[0] + 1,
-            self.root_window_location[1] + 1
+            self.root_window_location[1] + 1,
+            make_panel=True,
         )
 
         self.player_panel = self.player_window.panel
