@@ -123,7 +123,7 @@ class Menu():
             0
         )
 
-        self.description_window = self.root_window.derwin(
+        self.description_window = self.root_window_border.derwin(
             self.added_description_height - 2,
             self.horizontal_length - 2,
             1,
