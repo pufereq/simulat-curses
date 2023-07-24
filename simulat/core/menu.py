@@ -98,13 +98,15 @@ class Menu():
             self.root_vertical_length + 4,
             self.horizontal_length,
             root_height,
-            root_width
+            root_width,
+            make_panel=True,
         )
         self.root_window = Window(
             self.root_vertical_length + 4,
             self.horizontal_length,
             root_height,
-            root_width
+            root_width,
+            make_panel=True,
         )
 
         self.menu_window = self.root_window.derwin(
@@ -132,14 +134,16 @@ class Menu():
             3,
             1,
             self.info_height,
-            root_width
+            root_width,
+            make_panel=True,
         )
 
         self.info_window = Window(
             1,
             1,
             self.info_height + 1,
-            root_width + 1
+            root_width + 1,
+            make_panel=True,
         )
 
         # except cs.error:
