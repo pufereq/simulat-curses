@@ -1,3 +1,35 @@
+## 0.3.0 (2023-07-31)
+
+### Feat
+
+- **board.py**: limit max movement speed
+- **init.py**: make content_win not a panel
+- **window.py**: update calls to SubWindow and DerWindow to include named args
+- **window.py**: make make_panel and reverse named arguments
+- **derwindow.py**: make make_panel and reverse named arguments
+- **subwindow.py**: make make_panel and reverse named arguments
+- **subwindow.py**: move addstr() and cs_addstr() to window.py
+- **error_handler.py**: make full_path cleaner
+- **main.py**: use error_handler on main_menu()
+- **error_handler.py**: make exception menu description more concise
+- **error_handler.py**: add retry option for caught exceptions
+- **derwindow.py**: add DerWindow class
+- **subwindow.py**: use _common_init() inherited from Window()
+- **window.py**: add _common_init() to remove duplicate code
+
+### Fix
+
+- **menu.py**: fix borders not appearing
+- **error_handler.py**: fix retrying not working correctly
+
+### Refactor
+
+- **menu.py**: implement window management on info_window and info_window_border
+- **menu.py**: make description_window_border and description_window DerWindows
+- **menu.py**: make root_window and root_window_border Windows instead of SubWindows
+- **menu.py**: remove unused code
+- **menu.py**: use f-string padding for label formatting
+
 ## 0.2.0 (2023-06-22)
 
 ### BREAKING CHANGE
