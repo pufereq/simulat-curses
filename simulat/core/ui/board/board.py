@@ -8,6 +8,8 @@ from simulat.core.menu import Menu
 from simulat.core.ui.windows.topbar import topbar
 from simulat.core.init import stdscr
 
+from simulat.core.decorators.error_handler import error_handler
+
 from simulat.core.ui.windows.window_management.window import Window
 from simulat.core.ui.windows.window_management.subwindow import SubWindow
 
@@ -18,6 +20,7 @@ class Board():
 
     Draws a board on which the user can interact with objects on it.
     """
+    @error_handler
     def __init__(self, window, title: str, board_layout: str, interactions: dict) -> None:
         """Initialize Board().
 
@@ -184,6 +187,7 @@ class Board():
 
                 self.last_move_time = current_time
 
+    @error_handler
     def display(self):
         """Display player and board."""
         self.player_panel.top()
@@ -200,6 +204,7 @@ class Board():
 
             self.handle_input()
 
+    @error_handler
     def define_materials(self):
         self.materials = {
             '#': 'wall',
@@ -229,6 +234,7 @@ class Board():
                 elif self.materials[char] == 'door':
                     self.interactive_positions['doors'].append((y, x))
 
+    @error_handler
     def move(self, y: int, x: int):
         """Move the player character
 
@@ -287,6 +293,7 @@ class Board():
         self.player_x += x
         self.set_abs_position()
 
+    @error_handler
     def set_abs_position(self):
         """Set absolute position on screen."""
         self.abs_player_y = self.player_y + self.root_window_location[0]

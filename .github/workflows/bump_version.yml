@@ -1,42 +1,44 @@
 name: Bump version
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
 
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
 jobs:
   bump_version:
-    if: "contains(github.event.head_commit.message, 'gh-release')"
+    if: "contains(github.event.head_commit.message, 'gh-release') || github.event_name == 'workflow_dispatch'"
     runs-on: ubuntu-latest
     name: "Bump version and create changelog with commitizen"
     steps:
-      - name: Check out
+      - name: GH_TOKEN
+        if: env.GH_TOKEN == ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "GH_TOKEN=${GITHUB_TOKEN}" >> $GITHUB_ENV
+      - name: 🔀 checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          token: "${{ secrets.GITHUB_TOKEN }}"
-      -
-        name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v5
-        with:
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.PASSPHRASE }}
-          git_user_signingkey: true
-          git_commit_gpgsign: true
+          token: "${{ env.GH_TOKEN }}"
       - id: cz
-        name: Create bump and changelog
+        name: 🔖 create tag and changelog
         uses: commitizen-tools/commitizen-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: "${{ env.GH_TOKEN }}"
           changelog_increment_filename: body.md
-          gpg_sign: true
-      - name: Release
+          gpg_sign: false
+          push: true
+      - name: 🔖 release
         uses: softprops/action-gh-release@v1
         with:
           body_path: "body.md"
           tag_name: "${{ env.REVISION }}"
         env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-      - name: Print Version
+          GITHUB_TOKEN: "${{ env.GH_TOKEN }}"
+      - name: ✅ print new version
         run: echo "Bumped to version ${{ steps.cz.outputs.version }}"
