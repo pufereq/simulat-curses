@@ -11,11 +11,16 @@ from simulat.core.menu import Menu
 def error_handler(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        global function, arguments
+        function = func
+        arguments = args, kwargs
+
         try:
             return func(*args, **kwargs)
         except Exception as exc:
             filepath = inspect.getsourcefile(func)
-            full_path = os.path.relpath(filepath, 'simulat/../..')
+            full_path = os.path.relpath(filepath, '.')
+            full_path = './' + full_path
 
             error_menu(full_path, func.__name__, exc)
     return wrapper
@@ -30,11 +35,8 @@ def error_menu(full_path: str, func_name: str, exc: Exception):
     title = f"{exc_name}"
     # message = f"an exception occured in:\n{full_path}:{func_name}()\n\n{exc_name}: {exc}"
     message = f"""\
-an exception occured in file:
-{full_path}
-
-in function: {func_name}()
-
+an exception occured in
+{full_path}:{func_name}()
 {exc_name}: {exc}\
 """
 
@@ -45,6 +47,11 @@ in function: {func_name}()
             {
                 'name': "continue",
                 'info': "(DANGEROUS) continue runtime anyway",
+                'target': None
+            },
+            {
+                'name': "retry",
+                'info': "retry runtime",
                 'target': None
             },
             {
@@ -83,6 +90,13 @@ in function: {func_name}()
         elif submenu.result == 'yes':
             pass
 
+    elif menu.result == 'retry':
+        _retry(function, *arguments[0], **arguments[1])
     elif menu.result == 'exit':
         cs.endwin()
         raise exc
+
+
+@error_handler
+def _retry(func, *args, **kwargs):
+    func(*args, *kwargs)

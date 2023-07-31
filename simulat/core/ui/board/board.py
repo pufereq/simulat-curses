@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 
+import time
 import curses as cs
 from curses import panel
 
 from simulat.core.menu import Menu
 from simulat.core.ui.windows.topbar import topbar
+from simulat.core.init import stdscr
+
 from simulat.core.decorators.error_handler import error_handler
 
 from simulat.core.ui.windows.window_management.window import Window
@@ -87,6 +90,7 @@ class Board():
         self.materials = self.define_materials()
         self.title = title
         board_size_y, board_size_x = 16, 32
+        self.movement_delay = 0.3  # seconds
         PLAYER = '@'
 
         # add back button to every action's menu
@@ -113,13 +117,15 @@ class Board():
             board_size_y,
             board_size_x,
             self.root_window_location[0],
-            self.root_window_location[1]
+            self.root_window_location[1],
+            make_panel=True
         )
         self.player_window = Window(
             1,
             1,
             self.root_window_location[0] + 1,
-            self.root_window_location[1] + 1
+            self.root_window_location[1] + 1,
+            make_panel=True,
         )
 
         self.player_panel = self.player_window.panel
@@ -164,31 +170,39 @@ class Board():
         # set title on topbar
         topbar.title_win.addstr(0, -1, f"board: {title}", cs.A_BOLD)
 
+    def handle_input(self):
+        key = stdscr.getch()
+        if key != -1:
+            current_time = time.time()
+
+            if current_time - self.last_move_time >= self.movement_delay:
+                if key in [cs.KEY_LEFT, ord('h'), ord('a')]:
+                    self.move(0, -1)
+                elif key in [cs.KEY_UP, ord('k'), ord('w')]:
+                    self.move(-1, 0)
+                elif key in [cs.KEY_DOWN, ord('j'), ord('s')]:
+                    self.move(1, 0)
+                elif key in [cs.KEY_RIGHT, ord('l'), ord('d')]:
+                    self.move(0, 1)
+
+                self.last_move_time = current_time
+
     @error_handler
     def display(self):
         """Display player and board."""
         self.player_panel.top()
+        self.last_move_time = time.time()
         while True:
             self.set_abs_position()
             # refresh and move player panel to new location
             cs.doupdate()
-            self.player_panel.top()
+            # self.player_panel.top()
             self.player_panel.move(self.abs_player_y, self.abs_player_x)
             self.board_window.refresh()
             self.player_window.refresh()
             panel.update_panels()
 
-            # wait for input
-            key = self.player_window.getch()
-
-            if key in [cs.KEY_LEFT, ord('h'), ord('a')]:
-                self.move(0, -1)
-            elif key in [cs.KEY_UP, ord('k'), ord('w')]:
-                self.move(-1, 0)
-            elif key in [cs.KEY_DOWN, ord('j'), ord('s')]:
-                self.move(1, 0)
-            elif key in [cs.KEY_RIGHT, ord('l'), ord('d')]:
-                self.move(0, 1)
+            self.handle_input()
 
     @error_handler
     def define_materials(self):
@@ -234,6 +248,7 @@ class Board():
         Returns:
             NoneType: aborts if new position is a collider
         """
+        self.last_move_time = time.time()
         new_pos = (self.player_y + y, self.player_x + x)
         if new_pos in self.interactive_positions['colliding']:
             cs.beep()

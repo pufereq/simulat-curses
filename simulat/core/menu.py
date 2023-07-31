@@ -6,7 +6,7 @@ import itertools
 import curses as cs
 from curses import panel
 
-from .ui.windows.window_management.subwindow import SubWindow
+from .ui.windows.window_management.window import Window
 
 LINE_HEAVY = "┃"
 
@@ -94,54 +94,56 @@ class Menu():
 
         # create windows
         # try:
-        self.root_window_border = SubWindow(
-            window,
+        self.root_window_border = Window(
             self.root_vertical_length + 4,
             self.horizontal_length,
             root_height,
-            root_width
+            root_width,
+            make_panel=True,
         )
-        self.root_window = SubWindow(
-            window,
+        self.root_window = Window(
             self.root_vertical_length + 4,
             self.horizontal_length,
             root_height,
-            root_width
+            root_width,
+            make_panel=True,
         )
 
-        self.menu_window = self.root_window.subwin(
+        self.menu_window = self.root_window.derwin(
             self.vertical_length + 1,
             self.horizontal_length - 2,
-            root_height + 1 + self.added_description_height,
-            root_width + 1
+            1 + self.added_description_height,
+            1
         )
 
-        self.description_window_border = self.root_window_border.subwin(
+        self.description_window_border = self.root_window_border.derwin(
             self.added_description_height,
             self.horizontal_length,
-            root_height if self.added_description_height > 2 else root_height + 1,
-            root_width
+            0 if self.added_description_height > 2 else 1,
+            0
         )
 
-        self.description_window = self.root_window.subwin(
+        self.description_window = self.root_window_border.derwin(
             self.added_description_height - 2,
             self.horizontal_length - 2,
-            root_height + 1,
-            root_width + 1
+            1,
+            1
         )
 
-        self.info_window_border = cs.newwin(
+        self.info_window_border = Window(
             3,
             1,
             self.info_height,
-            root_width
+            root_width,
+            make_panel=True,
         )
 
-        self.info_window = cs.newwin(
+        self.info_window = Window(
             1,
             1,
             self.info_height + 1,
-            root_width + 1
+            root_width + 1,
+            make_panel=True,
         )
 
         # except cs.error:
@@ -149,8 +151,10 @@ class Menu():
         self.root_window_border.border(0, 0, 1, 0, 0, 1, 0, 0)
         self.info_window.border()
 
-        self.info_panel = panel.new_panel(self.info_window)
-        self.info_panel_border = panel.new_panel(self.info_window_border)
+        self.root_window_border.refresh()
+
+        self.info_panel = self.info_window.panel
+        self.info_panel_border = self.info_window_border.panel
         self.info_panel.hide()
 
         # add description window border
@@ -196,11 +200,14 @@ class Menu():
             self.pos = len(self.items) - 1
 
     def display(self):
+        self.root_window_border.panel.show()
         self.panel.top()
         self.panel.show()
+        self.root_window_border.panel.top()
 
         while True:
             self.root_window.refresh()
+            self.root_window_border.refresh()
             cs.doupdate()
             for idx, item in enumerate(self.items):
                 if idx == self.pos:
@@ -235,13 +242,13 @@ class Menu():
                         self.info_window_border.border()
                         self.info_window_border.refresh()
 
-                        self.info_panel_border.replace(self.info_window_border)
-                        self.info_panel.replace(self.info_window)
+                        self.info_panel_border.replace(self.info_window_border.window)
+                        self.info_panel.replace(self.info_window.window)
 
                         self.info_panel.top()
 
                         try:
-                            self.info_window.addstr(entry_info_str)
+                            self.info_window.cs_addstr(entry_info_str)
                         except cs.error:
                             pass
 
@@ -255,26 +262,12 @@ class Menu():
                     mode = cs.A_NORMAL
 
                 label = item['label']
-                label_len = len(label)
 
                 window_size = self.menu_window.getmaxyx()
-
-                if self.horizontal_length % 2 == 0:
-                    if label_len % 2 == 0:
-                        right_spacing: int = 0
-                    else:
-                        right_spacing: int = -1
-                else:
-                    if label_len % 2 == 0:
-                        right_spacing: int = -1
-                    else:
-                        right_spacing: int = 0
                 padding = 1
 
-                text_pos = (window_size[1] - len(label)) // 2 - padding
-
                 # this gibberish formats the label to be shown on the menu.
-                label: str = ' ' * (text_pos) + label + ' ' * (text_pos - right_spacing)
+                label: str = f"{label:^{window_size[1] - 2}}"
                 self.menu_window.addstr(0 + idx, padding, label, mode)
                 self.menu_window.refresh()
                 self.info_window.refresh()
@@ -310,9 +303,11 @@ class Menu():
 
         # cleanup
         self.root_window.clear()
+        self.root_window_border.clear()
         self.info_window.clear()
         self.info_window_border.clear()
         self.root_window.refresh()
+        self.root_window_border.refresh()
         self.info_window.refresh()
         self.info_window_border.refresh()
 

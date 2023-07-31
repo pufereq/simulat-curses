@@ -23,7 +23,7 @@ def init_stdscr():
 def init_content_win():
     global content_win, content_win_height, content_win_width
 
-    content_win = Window(stdscr_height - 1, stdscr_width, 1, 0)
+    content_win = Window(stdscr_height - 1, stdscr_width, 1, 0, make_panel=False)
     content_win_height, content_win_width = content_win.getmaxyx()
 
 

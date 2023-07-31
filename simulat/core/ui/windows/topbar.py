@@ -40,7 +40,7 @@ class TopBar():
         stdscr_height, stdscr_width = stdscr.getmaxyx()
 
         # create top bar
-        self.top_bar = Window(1, stdscr_width, 0, 0, True)
+        self.top_bar = Window(1, stdscr_width, 0, 0, make_panel=False, reverse=True)
         self.top_bar_height, self.top_bar_width = self.top_bar.getmaxyx()
 
         # create debug subwindow
