@@ -127,7 +127,6 @@ class GameMap():
             # Update player position
             self.player_pos = new_y, new_x
 
-            self.map.refresh(0, 0, 1, 0, *self.max_size)
             # Draw the player character at the new position
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char)
 
