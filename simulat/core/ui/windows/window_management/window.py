@@ -76,8 +76,8 @@ class Window():
     def clear(self):
         self.window.clear()
 
-    def refresh(self):
-        self.window.refresh()
+    def refresh(self, *args, **kwargs):
+        self.window.refresh(*args, **kwargs)
 
     def border(self,
                ls=0, rs=0,
