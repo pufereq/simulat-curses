@@ -69,7 +69,6 @@ class Window():
         else:
             self.window.addstr(y, x, _str, attr)
 
-        self.refresh()
 
     def cs_addstr(self, *args):
         self.window.addstr(*args)
@@ -86,7 +85,6 @@ class Window():
                tl=0, tr=0,
                bl=0, br=0):
         self.window.border(ls, rs, ts, bs, tl, tr, bl, br)
-        self.refresh()
 
     def subwin(self, nlines: int, ncols: int, y: int, x: int, *, make_panel: bool = False, reverse: bool = False):
         from .subwindow import SubWindow
