@@ -42,6 +42,11 @@ class Menu():
                 ...
             ]
         """
+
+        from simulat.core.init import content_win
+        self.old_panel_window = content_win.panel.window()
+        content_win.panel.replace(content_win.window)
+
         # initialize panels
 
         added_height: int = 0
@@ -209,6 +214,7 @@ class Menu():
             self.root_window.refresh()
             self.root_window_border.refresh()
             cs.doupdate()
+            self.panel.bottom()
             for idx, item in enumerate(self.items):
                 if idx == self.pos:
                     mode = cs.A_REVERSE
@@ -271,6 +277,7 @@ class Menu():
                 self.menu_window.addstr(0 + idx, padding, label, mode)
                 self.menu_window.refresh()
                 self.info_window.refresh()
+                self.panel.bottom()
 
             key = self.root_window.getch()
 
@@ -312,6 +319,10 @@ class Menu():
         self.info_window_border.refresh()
 
         self.panel.hide()
+
+        from simulat.core.init import content_win
+        content_win.panel.replace(self.old_panel_window)
+
         panel.update_panels()
         cs.doupdate()
 
