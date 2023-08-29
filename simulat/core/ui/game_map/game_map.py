@@ -131,8 +131,9 @@ class GameMap():
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char)
 
             # Calculate the view window's top-left corner coordinates to keep the player centered
-            pad_view_top = max(0, self.player_pos[0] - self.max_size[0] // 2)
-            pad_view_left = max(0, self.player_pos[1] - self.max_size[1] // 2)
+            pad_view_top = max(0, min(self.player_pos[0] - self.max_size[0] // 2, self.pad_size[0] - self.max_size[0]))
+
+            pad_view_left = max(0, min(self.player_pos[1] - self.max_size[1] // 2, self.pad_size[1] - self.max_size[1]))
 
             # Calculate the view window's bottom-right corner coordinates
             # pad_view_bottom = min(self.pad_size[0], pad_view_top + self.max_size[0])
