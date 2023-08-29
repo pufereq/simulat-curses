@@ -135,10 +135,6 @@ class GameMap():
 
             pad_view_left = max(0, min(self.player_pos[1] - self.max_size[1] // 2, self.pad_size[1] - self.max_size[1]))
 
-            # Calculate the view window's bottom-right corner coordinates
-            # pad_view_bottom = min(self.pad_size[0], pad_view_top + self.max_size[0])
-            # pad_view_right = min(self.pad_size[1], pad_view_left + self.max_size[1])
-
             # Refresh the pad with the updated view window
             self.map.refresh(pad_view_top, pad_view_left, 1, 0, *self.max_size)
 
