@@ -23,7 +23,7 @@ def init_stdscr():
 def init_content_win():
     global content_win, content_win_height, content_win_width
 
-    content_win = Window(stdscr_height - 1, stdscr_width, 1, 0, make_panel=False)
+    content_win = Window(stdscr_height - 1, stdscr_width, 1, 0, make_panel=True)
     content_win_height, content_win_width = content_win.getmaxyx()
 
 
@@ -31,3 +31,12 @@ def init_curses():
     stdscr = init_stdscr()
     init_content_win()
     init_topbar(stdscr)
+
+
+def init_game_map():
+    global topbar, game_map
+    # Map
+    from simulat.core.ui.game_map.game_map import GameMap
+
+    game_map = GameMap()
+    game_map._start_loop()
