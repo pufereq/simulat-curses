@@ -28,6 +28,7 @@ class GameMap():
 
         self.player_char = '@'
         self.player_pos = 1, 1
+        self._old_chr = [' ', 0]  # empty
 
         self.max_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
 
@@ -131,12 +132,22 @@ class GameMap():
 
         if not self.collision_matrix[new_y][new_x]:
             # Erase the player character from the current position
-            self.map.cs_addstr(self.player_pos[0], self.player_pos[1], ' ')
+            self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self._old_chr[0], self._old_chr[1])
 
             # Update player position
             self.player_pos = new_y, new_x
 
             # Draw the player character at the new position
+
+            extracted = self.map.window.inch(*self.player_pos)
+            attrs = extracted & cs.A_ATTRIBUTES
+            char = chr(extracted & cs.A_CHARTEXT)
+
+            self._old_chr = [char, attrs]
+
+            # self._old_chr = self.map.window.inch(self.player_pos)
+
+            # self._old_chr = chr(self.map.window.inch(self.player_pos[0], self.player_pos[1]))
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char)
 
             self._refresh_map()
