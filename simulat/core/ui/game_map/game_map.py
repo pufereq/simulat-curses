@@ -46,7 +46,7 @@ class GameMap():
 
         # init map
         self._draw_map()
-        self.map.refresh(0, 0, 1, 0, *self.max_size)
+        self._refresh_map()
 
         self.last_move_time = time.time()
 
@@ -87,6 +87,12 @@ class GameMap():
         for y, line in enumerate(self.map_layout):
             for x, char in enumerate(line):
                 self.map.cs_addstr(y, x, char)
+
+    def _refresh_map(self):
+        pad_view_top = max(0, min(self.player_pos[0] - self.max_size[0] // 2, self.pad_size[0] - self.max_size[0]))
+        pad_view_left = max(0, min(self.player_pos[1] - self.max_size[1] // 2, self.pad_size[1] - self.max_size[1]))
+
+        self.map.refresh(pad_view_top, pad_view_left, 1, 0, *self.max_size)
 
     def _input(self, key: int):
         if key != -1:
@@ -131,13 +137,4 @@ class GameMap():
             # Draw the player character at the new position
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char)
 
-            # Calculate the view window's top-left corner coordinates to keep the player centered
-            pad_view_top = max(0, min(self.player_pos[0] - self.max_size[0] // 2, self.pad_size[0] - self.max_size[0]))
-
-            pad_view_left = max(0, min(self.player_pos[1] - self.max_size[1] // 2, self.pad_size[1] - self.max_size[1]))
-
-            # Refresh the pad with the updated view window
-            self.map.refresh(pad_view_top, pad_view_left, 1, 0, *self.max_size)
-
-    # def _refresh_map(self):
-        # self.map.refresh(0, 0, 0, 0, *self.pad_size)
+            self._refresh_map()
