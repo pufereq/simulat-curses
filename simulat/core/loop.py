@@ -17,3 +17,4 @@ def game_loop():
             game_map._resize()
 
         game_map._input(keypress)
+        game_map._refresh_map()
