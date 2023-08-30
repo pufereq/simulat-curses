@@ -112,6 +112,9 @@ class GameMap():
 
         # check if out of bounds
         try:
+            if new_y < 0 or new_x < 0:
+                return
+
             self.collision_matrix[new_y][new_x]
         except IndexError:
             return
