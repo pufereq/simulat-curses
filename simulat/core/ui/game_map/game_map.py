@@ -86,7 +86,7 @@ class GameMap():
     def _draw_map(self):
         for y, line in enumerate(self.map_layout):
             for x, char in enumerate(line):
-                self.map.cs_addstr(y, x, char)
+                self.map.cs_addstr(y, x, char, cs.A_REVERSE if (y, x) in INTERACTIONS else cs.A_NORMAL)
 
     def _resize(self):
         self.max_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
