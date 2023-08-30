@@ -88,6 +88,10 @@ class GameMap():
             for x, char in enumerate(line):
                 self.map.cs_addstr(y, x, char)
 
+    def _resize(self):
+        self.max_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
+        self._refresh_map()
+
     def _refresh_map(self):
         pad_view_top = max(0, min(self.player_pos[0] - self.max_size[0] // 2, self.pad_size[0] - self.max_size[0]))
         pad_view_left = max(0, min(self.player_pos[1] - self.max_size[1] // 2, self.pad_size[1] - self.max_size[1]))
