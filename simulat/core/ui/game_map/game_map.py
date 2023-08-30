@@ -88,9 +88,7 @@ class GameMap():
             for x, char in enumerate(line):
                 self.map.cs_addstr(y, x, char)
 
-    def _input(self):
-        # cs.halfdelay(1)
-        key = stdscr.getch()
+    def _input(self, key: int):
         if key != -1:
             current_time = time.time()
 
