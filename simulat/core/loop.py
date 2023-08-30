@@ -2,6 +2,7 @@
 
 import curses as cs
 
+
 def game_loop():
     from simulat.core.init import game_map
     from simulat.core.init import stdscr
