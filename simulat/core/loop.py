@@ -12,4 +12,8 @@ def game_loop():
         # get keypress
         keypress = stdscr.getch()
 
+        if keypress == cs.KEY_RESIZE:
+            cs.update_lines_cols()
+            game_map._resize()
+
         game_map._input(keypress)
