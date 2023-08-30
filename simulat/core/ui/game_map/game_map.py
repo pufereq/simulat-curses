@@ -18,7 +18,7 @@ from ....data.map_layouts.map_layout import MAP_LAYOUT, INTERACTIONS, TITLE
 class GameMap():
     def __init__(self):
         self.MAP_SIZE: Final = 100, 100
-        self.pad_size = self.MAP_SIZE[0] + 2, self.MAP_SIZE[1] + 2
+        self.pad_size = self.MAP_SIZE[0], self.MAP_SIZE[1]  # subject to change when user resizes terminal
 
         self.map_layout = self._map_init(MAP_LAYOUT)
         self.collision_matrix = self._collision_matrix_init(self.map_layout)
