@@ -111,6 +111,8 @@ class GameMap():
                     self._move_player(1, 0)
                 elif key in [cs.KEY_RIGHT, ord('l'), ord('d')]:
                     self._move_player(0, 1)
+                elif key == ord('e'):
+                    self._interact()
 
                 self.last_move_time = current_time
 
@@ -127,10 +129,6 @@ class GameMap():
         except IndexError:
             return
 
-        if ((new_y, new_x)) in INTERACTIONS:
-            INTERACTIONS[(new_y, new_x)]()
-            return
-
         if not self.collision_matrix[new_y][new_x]:
             # Erase the player character from the current position
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], ' ')
@@ -142,3 +140,14 @@ class GameMap():
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char)
 
             self._refresh_map()
+
+    def _interact(self):
+        for y_offset in [-1, 0, 1]:
+            for x_offset in [-1, 0, 1]:
+                y = self.player_pos[0] + y_offset
+                x = self.player_pos[1] + x_offset
+
+                if (y, x) in INTERACTIONS:
+                    INTERACTIONS[(y, x)]()
+                    self._refresh_map()
+                    return
