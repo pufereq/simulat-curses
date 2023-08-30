@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
 
-# from main import
+import curses as cs
+
 def game_loop():
     from simulat.core.init import game_map
+    from simulat.core.init import stdscr
+
+    cs.halfdelay(1)
+
     while True:
-        game_map._input()
+        # get keypress
+        keypress = stdscr.getch()
+
+        game_map._input(keypress)
