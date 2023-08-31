@@ -2,6 +2,7 @@
 
 import time
 import curses as cs
+import random
 
 from typing import Final
 
@@ -27,6 +28,9 @@ class GameMap():
         self.title = TITLE
         self.movement_delay = 0.0  # seconds
 
+        self.grass_chars = ['`', "'", '"', ',', '.', ':', ';', '!', '?']
+        grass_density = 100  # lesser = more grass
+        self.grass_chars.extend(' ' for _ in range(grass_density))
         self.player_char = '@'
         self.player_pos = 1, 1
 
@@ -108,7 +112,8 @@ class GameMap():
 
                 # if cell is grass, draw it in GRASS_COLOR
                 elif char == 'g':  # grass
-                    self.map.cs_addstr(y, x, ' ', GRASS_COLOR)
+                    grass_char = random.choice(self.grass_chars)
+                    self.map.cs_addstr(y, x, grass_char, GRASS_COLOR)
 
                 else:
                     self.map.cs_addstr(y, x, char, EMPTY_COLOR)
