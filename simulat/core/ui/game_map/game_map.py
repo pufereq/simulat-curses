@@ -118,8 +118,10 @@ class GameMap():
                 else:
                     self.map.cs_addstr(y, x, char, EMPTY_COLOR)
 
+        # draw interaction radius
         for y, x in radius_coordinates:
             self.map.cs_addstr(y, x, chr(self.map.window.inch(y, x) & cs.A_CHARTEXT), INTERACTION_RADIUS_COLOR)
+        # draw interactions
         for y, x in self.interactions:
             self.map.cs_addstr(y, x, chr(self.map.window.inch(y, x) & cs.A_CHARTEXT), INTERACTION_COLOR)
 
