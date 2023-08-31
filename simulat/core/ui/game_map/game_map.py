@@ -34,7 +34,7 @@ class GameMap():
         self.player_char = '@'
         self.player_pos = 1, 1
 
-        self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
+        self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 1, stdscr.getmaxyx()[1] - 1
 
         self.map = Pad(*self.pad_size)
         content_win.panel.replace(self.map.window)
