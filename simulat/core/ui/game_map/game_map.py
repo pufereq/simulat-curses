@@ -127,7 +127,7 @@ class GameMap():
             self.map.cs_addstr(y, x, chr(self.map.window.inch(y, x) & cs.A_CHARTEXT), INTERACTION_COLOR)
 
     def _resize(self):
-        self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
+        self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 1, stdscr.getmaxyx()[1] - 1
         self._refresh_map()
 
     def _refresh_map(self):
