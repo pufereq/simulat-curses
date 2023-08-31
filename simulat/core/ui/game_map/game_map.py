@@ -9,6 +9,7 @@ from simulat.core.ui.windows.topbar import topbar
 from simulat.core.init import stdscr
 
 from simulat.core.init import content_win
+from simulat.core.init import COLLIDER_COLOR, GRASS_COLOR, FLOOR_COLOR, INTERACTION_COLOR, INTERACTION_RADIUS_COLOR, PLAYER_COLOR, EMPTY_COLOR
 
 from simulat.core.ui.windows.window_management.pad import Pad
 
@@ -84,9 +85,38 @@ class GameMap():
         return matrix
 
     def _draw_map(self):
+        radius_coordinates: list = []
         for y, line in enumerate(self.map_layout):
             for x, char in enumerate(line):
-                self.map.cs_addstr(y, x, char, cs.A_REVERSE if (y, x) in INTERACTIONS else cs.A_NORMAL)
+                # if cell is a collider (1), draw it in COLLIDER_COLOR
+                if self.collision_matrix[y][x]:
+                    self.map.cs_addstr(y, x, char, COLLIDER_COLOR)
+
+                # if cell is an interaction, store its range's coordinates in radius_coordinates
+                # and draw it in INTERACTION_COLOR
+                elif (y, x) in self.interactions:
+                    for y_offset in [-1, 0, 1]:
+                        for x_offset in [-1, 0, 1]:
+                            y_radius = y + y_offset
+                            x_radius = x + x_offset
+                            radius_coordinates.append((y_radius, x_radius))
+                    self.map.cs_addstr(y, x, char, INTERACTION_COLOR)
+
+                # if cell is a floor, draw it in FLOOR_COLOR
+                elif char == 'f':  # floor
+                    self.map.cs_addstr(y, x, 'H', FLOOR_COLOR)
+
+                # if cell is grass, draw it in GRASS_COLOR
+                elif char == 'g':  # grass
+                    self.map.cs_addstr(y, x, ' ', GRASS_COLOR)
+
+                else:
+                    self.map.cs_addstr(y, x, char, EMPTY_COLOR)
+
+        for y, x in radius_coordinates:
+            self.map.cs_addstr(y, x, chr(self.map.window.inch(y, x) & cs.A_CHARTEXT), INTERACTION_RADIUS_COLOR)
+        for y, x in self.interactions:
+            self.map.cs_addstr(y, x, chr(self.map.window.inch(y, x) & cs.A_CHARTEXT), INTERACTION_COLOR)
 
     def _resize(self):
         self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
@@ -147,8 +177,7 @@ class GameMap():
             # self._old_chr = self.map.window.inch(self.player_pos)
 
             # self._old_chr = chr(self.map.window.inch(self.player_pos[0], self.player_pos[1]))
-            self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char)
-
+            self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char, PLAYER_COLOR)
             self._refresh_map()
 
     def _interact(self):
