@@ -29,7 +29,6 @@ class GameMap():
 
         self.player_char = '@'
         self.player_pos = 1, 1
-        self._old_chr = [' ', 0]  # empty
 
         self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
 
@@ -40,12 +39,13 @@ class GameMap():
         topbar.title_win.addstr(0, -1, self.title)
         topbar.title_win.refresh()
 
-        # init player
-        self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self._old_chr[0], self._old_chr[1])
-
         # init map
         self._draw_map()
         self._refresh_map()
+
+        # init player
+        char_extracted = self.map.window.inch(*self.player_pos)
+        self._old_chr = [chr(char_extracted & cs.A_CHARTEXT), char_extracted & cs.A_ATTRIBUTES]  # empty
 
         self._move_player(0, 0)
 
