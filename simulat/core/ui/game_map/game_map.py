@@ -131,8 +131,8 @@ class GameMap():
         self._refresh_map()
 
     def _refresh_map(self):
-        pad_view_top = max(0, min(self.player_pos[0] - self.max_displayed_pad_size[0] // 2, self.pad_size[0] - self.max_displayed_pad_size[0]))
-        pad_view_left = max(0, min(self.player_pos[1] - self.max_displayed_pad_size[1] // 2, self.pad_size[1] - self.max_displayed_pad_size[1]))
+        pad_view_top = max(0, min(self.player_pos[0] - self.max_displayed_pad_size[0] // 2, self.pad_size[0] - self.max_displayed_pad_size[0] - 1))
+        pad_view_left = max(0, min(self.player_pos[1] - self.max_displayed_pad_size[1] // 2, self.pad_size[1] - self.max_displayed_pad_size[1] - 2))
 
         self.map.refresh(pad_view_top, pad_view_left, 1, 0, *self.max_displayed_pad_size)
 
