@@ -64,7 +64,7 @@ class GameMap():
         for y in range(self.pad_size[0] - 1):
             line = []
             for x in range(self.pad_size[1] - 1):
-                line.append(' ')
+                line.append('g')
             layout.append(line)
 
         for y_idx, line in enumerate(_layout):
