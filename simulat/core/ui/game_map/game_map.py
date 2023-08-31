@@ -40,6 +40,7 @@ class GameMap():
         content_win.panel.replace(self.map.window)
 
         # set title
+        topbar.title_win.clear()
         topbar.title_win.addstr(0, -1, self.title)
         topbar.title_win.refresh()
 
