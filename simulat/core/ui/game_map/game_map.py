@@ -30,7 +30,7 @@ class GameMap():
         self.player_pos = 1, 1
         self._old_chr = [' ', 0]  # empty
 
-        self.max_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
+        self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
 
         self.map = Pad(*self.pad_size)
         content_win.panel.replace(self.map.window)
@@ -90,14 +90,14 @@ class GameMap():
                 self.map.cs_addstr(y, x, char, cs.A_REVERSE if (y, x) in INTERACTIONS else cs.A_NORMAL)
 
     def _resize(self):
-        self.max_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
+        self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 2, stdscr.getmaxyx()[1] - 1
         self._refresh_map()
 
     def _refresh_map(self):
-        pad_view_top = max(0, min(self.player_pos[0] - self.max_size[0] // 2, self.pad_size[0] - self.max_size[0]))
-        pad_view_left = max(0, min(self.player_pos[1] - self.max_size[1] // 2, self.pad_size[1] - self.max_size[1]))
+        pad_view_top = max(0, min(self.player_pos[0] - self.max_displayed_pad_size[0] // 2, self.pad_size[0] - self.max_displayed_pad_size[0]))
+        pad_view_left = max(0, min(self.player_pos[1] - self.max_displayed_pad_size[1] // 2, self.pad_size[1] - self.max_displayed_pad_size[1]))
 
-        self.map.refresh(pad_view_top, pad_view_left, 1, 0, *self.max_size)
+        self.map.refresh(pad_view_top, pad_view_left, 1, 0, *self.max_displayed_pad_size)
 
     def _input(self, key: int):
         if key != -1:
