@@ -66,7 +66,7 @@ def init_colors():
     cs.use_default_colors()
 
     cs.init_pair(COLLIDER_PAIR, COLOR_GRAY, COLOR_WHITE)
-    cs.init_pair(GRASS_PAIR, COLOR_BRIGHT_GREEN, COLOR_GRASS_GREEN)
+    cs.init_pair(GRASS_PAIR, COLOR_GREEN, COLOR_GRASS_GREEN)
     cs.init_pair(FLOOR_PAIR, COLOR_BRIGHT_YELLOW, COLOR_BROWN)
     cs.init_pair(INTERACTION_PAIR, COLOR_CYAN, COLOR_CYAN)
     cs.init_pair(INTERACTION_RADIUS_PAIR, COLOR_BRIGHT_CYAN, COLOR_BRIGHT_BLUE)
