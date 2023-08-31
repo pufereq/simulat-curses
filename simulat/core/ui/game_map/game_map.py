@@ -40,14 +40,13 @@ class GameMap():
         topbar.title_win.refresh()
 
         # init player
-        # self.player_window = SubWindow(self.map, 1, 1, 0, 0, make_panel=True)
-        self.player_window = self.map.subwin(1, 1, 0, 0)  # same as subpad
-        self.player_window.refresh(0, 0, self.player_pos[0], self.player_pos[1], self.player_pos[0] + 1, self.player_pos[1] + 1)
-        # self.player = self.player_window.panel
+        self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self._old_chr[0], self._old_chr[1])
 
         # init map
         self._draw_map()
         self._refresh_map()
+
+        self._move_player(0, 0)
 
         self.last_move_time = time.time()
 
