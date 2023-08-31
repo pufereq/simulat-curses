@@ -188,6 +188,10 @@ class GameMap():
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char, PLAYER_COLOR)
             self._refresh_map()
 
+        topbar.details_win.clear()
+        topbar.details_win.addstr(0, -1, f"y: {self.player_pos[0]}, x: {self.player_pos[1]}")
+        topbar.details_win.refresh()
+
     def _interact(self):
         for y_offset in [-1, 0, 1]:
             for x_offset in [-1, 0, 1]:
