@@ -10,7 +10,10 @@ from simulat.core.ui.windows.topbar import topbar
 from simulat.core.init import stdscr
 
 from simulat.core.init import content_win
-from simulat.core.init import COLLIDER_COLOR, GRASS_COLOR, FLOOR_COLOR, INTERACTION_COLOR, INTERACTION_RADIUS_COLOR, PLAYER_COLOR, EMPTY_COLOR
+from simulat.core.init import (
+    COLLIDER_COLOR, GRASS_COLOR, FLOOR_COLOR, INTERACTION_COLOR,
+    INTERACTION_RADIUS_COLOR, PLAYER_COLOR, EMPTY_COLOR
+)
 
 from simulat.core.ui.windows.window_management.pad import Pad
 
