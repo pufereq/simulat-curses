@@ -25,7 +25,8 @@ MAP_LAYOUT: Final = [
 
 
 def example_action():
-    raise Exception("you have found an example action!")
+    from simulat.core.init import game_map
+    game_map._toggle_all_doors()
 
 
 INTERACTIONS: Final = {
