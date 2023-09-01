@@ -11,16 +11,16 @@ MAP_LAYOUT: Final = [
     "#fffffffffffffffffffffffffffff#",
     "#fffffffffffffffffffffffffffff#",
     "#fffffffffffffffffffffffffffff#",
-    "#fffffffffffffffffffffffffffff#",
-    "#ffffffffffffffffffffffffffffff",
-    "#fffffffffffffffffffffffffffff#",
-    "#fffffffffffffffffffffffffffff#",
-    "#fffffffffffffffffffffffffffff#",
+    "#fffffffffffffffffffffffffffffd",
+    "#fffffffffffffffffffffffffffffd",
+    "#fffffffffffffffffffffffffffffd",
     "#fffffffffffffffffffffffffffff#",
     "#fffffffffffffffffffffffffffff#",
     "#fffffffffffffffffffffffffffff#",
     "#fffffffffffffffffffffffffffff#",
-    "###############################"
+    "#fffffffffffffffffffffffffffff#",
+    "#fffffffffffffffffffffffffffff#",
+    "###############DD##############"
 ]
 
 
