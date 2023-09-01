@@ -249,12 +249,12 @@ class GameMap():
                 y = self.player_pos[0] + y_offset
                 x = self.player_pos[1] + x_offset
 
-                if (y, x) in INTERACTIONS:
+                if (y, x) in self.interactions:
                     distance = ((self.player_pos[0] - y) ** 2 + (self.player_pos[1] - x) ** 2) ** 0.5
                     if distance < closest_distance:
                         closest_interaction = (y, x)
                         closest_distance = distance
 
         if closest_interaction is not None:
-            INTERACTIONS[closest_interaction]()
+            self.interactions[closest_interaction]()
             self._refresh_map()
