@@ -17,4 +17,4 @@ class Door:
         return f"Door at ({self.y}, {self.x}), {self.open=}, {self.locked=}"
 
     def __repr__(self):
-        return {'y': self.y, 'x': self.x, 'open': self.open, 'locked': self.locked}
+        return f"Door at ({self.y}, {self.x}), {self.open=}, {self.locked=}"
