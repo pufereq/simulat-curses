@@ -31,6 +31,11 @@ class GameMap():
         self.grass_chars = ['`', "'", '"', ',', '.', ':', ';', '|', '¦']
         grass_density = 100  # lesser = more grass
         self.grass_chars.extend(' ' for _ in range(grass_density))
+
+        self.floor_chars = ['.', '_', '-']
+        floor_density = 15  # lesser = more knots
+        self.floor_chars.extend(' ' for _ in range(floor_density))
+
         self.player_char = '@'
         self.player_pos = 1, 1
 
@@ -109,7 +114,8 @@ class GameMap():
 
                 # if cell is a floor, draw it in FLOOR_COLOR
                 elif char == 'f':  # floor
-                    self.map.cs_addstr(y, x, 'H', FLOOR_COLOR)
+                    _floor_char = random.choice(self.floor_chars)
+                    self.map.cs_addstr(y, x, _floor_char, FLOOR_COLOR)
 
                 # if cell is grass, draw it in GRASS_COLOR
                 elif char == 'g':  # grass
