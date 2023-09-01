@@ -250,6 +250,9 @@ class GameMap():
                 x = self.player_pos[1] + x_offset
 
                 if (y, x) in self.interactions:
+                    if self.doors.get((y, x)) and y_offset == 0 and x_offset == 0:
+                        return  # don't interact with doors when standing on them
+
                     distance = ((self.player_pos[0] - y) ** 2 + (self.player_pos[1] - x) ** 2) ** 0.5
                     if distance < closest_distance:
                         closest_interaction = (y, x)
