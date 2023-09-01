@@ -28,7 +28,7 @@ def init_content_win():
 
 
 def init_colors():
-    global COLLIDER_COLOR, GRASS_COLOR, FLOOR_COLOR, INTERACTION_COLOR, INTERACTION_RADIUS_COLOR, PLAYER_COLOR, EMPTY_COLOR
+    global COLLIDER_COLOR, GRASS_COLOR, FLOOR_COLOR, INTERACTION_COLOR, INTERACTION_RADIUS_COLOR, PLAYER_COLOR, EMPTY_COLOR, DOOR_COLOR, LOCKED_DOOR_COLOR
     COLLIDER_PAIR: int = 1
     GRASS_PAIR: int = 2
     FLOOR_PAIR: int = 3
@@ -36,6 +36,8 @@ def init_colors():
     INTERACTION_RADIUS_PAIR: int = 5
     PLAYER_PAIR: int = 6
     EMPTY_PAIR: int = 7
+    DOOR_PAIR: int = 8
+    LOCKED_DOOR_PAIR: int = 9
 
     COLOR_TRANSPARENT: int = -1
 
@@ -72,6 +74,8 @@ def init_colors():
     cs.init_pair(INTERACTION_RADIUS_PAIR, COLOR_BRIGHT_CYAN, COLOR_BRIGHT_BLUE)
     cs.init_pair(PLAYER_PAIR, COLOR_BRIGHT_MAGENTA, COLOR_TRANSPARENT)
     cs.init_pair(EMPTY_PAIR, COLOR_WHITE, COLOR_TRANSPARENT)
+    cs.init_pair(DOOR_PAIR, COLOR_YELLOW, COLOR_DARK_BROWN)
+    cs.init_pair(LOCKED_DOOR_PAIR, COLOR_BLACK, COLOR_DARK_BROWN)
 
     COLLIDER_COLOR = cs.color_pair(COLLIDER_PAIR) | cs.A_NORMAL
     GRASS_COLOR = cs.color_pair(GRASS_PAIR)
@@ -80,6 +84,8 @@ def init_colors():
     INTERACTION_RADIUS_COLOR = cs.color_pair(INTERACTION_RADIUS_PAIR)
     PLAYER_COLOR = cs.color_pair(PLAYER_PAIR) | cs.A_BOLD
     EMPTY_COLOR = cs.color_pair(EMPTY_PAIR)
+    DOOR_COLOR = cs.color_pair(DOOR_PAIR) | cs.A_BOLD
+    LOCKED_DOOR_COLOR = cs.color_pair(LOCKED_DOOR_PAIR) | cs.A_BOLD
 
 
 def init_curses():
