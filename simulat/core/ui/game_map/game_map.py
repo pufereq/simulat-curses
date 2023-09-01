@@ -141,6 +141,7 @@ class GameMap():
                     grass_char = random.choice(self.grass_chars)
                     self.map.cs_addstr(y, x, grass_char, GRASS_COLOR)
 
+                # if cell is empty, draw it in EMPTY_COLOR
                 else:
                     self.map.cs_addstr(y, x, char, EMPTY_COLOR)
 
