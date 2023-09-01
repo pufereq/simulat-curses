@@ -28,7 +28,7 @@ class GameMap():
         self.title = TITLE
         self.movement_delay = 0.0  # seconds
 
-        self.grass_chars = ['`', "'", '"', ',', '.', ':', ';', '!', '?']
+        self.grass_chars = ['`', "'", '"', ',', '.', ':', ';', '|', '¦']
         grass_density = 100  # lesser = more grass
         self.grass_chars.extend(' ' for _ in range(grass_density))
         self.player_char = '@'
