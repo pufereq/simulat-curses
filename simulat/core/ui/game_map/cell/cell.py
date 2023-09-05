@@ -1,14 +1,5 @@
 #!/usr/bin/env python3
 
-import random as rn
-
-from simulat.core.init import (COLLIDER_COLOR, GRASS_COLOR, FLOOR_COLOR, INTERACTION_COLOR,
-                               INTERACTION_RADIUS_COLOR, PLAYER_COLOR, EMPTY_COLOR, DOOR_COLOR,
-                               LOCKED_DOOR_COLOR)
-
-from simulat.data.map_layouts.map_layout import INTERACTIONS
-
-
 
 door_chars = {
     'd': "¬",  # door
