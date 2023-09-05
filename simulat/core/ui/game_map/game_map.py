@@ -37,7 +37,7 @@ class GameMap():
         self.player_char = '@'
         self.player_pos = [1, 1]
 
-        self.camera_pos = self.player_pos
+        self.camera_pos = [1, 1]
 
         self.door_chars = {
             'd': "¬",  # door
@@ -183,16 +183,12 @@ class GameMap():
             if current_time - self.last_move_time >= self.movement_delay:
                 if key in [ord('h'), ord('a')]:
                     self._move_player(0, -1)
-                    self.camera_pos = self.player_pos
                 elif key in [ord('k'), ord('w')]:
                     self._move_player(-1, 0)
-                    self.camera_pos = self.player_pos
                 elif key in [ord('j'), ord('s')]:
                     self._move_player(1, 0)
-                    self.camera_pos = self.player_pos
                 elif key in [ord('l'), ord('d')]:
                     self._move_player(0, 1)
-                    self.camera_pos = self.player_pos
                 elif key == cs.KEY_LEFT:
                     self._move_camera(0, -1)
                 elif key == cs.KEY_UP:
@@ -236,7 +232,12 @@ class GameMap():
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self._old_chr[0], self._old_chr[1])
 
             # Update player position
-            self.player_pos = new_y, new_x
+            self.player_pos[0] = new_y
+            self.player_pos[1] = new_x
+
+            # Update camera position
+            self.camera_pos[0] = new_y
+            self.camera_pos[1] = new_x
 
             # Draw the player character at the new position
 
