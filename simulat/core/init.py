@@ -6,18 +6,16 @@ from simulat.core.ui.windows.topbar import init_topbar
 from simulat.core.ui.windows.window_management.window import Window
 
 
-def init_stdscr():
+def init_stdscr(_scr):
     global stdscr, stdscr_height, stdscr_width
 
-    stdscr = cs.initscr()
+    stdscr = _scr
     stdscr_height, stdscr_width = stdscr.getmaxyx()
 
     cs.noecho()
     cs.cbreak()
     cs.curs_set(0)
     cs.start_color()
-
-    return stdscr
 
 
 def init_content_win():
@@ -90,10 +88,19 @@ def init_colors():
 
 
 def init_curses():
-    stdscr = init_stdscr()
+    cs.wrapper(init_curses_inner)
+
+
+def init_curses_inner(stdscr):
+    from main import main_menu
+
+    global content_win
+    init_stdscr(stdscr)
     init_colors()
     init_content_win()
     init_topbar(stdscr)
+
+    main_menu(stdscr, content_win)
 
 
 def init_game_map():
