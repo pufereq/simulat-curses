@@ -40,7 +40,9 @@ class GameMap():
         self.movement_delay = 0.0  # seconds
 
         self.player_char = '@'
-        self.player_pos = 1, 1
+        self.player_pos = [1, 1]
+
+        self.camera_pos = self.player_pos
 
         self.door_chars = {
             'd': "¬",  # door
@@ -169,8 +171,8 @@ class GameMap():
         self._refresh_map()
 
     def _refresh_map(self):
-        pad_view_top = max(0, min(self.player_pos[0] - self.max_displayed_pad_size[0] // 2, self.pad_size[0] - self.max_displayed_pad_size[0] - 1))
-        pad_view_left = max(0, min(self.player_pos[1] - self.max_displayed_pad_size[1] // 2, self.pad_size[1] - self.max_displayed_pad_size[1] - 2))
+        pad_view_top = max(0, min(self.camera_pos[0] - self.max_displayed_pad_size[0] // 2, self.pad_size[0] - self.max_displayed_pad_size[0] - 1))
+        pad_view_left = max(0, min(self.camera_pos[1] - self.max_displayed_pad_size[1] // 2, self.pad_size[1] - self.max_displayed_pad_size[1] - 2))
 
         self.map.refresh(pad_view_top, pad_view_left, 1, 0, *self.max_displayed_pad_size)
 
@@ -184,18 +186,35 @@ class GameMap():
             current_time = time.time()
 
             if current_time - self.last_move_time >= self.movement_delay:
-                if key in [cs.KEY_LEFT, ord('h'), ord('a')]:
+                if key in [ord('h'), ord('a')]:
                     self._move_player(0, -1)
-                elif key in [cs.KEY_UP, ord('k'), ord('w')]:
+                    self.camera_pos = self.player_pos
+                elif key in [ord('k'), ord('w')]:
                     self._move_player(-1, 0)
-                elif key in [cs.KEY_DOWN, ord('j'), ord('s')]:
+                    self.camera_pos = self.player_pos
+                elif key in [ord('j'), ord('s')]:
                     self._move_player(1, 0)
-                elif key in [cs.KEY_RIGHT, ord('l'), ord('d')]:
+                    self.camera_pos = self.player_pos
+                elif key in [ord('l'), ord('d')]:
                     self._move_player(0, 1)
+                    self.camera_pos = self.player_pos
+                elif key == cs.KEY_LEFT:
+                    self._move_camera(0, -1)
+                elif key == cs.KEY_UP:
+                    self._move_camera(-1, 0)
+                elif key == cs.KEY_DOWN:
+                    self._move_camera(1, 0)
+                elif key == cs.KEY_RIGHT:
+                    self._move_camera(0, 1)
                 elif key == ord('e'):
                     self._interact()
 
                 self.last_move_time = current_time
+
+    def _move_camera(self, y_offset, x_offset):
+        self.camera_pos[0] += y_offset
+        self.camera_pos[1] += x_offset
+        self._refresh_map()
 
     def _move_player(self, y_offset, x_offset):
         new_y = self.player_pos[0] + y_offset
