@@ -1,3 +1,69 @@
+## 0.4.0 (2023-09-06)
+
+### Feat
+
+- **game_map.py**: add camera controls
+- **game_map.py**: modify `GameMap()` class to use cell classes
+- add cell classes
+- **game_map.py**: replace `INTERACTIONS` with `self.interactions` in `_interact()` to avoid possible conflict
+- **map_layout.py**: add some doors to the map for showcase
+- **map_layout.py**: add functionality to `example_action()`
+- **game_map.py**: modify behavior of interacting with interactions to be more intuitive
+- **init.py**: change floor color to be more realistic
+- **init.py**: add colors for door characters
+- **game_map.py**: add door character `"d"` and `"D"` which use `Door()` class
+- **door.py**: add `Door()` class
+- **map_layout.py**: add floor to building
+- **game_map.py**: modify texture of floor to add knots and cracks
+- **game_map.py**: modify `self.grass_chars` for more realism
+- **game_map.py**: add coordinates to `topbar.details_win`
+- **init.py**: modify color of `GRASS_PAIR`
+- **game_map.py**: modify not specified cells to be grass in _map_init()
+- **game_map.py**: improve grass rendering
+- **game_map.py**: utilize color; add floor, grass char
+- **init.py**: add color support
+- **game_map.py**: modify _move_player() to restore the original character before moving the player
+- **game_map.py**: change _draw_map() to set attribute of interactive chars to cs.A_REVERSE
+- **game_map.py**: change interaction behavior
+- **loop.py**: add game_map._refresh_map() call
+- **loop.py**: add terminal resize handling
+- **game_map.py**: add _resize method
+- **loop.py**: handle keypresses directly from loop and use new arguments in call to game_map._input()
+- **game_map.py**: add _refresh_map() method for future use
+- **game_map.py**: make _input() accept key presses as argument to work with game_loop()
+- **game_map.py**: limit camera to not exceed positive map limit
+- **main.py**: modify main_menu() to call game map
+- **init.py**: add init_game_map()
+- **loop.py**: add game loop
+- **map_layout.py**: add map layout
+- **game_map.py**: add open world
+- **pad.py**: add curses pad support
+- **window.py**: add *args and **kwargs for future pad management
+- **window.py**: remove refresh() calls from border() and addstr() for more classic behavior
+
+### Fix
+
+- **init.py**: fix AttributeError when calling content_win.panel
+- **game_map.py**: fix player moving when camera move called
+- **game_map.py**: fix door glitching when interacted while door's position = player's position
+- **door.py**: fix `__repr__()` not returning a string
+- **game_map.py**: fix pad restricting map by being too small
+- **game_map.py**: fix typo in calculation of `self.max_displayed_pad_size` in `_resize()` method
+- **game_map.py**: adjust `pad_view_left` and `pad_view_top` calculations
+- **game_map.py**: fix title not being displayed properly on topbar
+- **game_map.py**: fix pad not spanning whole terminal
+- **game_map.py**: fix player leaving behind a black box when moving first time
+- **game_map.py**: fix player not appearing when map loaded
+- **game_map.py**: fix error when going out of negative bounds
+- **game_map.py**: fix screen flicker when moving
+- **menu.py**: fix menu disappearing when content_win.panel's window replaced
+
+### Refactor
+
+- refactor curses initialization
+- **game_map.py**: change variable name
+- **game_map.py**: remove unnecessary additions in self.pad_size
+
 ## 0.3.0 (2023-07-31)
 
 ### Feat
