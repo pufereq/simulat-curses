@@ -49,9 +49,8 @@ def main_menu(stdscr, content_win):
     if menu.result == 'new_game':
         raise NotImplementedError('not implemented (yet!)')
     elif menu.result == 'board':
-        from simulat.core.ui.board.example import init_exampleboard
-        init_exampleboard(content_win)
-        # pass
+        from simulat.core.init import init_game_map
+        init_game_map()
 
 
 if __name__ == '__main__':
