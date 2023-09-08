@@ -139,13 +139,11 @@ class GameMap():
         for y in range(self.pad_size[0] - 1):
             line = []
             for x in range(self.pad_size[1] - 1):
-                # line.append('g')
                 line.append(GrassCell(self, y, x))
             layout.append(line)
 
         for y_idx, line in enumerate(_layout):
             for x_idx, char in enumerate(line):
-                # layout[y_idx][x_idx] = char
 
                 # doors
                 if char == "d" or char == "D":
@@ -167,11 +165,6 @@ class GameMap():
                 elif char == "g":
                     layout[y_idx][x_idx] = GrassCell(self, y_idx, x_idx)
 
-                # # empty
-                # else:
-                #     layout[y_idx][x_idx] = Cell(self, y_idx, x_idx)
-
-            # layout.append(line_list)
         return layout
 
     def _collision_matrix_init(self, _layout: str):
@@ -194,7 +187,6 @@ class GameMap():
                     line_list.append(1)
                 else:
                     line_list.append(0)
-                # line_list.append(char)
 
             matrix.append(line_list)
         return matrix
@@ -212,10 +204,6 @@ class GameMap():
         radius_coordinates: list = []
         for y, line in enumerate(self.map_layout):
             for x, char in enumerate(line):
-                # if cell is a collider (1), draw it in COLLIDER_COLOR
-                # if self.collision_matrix[y][x]:
-                #     self.map.cs_addstr(y, x, char, COLLIDER_COLOR)
-
                 # if cell is an interaction, store its range's coordinates in radius_coordinates
                 # and draw it in INTERACTION_COLOR
                 if (y, x) in self.interactions:
@@ -344,10 +332,6 @@ class GameMap():
         except IndexError:
             return
 
-        # if self.doors.get((new_y, new_x)):
-        #     if not self.doors[(new_y, new_x)].open:
-        #         return
-
         if self.map_layout[new_y][new_x].collider:
             return
 
@@ -373,9 +357,6 @@ class GameMap():
 
             self._old_chr = [char, attrs]
 
-            # self._old_chr = self.map.window.inch(self.player_pos)
-
-            # self._old_chr = chr(self.map.window.inch(self.player_pos[0], self.player_pos[1]))
             # draw the player character at the new position in `PLAYER_COLOR`
             # and refresh the map
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char, PLAYER_COLOR)
