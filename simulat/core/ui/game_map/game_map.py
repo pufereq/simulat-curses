@@ -352,19 +352,21 @@ class GameMap():
             return
 
         if not self.collision_matrix[new_y][new_x]:
-            # Erase the player character from the current position
+            # draws the old character with the old attributes at the old position,
+            # to avoid leaving a trail of characters behind the player, effectively
+            # erasing the player's previous position
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self._old_chr[0], self._old_chr[1])
 
-            # Update player position
+            # update the player's position
             self.player_pos[0] = new_y
             self.player_pos[1] = new_x
 
-            # Update camera position
+            # update the camera's position
             self.camera_pos[0] = new_y
             self.camera_pos[1] = new_x
 
-            # Draw the player character at the new position
-
+            # extract the character and attributes at the player's position
+            # and store them in `self._old_chr`` to be drawn on the next move
             extracted = self.map.window.inch(*self.player_pos)
             attrs = extracted & cs.A_ATTRIBUTES
             char = chr(extracted & cs.A_CHARTEXT)
@@ -374,6 +376,8 @@ class GameMap():
             # self._old_chr = self.map.window.inch(self.player_pos)
 
             # self._old_chr = chr(self.map.window.inch(self.player_pos[0], self.player_pos[1]))
+            # draw the player character at the new position in `PLAYER_COLOR`
+            # and refresh the map
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char, PLAYER_COLOR)
             self._refresh_map()
 
