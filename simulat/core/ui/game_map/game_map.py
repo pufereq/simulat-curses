@@ -21,7 +21,46 @@ from .cell.collider import WallCell
 
 
 class GameMap():
+    """
+    The `GameMap` class represents the map of the game. It provides
+    functionality for creating, displaying and interacting with
+    the game world, including features such as movement, collision, doors
+    and interactions.
+
+    Attributes:
+        MAP_SIZE (tuple): The size of the map in cells.
+        pad_size (tuple): The size of the map in cells, plus 2 for the border.
+        map (Pad): The map's pad.
+        doors (dict): A dictionary of all the doors in the map.
+        interactions (dict): A dictionary of all the interactions in the map.
+        title (str): The title of the map.
+        movement_delay (float): The delay between each movement in seconds.
+        player_char (str): The character representing the player.
+        player_pos (list): The position of the player in the map.
+        camera_pos (list): The position of the camera in the map.
+        door_chars (dict): A dictionary of all the characters representing doors.
+        max_displayed_pad_size (tuple): The maximum size of the map that can be displayed on the screen.
+        map_layout (list): A list of lists representing the map layout.
+        collision_matrix (list): A list of lists representing the map's collision matrix.
+        _old_chr (list): The character that was previously at the player's position.
+        last_move_time (float): The time of the last movement.
+
+    Methods:
+        _start_loop: Starts the game loop.
+        _map_init: Initializes the map.
+        _collision_matrix_init: Initializes the collision matrix.
+        _draw_map: Draws the map.
+        _draw_dynamic: Draws the dynamic elements of the map.
+        _resize: Resizes the map.
+        _refresh_map: Refreshes the map.
+        _toggle_all_doors: Toggles all the doors in the map.
+        _input: Handles input.
+        _move_camera: Moves the camera.
+        _move_player: Moves the player.
+        _interact: Interacts with the closest interaction.
+    """
     def __init__(self):
+        """Initializes the `GameMap` class."""
         self.MAP_SIZE: Final = 100, 100  # y, x
         self.pad_size = self.MAP_SIZE[0] + 2, self.MAP_SIZE[1] + 2  # subject to change when user resizes terminal
 
@@ -67,10 +106,35 @@ class GameMap():
         self.last_move_time = time.time()
 
     def _start_loop(self):
+        """Starts the game loop."""
         from simulat.core.loop import game_loop
         game_loop()
 
     def _map_init(self, _layout: str):
+        """Initializes the map.
+
+        Initializes the map by iterating through the map layout and creating
+        the corresponding cells. Also initializes the interactions and doors
+        dictionaries.
+        If the defined map size (`self.MAP_SIZE`) is bigger than the map layout,
+        the rest of the map will be filled with `GrassCell`s.
+
+        Characters:
+            - `d`: door, a dynamic cell that can be opened and closed (toggled)
+            when closed, is a collider;
+            - `D`: locked door, a dynamic cell that cannot be toggled, and is
+            a collider;
+            - `#`: wall, a non-togglable static collider;
+            - `f`: floor, a decorative cell, not a collider;
+            - `g`: grass, a decorative cell, not a collider;
+
+        Note: Doors do not impact the collision matrix
+        (see `self._collision_matrix_init`), as they are dynamic
+        and can be toggled.
+
+        Args:
+            _layout (str): The map layout.
+        """
         layout = []
         for y in range(self.pad_size[0] - 1):
             line = []
@@ -111,6 +175,17 @@ class GameMap():
         return layout
 
     def _collision_matrix_init(self, _layout: str):
+        """Initializes the collision matrix.
+
+        Collision matrix is a matrix of 1s and 0s, where 1 represents a collider
+        and 0 represents an empty cell. Will be used for pathfinding.
+
+        Note: Doors do not impact the collision matrix, as they are dynamic
+        and can be toggled.
+
+        Args:
+            _layout (str): The map layout.
+        """
         matrix = []
         for line in _layout:
             line_list = []
@@ -125,6 +200,15 @@ class GameMap():
         return matrix
 
     def _draw_map(self):
+        """Draws the map.
+
+        Draws the map by iterating through the map layout and drawing each cell.
+        Interactions are drawn in `INTERACTION_COLOR`, and their radius is drawn
+        in `INTERACTION_RADIUS_COLOR`.
+
+        Note: Doors are not drawn here, as they are dynamic and drawn in
+        `self._draw_dynamic`.
+        """
         radius_coordinates: list = []
         for y, line in enumerate(self.map_layout):
             for x, char in enumerate(line):
@@ -155,6 +239,12 @@ class GameMap():
         self._draw_dynamic()
 
     def _draw_dynamic(self):
+        """Draws the dynamic elements of the map.
+
+        Draws the dynamic elements of the map, such as doors.
+
+        Note: This method is called only on initialization and by `self._toggle_all_doors`.
+        """
         # draw doors
         for door in self.doors:
             self.doors[door].update()
@@ -162,21 +252,42 @@ class GameMap():
         self._refresh_map()
 
     def _resize(self):
+        """Resizes the map to fit the terminal size."""
         self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 1, stdscr.getmaxyx()[1] - 1
         self._refresh_map()
 
     def _refresh_map(self):
+        """Refreshes the map.
+
+        Refreshes the map by refreshing the pad view to fit the camera position
+        (centered or not, depends on player position, e.g. near the map border).
+        """
         pad_view_top = max(0, min(self.camera_pos[0] - self.max_displayed_pad_size[0] // 2, self.pad_size[0] - self.max_displayed_pad_size[0] - 1))
         pad_view_left = max(0, min(self.camera_pos[1] - self.max_displayed_pad_size[1] // 2, self.pad_size[1] - self.max_displayed_pad_size[1] - 2))
 
         self.map.refresh(pad_view_top, pad_view_left, 1, 0, *self.max_displayed_pad_size)
 
     def _toggle_all_doors(self):
+        """Toggles all the doors in the map.
+
+        Toggles all the doors in the map, and redraws them.
+        """
         for door in self.doors:
             self.doors[door].toggle()
         self._draw_dynamic()
 
     def _input(self, key: int):
+        """Handles input.
+
+        Handles input by moving the player, moving the camera, or interacting
+        with the closest interaction.
+
+        Args:
+            key (int): The key pressed.
+
+        Note: The movement delay works by storing the time of the last movement
+        in `self.last_move_time`, and comparing it to the current time.
+        """
         if key != -1:
             current_time = time.time()
 
@@ -203,11 +314,24 @@ class GameMap():
                 self.last_move_time = current_time
 
     def _move_camera(self, y_offset, x_offset):
+        """Moves the camera.
+
+        Moves the camera by `y_offset` and `x_offset`, and refreshes the map.
+        """
         self.camera_pos[0] += y_offset
         self.camera_pos[1] += x_offset
         self._refresh_map()
 
     def _move_player(self, y_offset, x_offset):
+        """Moves the player.
+
+        Checks if the player can move by `y_offset` and `x_offset`, and if so,
+        moves the player and the camera and refreshes the map.
+
+        Args:
+            y_offset (int): The y offset to move by.
+            x_offset (int): The x offset to move by.
+        """
         new_y = self.player_pos[0] + y_offset
         new_x = self.player_pos[1] + x_offset
 
@@ -258,6 +382,11 @@ class GameMap():
         topbar.details_win.refresh()
 
     def _interact(self):
+        """Interacts with the closest interaction.
+
+        Interacts with the closest interaction by iterating through the
+        interactions dictionary and finding the closest one.
+        """
         closest_interaction = None
         closest_distance = float('inf')  # Initialize with a large value
 
