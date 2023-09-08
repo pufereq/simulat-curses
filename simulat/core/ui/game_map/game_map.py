@@ -62,7 +62,7 @@ class GameMap():
     def __init__(self):
         """Initializes the `GameMap` class."""
         self.MAP_SIZE: Final = 100, 100  # y, x
-        self.pad_size = self.MAP_SIZE[0] + 2, self.MAP_SIZE[1] + 2  # subject to change when user resizes terminal
+        self.pad_size = self.MAP_SIZE[0] + 2, self.MAP_SIZE[1] + 2
 
         self.map = Pad(*self.pad_size)
         content_win.panel.replace(self.map.window)
