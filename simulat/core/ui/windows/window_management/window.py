@@ -88,6 +88,10 @@ class Window():
                bl=0, br=0):
         self.window.border(ls, rs, ts, bs, tl, tr, bl, br)
 
+    def set_title(self, title: str):
+        self.addstr(0, -1, title)
+        self.refresh()
+
     def subwin(self, nlines: int, ncols: int, y: int, x: int, *, make_panel: bool = False, reverse: bool = False):
         from .subwindow import SubWindow
         return SubWindow(self.window, nlines, ncols, y, x, make_panel=make_panel, reverse=reverse)
