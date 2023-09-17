@@ -87,20 +87,12 @@ def init_colors():
     LOCKED_DOOR_COLOR = cs.color_pair(LOCKED_DOOR_PAIR) | cs.A_BOLD
 
 
-def init_curses():
-    cs.wrapper(init_curses_inner)
-
-
 def init_curses_inner(stdscr):
-    from main import main_menu
-
     global content_win
     init_stdscr(stdscr)
     init_colors()
     init_content_win()
     init_topbar(stdscr)
-
-    main_menu(stdscr, content_win)
 
 
 def init_game_map():

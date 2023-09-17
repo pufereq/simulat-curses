@@ -3,22 +3,21 @@
 import sys
 from curses import wrapper
 
-from simulat.core.init import init_curses
 from simulat.core.menu import Menu
 from simulat.core.decorators.error_handler import error_handler
 
 
-def main():
-    init_curses()
+def main(stdscr):
+    from simulat.core.init import init_curses_inner
+    init_curses_inner(stdscr)
 
-    from simulat.core.init import content_win
-
-    wrapper(main_menu, content_win)
+    main_menu(None)
 
 
 @error_handler
-def main_menu(stdscr, content_win):
+def main_menu(stdscr):
     from simulat.core.ui.windows.topbar import topbar
+    from simulat.core.init import content_win
 
     topbar.title_win.addstr(0, -1, "main menu")
     menu = Menu(
@@ -54,4 +53,4 @@ def main_menu(stdscr, content_win):
 
 
 if __name__ == '__main__':
-    main()
+    wrapper(main)
