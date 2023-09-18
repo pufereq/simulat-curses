@@ -39,7 +39,12 @@ def main_menu(stdscr):
                 'name': "board",
                 'label': "DEBUG: Example Board",
                 'target': None
-            }
+            },
+            {
+                'name': "container",
+                'label': "DEBUG: Example Container",
+                'target': None
+            },
         ],
         content_win
     )
@@ -47,6 +52,29 @@ def main_menu(stdscr):
 
     if menu.result == 'new_game':
         raise NotImplementedError('not implemented (yet!)')
+    elif menu.result == 'container':
+        from simulat.core.ui.windows.window_management.container import Container
+        from simulat.core.ui.windows.widgets.debug_widget import DebugWidget
+
+        container = Container('lorem', 10, 10, 10, 10)
+        container.widget = DebugWidget(container)
+
+        while True:
+            key = container.getch()
+
+            if key == ord('d'):
+
+                container.save()
+
+                container.window.erase()
+                container.refresh()
+
+                container.window.mvwin(container.window.getbegyx()[0] + 1, container.window.getbegyx()[1] + 1)
+                container.rewrite()
+                container.draw_widget()
+            elif key == ord('q'):
+                break
+
     elif menu.result == 'board':
         from simulat.core.init import init_game_map
         init_game_map()
