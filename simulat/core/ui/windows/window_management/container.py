@@ -31,7 +31,9 @@ class Container(Window):
         self.refresh()
 
     def save(self):
-        self.window_contents = [[self.window.inch(y, x) for x in range(self.max_x)] for y in range(self.max_y)]
+        self.window_contents = [[self.window.inch(y, x)
+                                for x in range(self.max_x)]
+                                for y in range(self.max_y)]
         return self.window_contents
 
     def rewrite(self):
