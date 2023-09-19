@@ -2,9 +2,17 @@
 
 from .window import Window
 
+from simulat.core.init import content_win
+
 
 class Container(Window):
-    def __init__(self, title: str, nlines: int, ncols: int, y: int, x: int):
+    def __init__(self, title: str, nlines: int, ncols: int, y: int | str, x: int | str):
+
+        if y == "center":
+            y = (content_win.max_y - nlines) // 2
+        if x == "center":
+            x = (content_win.max_x - ncols) // 2
+
         super().__init__(nlines, ncols, y, x, make_panel=True)
 
         self.title = title
