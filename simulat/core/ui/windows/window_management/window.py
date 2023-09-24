@@ -84,6 +84,9 @@ class Window():
     def clear(self):
         self.window.clear()
 
+    def erase(self):
+        self.window.erase()
+
     def refresh(self, *args, **kwargs):
         self.update_size()
         self.window.refresh(*args, **kwargs)
