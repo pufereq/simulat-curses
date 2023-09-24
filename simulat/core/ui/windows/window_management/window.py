@@ -30,6 +30,7 @@ class Window():
 
         self.keypad(True)
 
+        self.beg_y, self.beg_x = self.window.getbegyx()
         self.max_y, self.max_x = self.window.getmaxyx()
 
     def addstr(self, y: int, x: int, _str: str, attr: int = cs.A_NORMAL):
