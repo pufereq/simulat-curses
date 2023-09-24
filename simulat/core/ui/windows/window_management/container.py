@@ -43,4 +43,23 @@ class Container(Window):
                 self.window.insch(y, x, char)
         self.refresh()
 
+    def move(self, new_y: int | str, new_x: int | str):
+        if new_y == "center":
+            new_y = (content_win.getmaxyx()[0] - self.max_y) // 2
+        if new_x == "center":
+            new_x = (content_win.getmaxyx()[1] - self.max_x) // 2
+
+        self.beg_x, self.beg_y = new_x, new_y
+
+        self.save()
+        self.erase()
+        self.refresh_all()
+
+        self.mvwin(new_y, new_x)
+        self.widget.mvwin(new_y + 1, new_x + 1)
+
+        self.rewrite()
+
+        self.refresh_all()
+
     # def attach(self, window: Widget
