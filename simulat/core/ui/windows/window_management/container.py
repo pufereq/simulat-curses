@@ -26,7 +26,7 @@ class Container(Window):
         self.set_title(title)
         self.refresh()
 
-    def draw_widget(self):
+    def refresh_all(self):
         self.widget.refresh()
         self.refresh()
 
