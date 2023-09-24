@@ -62,7 +62,7 @@ def main_menu(stdscr):
 
 def test():
     from simulat.core.ui.windows.window_management.container import Container
-    from simulat.core.ui.windows.widgets.menu import MenuWidget, MenuEntry
+    from simulat.core.ui.windows.widgets.menu_widget import MenuWidget, MenuEntry
 
     container = Container('lorem', 10, 30, "center", "center")
     container.widget = MenuWidget(container,
