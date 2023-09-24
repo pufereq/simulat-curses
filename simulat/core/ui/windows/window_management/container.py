@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 
+import curses as cs
+
 from .window import Window
+
+from ..widgets.widget import WidgetLoopEnd
 
 from simulat.core.init import content_win
 
@@ -19,6 +23,23 @@ class Container(Window):
         self.widget = None
 
         self.update_title(self.title)
+
+    def loop(self):
+        while True:
+            key = self.getch()
+
+            try:
+                self.widget._input(key)
+            except WidgetLoopEnd as result:
+                return result
+
+            if key == ord('d'):
+                self.move_relative(1, 1)
+            elif key == cs.KEY_RESIZE:
+                self.move("center", "center")
+            elif key == ord('q'):
+                break
+        return self.widget.result
 
     def update_title(self, title: str):
         self.title = title
