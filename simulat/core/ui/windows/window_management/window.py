@@ -132,3 +132,6 @@ class Window():
 
     def move(self, y: int, x: int):
         self.panel.move(y, x)
+
+    def mvwin(self, y: int, x: int):
+        self.window.mvwin(y, x)
