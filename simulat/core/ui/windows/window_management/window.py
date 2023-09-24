@@ -28,6 +28,8 @@ class Window():
             else:
                 self.panel = curses.panel.new_panel(self.window)
 
+        self.keypad(True)
+
         self.max_y, self.max_x = self.window.getmaxyx()
 
     def addstr(self, y: int, x: int, _str: str, attr: int = cs.A_NORMAL):
