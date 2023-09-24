@@ -85,6 +85,7 @@ class Window():
         self.window.clear()
 
     def refresh(self, *args, **kwargs):
+        self.update_size()
         self.window.refresh(*args, **kwargs)
 
     def border(self,
