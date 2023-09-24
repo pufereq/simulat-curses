@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-from curses import wrapper
+import curses as cs
 
 from simulat.core.menu import Menu
 from simulat.core.decorators.error_handler import error_handler
@@ -62,30 +62,21 @@ def main_menu(stdscr):
 
 def test():
     from simulat.core.ui.windows.window_management.container import Container
-    from simulat.core.ui.windows.widgets.debug_widget import DebugWidget
+    from simulat.core.ui.windows.widgets.menu import MenuWidget, MenuEntry
 
-    container = Container('lorem', 10, 10, "center", "center")
-    container.widget = DebugWidget(container)
-    # container.widget = MenuWidget(container)
+    container = Container('lorem', 10, 30, "center", "center")
+    container.widget = MenuWidget(container,
+                                  [
+                                      MenuEntry(f"test{i}", f"test{i}", f"test{i}\n{str(i)*10}", None) for i in range(100)
+                                  ])
+    result = container.loop()
 
-
-    while True:
-        key = container.getch()
-
-        if key == ord('d'):
-
-            container.save()
-
-            container.window.erase()
-            container.refresh()
-
-            container.window.mvwin(container.window.getbegyx()[0] + 1,
-                                   container.window.getbegyx()[1] + 1)
-            container.rewrite()
-            container.draw_widget()
-        elif key == ord('q'):
-            break
+    # raise Exception(result)
+    container.widget.erase()
+    container.widget.addstr(0, 0, f"selected: {result}\n\npress any key to exit")
+    container.widget.refresh()
+    container.getch()
 
 
 if __name__ == '__main__':
-    wrapper(main)
+    cs.wrapper(main)
