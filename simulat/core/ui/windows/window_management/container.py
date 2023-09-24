@@ -62,4 +62,7 @@ class Container(Window):
 
         self.refresh_all()
 
+    def move_relative(self, rel_y: int, rel_x: int):
+        self.move(self.beg_y + rel_y, self.beg_x + rel_x)
+
     # def attach(self, window: Widget
