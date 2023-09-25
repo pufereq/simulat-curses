@@ -76,7 +76,7 @@ class Window():
 
     def update_size(self):
         self.max_y, self.max_x = self.window.getmaxyx()
-        self.beg_x, self.beg_y = self.window.getbegyx()
+        self.beg_y, self.beg_x = self.window.getbegyx()
 
     def cs_addstr(self, *args):
         self.window.addstr(*args)
