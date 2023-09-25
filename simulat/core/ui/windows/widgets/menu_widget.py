@@ -78,6 +78,20 @@ class MenuWidget(Widget):
 
             self.selected_entry = self.items[self.selected]
 
+        elif key == cs.KEY_NPAGE:
+            self.selected = min(self.selected + (self.MENU_SIZE // 2), len(self.items) - 0)
+            if self.selected == len(self.items):
+                self.selected = 0
+
+            self.selected_entry = self.items[self.selected]
+
+        elif key == cs.KEY_PPAGE:
+            self.selected = max(self.selected - (self.MENU_SIZE // 2), -1)
+            if self.selected == -1:
+                self.selected = len(self.items) - 1
+
+            self.selected_entry = self.items[self.selected]
+
         elif key == cs.KEY_ENTER or key == ord('\n'):
             if self.items[self.selected].target is not None:
                 self.items[self.selected].target()
