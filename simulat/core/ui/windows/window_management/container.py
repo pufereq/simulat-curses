@@ -25,13 +25,15 @@ class Container(Window):
         self.update_title(self.title)
 
     def loop(self):
+        cs.cbreak()
+
         while True:
             key = self.getch()
 
             try:
                 self.widget._input(key)
-            except WidgetLoopEnd as result:
-                return result
+            except WidgetLoopEnd:
+                break
 
             if key == ord('d'):
                 self.move_relative(1, 1)
@@ -39,6 +41,8 @@ class Container(Window):
                 self.move("center", "center")
             elif key == ord('q'):
                 break
+
+        cs.halfdelay(1)
         return self.widget.result
 
     def update_title(self, title: str):
