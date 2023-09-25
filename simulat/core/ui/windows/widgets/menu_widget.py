@@ -51,17 +51,30 @@ class MenuWidget(Widget):
                 self.addstr(i, 1, text, attr)
 
         info_text = self.selected_entry.info
+        info_text = self._wrap_str_to_width(info_text).split("\n")[0]
+
+        if len(info_text.split("\n")[0]) > self.max_x - 4:
+            info_text = info_text[:-1] + "…"
+
+        self.addstr(self.max_y - 2, 1, info_text, cs.A_DIM)
+        self.addstr(self.max_y - 1, 1, "press `i` for more info", cs.A_DIM | cs.A_ITALIC)
+
+    def _display_info(self):
+        info_text = self.selected_entry.info
         info_text = self._wrap_str_to_width(info_text)
         info_text_split = info_text.strip().split("\n")
 
-        info_text_y_pos = len(info_text_split)
+        self.erase()
 
-        for line in info_text_split:
+        self.addstr(0, 1, f"{'info: ' + self.selected_entry.label:^{self.max_x - 2}}", cs.A_BOLD)
+
+        for idx, line in enumerate(info_text_split):
             info_text_formatted = line, cs.A_DIM
 
-            self.addstr(self.max_y - info_text_y_pos, 1, *info_text_formatted)
+            self.addstr(idx + 2, 1, *info_text_formatted)
 
-            info_text_y_pos -= 1
+        self.getch()
+        self.refresh()
 
     def _input(self, key: int):
         if key in [cs.KEY_UP, ord('k')]:
@@ -91,6 +104,9 @@ class MenuWidget(Widget):
                 self.selected = len(self.items) - 1
 
             self.selected_entry = self.items[self.selected]
+
+        elif key == ord('i'):
+            self._display_info()
 
         elif key == cs.KEY_ENTER or key == ord('\n'):
             if self.items[self.selected].target is not None:
