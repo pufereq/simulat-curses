@@ -64,14 +64,14 @@ class MenuWidget(Widget):
             info_text_y_pos -= 1
 
     def _input(self, key: int):
-        if key == cs.KEY_UP:
+        if key in [cs.KEY_UP, ord('k')]:
             self.selected = max(self.selected - 1, -1)
             if self.selected == -1:
                 self.selected = len(self.items) - 1
 
             self.selected_entry = self.items[self.selected]
 
-        elif key == cs.KEY_DOWN:
+        elif key in [cs.KEY_DOWN, ord('j')]:
             self.selected = min(self.selected + 1, len(self.items) - 0)
             if self.selected == len(self.items):
                 self.selected = 0
