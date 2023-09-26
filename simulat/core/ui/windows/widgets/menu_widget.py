@@ -25,7 +25,7 @@ class MenuWidget(Widget):
         self.selected = 0
         self.selected_entry = self.items[self.selected]
 
-        self.MENU_SIZE = 5
+        self.MENU_SIZE = self.max_y - 3
 
         self.display()
         self.refresh()
