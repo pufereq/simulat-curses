@@ -13,7 +13,7 @@ class WidgetLoopEnd(Exception):
 
 class Widget(DerWindow):
     def __init__(self, parent):
-        super().__init__(parent.window, parent.max_y - 2, parent.max_x - 2, 1, 1, make_panel=False)
+        super().__init__(parent.window, parent.max_y - 4, parent.max_x - 2, 3, 1, make_panel=False)
 
         self.result = None
 
