@@ -10,7 +10,7 @@ from simulat.core.init import content_win
 
 
 class Container(Window):
-    def __init__(self, title: str, nlines: int, ncols: int, y: int | str, x: int | str):
+    def __init__(self, title: str, description: str | None, nlines: int, ncols: int, y: int | str, x: int | str):
 
         if y == "center":
             y = (content_win.max_y - nlines) // 2
@@ -20,9 +20,11 @@ class Container(Window):
         super().__init__(nlines, ncols, y, x, make_panel=True)
 
         self.title = title
+        self.description = description
         self.widget = None
 
         self.update_title(self.title)
+        self.update_description(self.description)
 
     def loop(self):
         cs.cbreak()
@@ -49,6 +51,11 @@ class Container(Window):
         self.title = title
         self.border()
         self.set_title(title)
+        self.refresh()
+
+    def update_description(self, description: str):
+        self.description = description
+        self.addstr(1, 1, f"{description:^{self.max_x - 2}}", cs.A_ITALIC)
         self.refresh()
 
     def refresh_all(self):
