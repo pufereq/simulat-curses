@@ -64,7 +64,7 @@ def test():
     from simulat.core.ui.windows.window_management.container import Container
     from simulat.core.ui.windows.widgets.menu_widget import MenuWidget, MenuEntry
 
-    container = Container('lorem', 10, 30, "center", "center")
+    container = Container('lorem', 'ipsum dolor sit amet', 10, 30, "center", "center")
     container.widget = MenuWidget(container,
                                   [
                                       MenuEntry(f"test{i}", f"test{i}", f"test{i}\n{str(i)*10}", None) for i in range(100)
