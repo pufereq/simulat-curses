@@ -28,6 +28,9 @@ class Window():
             else:
                 self.panel = curses.panel.new_panel(self.window)
 
+        self.keypad(True)
+
+        self.beg_y, self.beg_x = self.window.getbegyx()
         self.max_y, self.max_x = self.window.getmaxyx()
 
     def addstr(self, y: int, x: int, _str: str, attr: int = cs.A_NORMAL):
@@ -71,6 +74,9 @@ class Window():
         else:
             self.window.addstr(y, x, _str, attr)
 
+    def update_size(self):
+        self.max_y, self.max_x = self.window.getmaxyx()
+        self.beg_y, self.beg_x = self.window.getbegyx()
 
     def cs_addstr(self, *args):
         self.window.addstr(*args)
@@ -78,7 +84,11 @@ class Window():
     def clear(self):
         self.window.clear()
 
+    def erase(self):
+        self.window.erase()
+
     def refresh(self, *args, **kwargs):
+        self.update_size()
         self.window.refresh(*args, **kwargs)
 
     def border(self,
@@ -89,7 +99,7 @@ class Window():
         self.window.border(ls, rs, ts, bs, tl, tr, bl, br)
 
     def set_title(self, title: str):
-        self.addstr(0, -1, title)
+        self.addstr(0, 1, title)
 
     def subwin(self, nlines: int, ncols: int, y: int, x: int, *, make_panel: bool = False, reverse: bool = False):
         from .subwindow import SubWindow
@@ -122,3 +132,6 @@ class Window():
 
     def move(self, y: int, x: int):
         self.panel.move(y, x)
+
+    def mvwin(self, y: int, x: int):
+        self.window.mvwin(y, x)
