@@ -34,7 +34,9 @@ class MenuWidget(Widget):
         self.erase()
         self.refresh()
 
-        start_index = min(max(self.selected - (self.MENU_SIZE // 2), 0), len(self.items) - self.MENU_SIZE)
+        start_index = min(max(self.selected - (self.MENU_SIZE // 2), 0),
+                          len(self.items) - self.MENU_SIZE
+                          if len(self.items) > self.MENU_SIZE else 0)
         end_index = min(start_index + self.MENU_SIZE, len(self.items))
         displayed_items = self.items[start_index:end_index]
 
