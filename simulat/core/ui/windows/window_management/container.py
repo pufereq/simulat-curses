@@ -88,7 +88,7 @@ class Container(Window):
         self.refresh_all()
 
         self.mvwin(new_y, new_x)
-        self.widget.mvwin(new_y + 1, new_x + 1)
+        self.widget.mvwin(new_y + 3, new_x + 1)
 
         self.rewrite()
 
