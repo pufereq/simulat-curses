@@ -6,11 +6,11 @@ from .window import Window
 
 from ..widgets.widget import WidgetLoopEnd
 
-from simulat.core.init import content_win
 
 
 class Container(Window):
     def __init__(self, title: str, description: str | None, nlines: int, ncols: int, y: int | str, x: int | str):
+        from simulat.core.init import content_win
 
         if y == "center":
             y = (content_win.max_y - nlines) // 2
