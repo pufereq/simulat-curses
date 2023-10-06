@@ -40,6 +40,8 @@ class MenuWidget(Widget):
         end_index = min(start_index + self.MENU_SIZE, len(self.items))
         displayed_items = self.items[start_index:end_index]
 
+        self.MENU_OFFSET = self.MENU_SIZE // 2 - len(displayed_items) // 2
+
         for i, item in enumerate(displayed_items):
             text = f"<{item.label:^{self.max_x - 4}}>"
             if item.locked:
@@ -48,9 +50,9 @@ class MenuWidget(Widget):
                 attr = cs.A_NORMAL
 
             if i == self.selected - start_index:
-                self.addstr(i, 1, text, cs.A_REVERSE | attr)
+                self.addstr(i + self.MENU_OFFSET, 1, text, cs.A_REVERSE | attr)
             else:
-                self.addstr(i, 1, text, attr)
+                self.addstr(i + self.MENU_OFFSET, 1, text, attr)
 
         info_text = self.selected_entry.info
         info_text = self._wrap_str_to_width(info_text).split("\n")[0]
