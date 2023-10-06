@@ -6,10 +6,10 @@ from .widget import Widget, WidgetLoopEnd
 
 
 class MenuEntry():
-    def __init__(self, name: str, label: str, info: str, target: callable = None, /, locked: bool = False):
+    def __init__(self, name: str, label: str, info: str | None, target: callable = None, /, locked: bool = False):
         self.name = name
         self.label = label
-        self.info = info
+        self.info = info if info else "No info provided."
         self.target = target
         self.locked = locked
 
