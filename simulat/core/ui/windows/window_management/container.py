@@ -20,7 +20,7 @@ class Container(Window):
         super().__init__(nlines, ncols, y, x, make_panel=True)
 
         self.title = title
-        self.description = description
+        self.description = description if description else "No description provided."
         self.widget = None
 
         self.update_title(self.title)
