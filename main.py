@@ -4,6 +4,8 @@ import sys
 import curses as cs
 
 from simulat.core.menu import Menu
+from simulat.core.ui.windows.window_management.container import Container
+from simulat.core.ui.windows.widgets.menu_widget import MenuWidget, MenuEntry
 from simulat.core.decorators.error_handler import error_handler
 
 
@@ -17,45 +19,27 @@ def main(stdscr):
 @error_handler
 def main_menu(stdscr):
     from simulat.core.ui.windows.topbar import topbar
-    from simulat.core.init import content_win
 
     topbar.title_win.addstr(0, -1, "main menu")
-    menu = Menu(
-        'main menu',
-        'welcome to simulat!',
-        [
-            {
-                'name': "new_game",
-                'label': "new game",
-                'info': "create a new game (not implemented yet)",
-                'target': None
-            },
-            {
-                'name': "exit",
-                'info': "the most useful button",
-                'target': sys.exit
-            },
-            {
-                'name': "board",
-                'label': "DEBUG: Example Board",
-                'target': None
-            },
-            {
-                'name': "container",
-                'label': "DEBUG: Example Container",
-                'target': None
-            },
-        ],
-        content_win
-    )
-    menu.display()
 
-    if menu.result == 'new_game':
+    menu = Container('main menu', 'welcome to simulat!', 14, 36, "center", "center")
+    menu.widget = MenuWidget(menu,
+                             [
+                                 MenuEntry("new_game", "new game", "create a new game (not implemented yet)", None),
+                                 MenuEntry("exit", "exit", "the most useful button", sys.exit),
+                                 MenuEntry("board", "DEBUG: Example Board", None, None),
+                                 MenuEntry("container", "DEBUG: Example Container", None, None),
+                             ]
+                             )
+
+    result = menu.loop()
+
+    if result == 'new_game':
         raise NotImplementedError('not implemented (yet!)')
-    elif menu.result == 'container':
+    elif result == 'container':
         test()
 
-    elif menu.result == 'board':
+    elif result == 'board':
         from simulat.core.init import init_game_map
         init_game_map()
 
