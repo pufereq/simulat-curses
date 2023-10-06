@@ -76,6 +76,7 @@ class Container(Window):
         self.refresh()
 
     def move(self, new_y: int | str, new_x: int | str):
+        from simulat.core.init import content_win
         if new_y == "center":
             new_y = (content_win.getmaxyx()[0] - self.max_y) // 2
         if new_x == "center":
