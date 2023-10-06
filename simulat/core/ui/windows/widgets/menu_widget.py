@@ -73,7 +73,7 @@ class MenuWidget(Widget):
         for idx, line in enumerate(info_text_split):
             info_text_formatted = line, cs.A_DIM
 
-            self.addstr(idx + 2, 1, *info_text_formatted)
+            self.addstr(idx + 1, 1, *info_text_formatted)
 
         self.getch()
         self.refresh()
