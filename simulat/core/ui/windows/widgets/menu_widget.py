@@ -102,7 +102,7 @@ class MenuWidget(Widget):
 
         self.erase()
 
-        self.addstr(0, 1, f"{'info: ' + self.selected_entry.label:^{self.max_x - 2}}", cs.A_BOLD)
+        self.addstr(0, 1, f"{self.selected_entry.label:^{self.max_x - 2}}", cs.A_BOLD)
 
         for idx, line in enumerate(info_text_split):
             info_text_formatted = line, cs.A_DIM
