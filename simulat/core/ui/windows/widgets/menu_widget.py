@@ -36,7 +36,19 @@ class MenuEntry():
 
 
 class MenuWidget(Widget):
+    """A menu widget.
+
+    Args:
+        parent (Container): The parent container window.
+        items (list[MenuEntry,]): The menu entries.
+    """
     def __init__(self, parent, items: list[MenuEntry,]):
+        """A menu widget.
+
+        Args:
+            parent (Container): The parent container window.
+            items (list[MenuEntry,]): The menu entries.
+        """
         super().__init__(parent)
 
         self.items = items
@@ -49,6 +61,7 @@ class MenuWidget(Widget):
         self.refresh()
 
     def display(self):
+        """Displays the widget."""
         self.erase()
         self.refresh()
 
@@ -82,6 +95,7 @@ class MenuWidget(Widget):
         self.addstr(self.max_y - 1, 1, "press `i` for more info", cs.A_DIM | cs.A_ITALIC)
 
     def _display_info(self):
+        """Displays the info of the selected entry."""
         info_text = self.selected_entry.info
         info_text = self._wrap_str_to_width(info_text)
         info_text_split = info_text.strip().split("\n")
@@ -99,6 +113,22 @@ class MenuWidget(Widget):
         self.refresh()
 
     def _input(self, key: int):
+        """Handles the input of the widget.
+
+        Args:
+            key (int): The key that was pressed.
+
+        Raises:
+            WidgetLoopEnd: Raised when the widget ends the parent Container's loop.
+
+        Keybinds:
+            `up` or `k`: Select the previous entry.
+            `down` or `j`: Select the next entry.
+            `page up`: Select the previous entry by half the menu size.
+            `page down`: Select the next entry by half the menu size.
+            `enter`: Select the current entry.
+            `i`: Display the info of the current entry.
+        """
         if key in [cs.KEY_UP, ord('k')]:
             self.selected = max(self.selected - 1, -1)
             if self.selected == -1:
