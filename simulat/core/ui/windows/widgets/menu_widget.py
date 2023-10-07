@@ -6,7 +6,25 @@ from .widget import Widget, WidgetLoopEnd
 
 
 class MenuEntry():
+    """A menu entry for the MenuWidget.
+
+    Args:
+        name (str): The name of the entry.
+        label (str): The label of the entry.
+        info (str | None): The info of the entry.
+        target (callable, optional): The target of the entry. Defaults to None.
+        locked (bool, optional): Whether the entry is locked. Defaults to False.
+    """
     def __init__(self, name: str, label: str, info: str | None, target: callable = None, /, locked: bool = False):
+        """A menu entry for the MenuWidget.
+
+        Args:
+            name (str): The name of the entry.
+            label (str): The label of the entry.
+            info (str | None): The info of the entry.
+            target (callable, optional): The target of the entry. Defaults to None.
+            locked (bool, optional): Whether the entry is locked. Defaults to False.
+        """
         self.name = name
         self.label = label
         self.info = info if info else "No info provided."
