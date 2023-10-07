@@ -109,6 +109,8 @@ class MenuWidget(Widget):
 
             self.addstr(idx + 1, 1, *info_text_formatted)
 
+        self.addstr(self.max_y - 1, 1, "press any key to return", cs.A_DIM | cs.A_ITALIC)
+
         self.getch()
         self.refresh()
 
