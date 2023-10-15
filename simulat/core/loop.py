@@ -26,8 +26,12 @@ def game_loop():
             game_map._resize()
 
         if current_time - last_frame_time >= FRAME_TIME:
-            game_map._input(keypress)
-            game_map._refresh_map()
+            _loop(keypress)
 
             last_frame_time = current_time
         pass
+
+
+def _loop(keypress: int):
+    game_map._input(keypress)
+    game_map._refresh_map()
