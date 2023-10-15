@@ -42,10 +42,12 @@ class Container(Window):
         Returns:
             Any: The result of the widget's loop.
         """
-        cs.cbreak()  # disable halfdelay
 
         while True:
             key = self.getch()
+
+            if key == -1:
+                continue
 
             try:
                 self.widget._input(key)
@@ -59,7 +61,6 @@ class Container(Window):
             elif key == ord('q'):
                 break
 
-        cs.halfdelay(1)  # re-enable halfdelay
         return self.widget.result
 
     def update_title(self, title: str):
@@ -141,6 +142,7 @@ class Container(Window):
         self.move(self.beg_y + rel_y, self.beg_x + rel_x)
 
     # def attach(self, window: Widget
+
 
 def container_test():
     from simulat.core.ui.windows.window_management.container import Container
