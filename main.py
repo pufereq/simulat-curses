@@ -19,6 +19,8 @@ def main(stdscr):
 @error_handler
 def main_menu(stdscr):
     from simulat.core.ui.windows.topbar import topbar
+    from simulat.core.ui.windows.window_management.container import container_test
+
 
     topbar.title_win.addstr(0, -1, "main menu")
 
@@ -37,7 +39,7 @@ def main_menu(stdscr):
     if result == 'new_game':
         raise NotImplementedError('not implemented (yet!)')
     elif result == 'container':
-        test()
+        container_test()
 
     elif result == 'board':
         from simulat.core.init import init_game_map
