@@ -22,7 +22,7 @@ def main_menu(stdscr):
 
     topbar.title_win.addstr(0, -1, "main menu")
 
-    menu = Container('main menu', 'welcome to simulat!', 14, 36, "center", "center")
+    menu = Container('main menu', 'welcome to simulat!', 12, 36, "center", "center")
     menu.widget = MenuWidget(menu,
                              [
                                  MenuEntry("new_game", "new game", "create a new game (not implemented yet)", None),
