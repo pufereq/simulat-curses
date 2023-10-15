@@ -44,22 +44,7 @@ def main_menu(stdscr):
         init_game_map()
 
 
-def test():
-    from simulat.core.ui.windows.window_management.container import Container
-    from simulat.core.ui.windows.widgets.menu_widget import MenuWidget, MenuEntry
 
-    container = Container('lorem', 'ipsum dolor sit amet', 12, 30, "center", "center")
-    container.widget = MenuWidget(container,
-                                  [
-                                      MenuEntry(f"test{i}", f"test{i}", f"test{i}\n{str(i)*10}", None) for i in range(100)
-                                  ])
-    result = container.loop()
-
-    # raise Exception(result)
-    container.widget.erase()
-    container.widget.addstr(0, 0, f"selected: {result}\n\npress any key to exit")
-    container.widget.refresh()
-    container.getch()
 
 
 if __name__ == '__main__':
