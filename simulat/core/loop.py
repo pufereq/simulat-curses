@@ -7,7 +7,11 @@ from simulat.core.init import game_map
 
 
 def game_loop():
-    from simulat.core.init import game_map
+    """The main loop handler.
+
+    NOTE: This function is only the handler of the main loop. The actual
+    loop is in `_loop()`.
+    """
     from simulat.core.init import stdscr
 
     FPS: int = 20  # frames per second
@@ -33,5 +37,10 @@ def game_loop():
 
 
 def _loop(keypress: int):
+    """The main loop.
+
+    Args:
+        keypress (int): The keypress to handle.
+    """
     game_map._input(keypress)
     game_map._refresh_map()
