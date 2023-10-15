@@ -1,21 +1,33 @@
 #!/usr/bin/env python3
 
 import curses as cs
+import time
+
+from simulat.core.init import game_map
 
 
 def game_loop():
     from simulat.core.init import game_map
     from simulat.core.init import stdscr
 
-    cs.halfdelay(1)
+    FPS: int = 20  # frames per second
+    FRAME_TIME: float = 1 / FPS
+
+    stdscr.timeout(int(FRAME_TIME * 1000))
+
+    last_frame_time = time.time()
 
     while True:
-        # get keypress
+        current_time = time.time()
         keypress = stdscr.getch()
 
         if keypress == cs.KEY_RESIZE:
             cs.update_lines_cols()
             game_map._resize()
 
-        game_map._input(keypress)
-        game_map._refresh_map()
+        if current_time - last_frame_time >= FRAME_TIME:
+            game_map._input(keypress)
+            game_map._refresh_map()
+
+            last_frame_time = current_time
+        pass
