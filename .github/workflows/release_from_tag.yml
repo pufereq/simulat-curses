@@ -1,0 +1,36 @@
+name: Bump version
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - '**'
+        
+
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+jobs:
+  create_version:
+    runs-on: ubuntu-latest
+    name: Create version from tag
+    steps:
+      - name: GH_TOKEN
+        if: env.GH_TOKEN == ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "GH_TOKEN=${GITHUB_TOKEN}" >> $GITHUB_ENV
+      - name: 🔀 checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: "${{ env.GH_TOKEN }}"
+      - name: 🔖 release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: "${{ env.REVISION }}"
+          draft: true
+        env:
+          GITHUB_TOKEN: "${{ env.GH_TOKEN }}"
+      - name: ✅ done
+        run: echo "Release created"
