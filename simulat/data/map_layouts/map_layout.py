@@ -2,6 +2,8 @@
 
 from typing import Final
 
+from simulat.core.ui.windows.window_management.container import container_test
+
 TITLE: Final = "MAP"
 
 MAP_LAYOUT: Final = [
@@ -31,4 +33,5 @@ def example_action():
 
 INTERACTIONS: Final = {
     (2, 1): example_action,
+    (5, 5): container_test,
 }
