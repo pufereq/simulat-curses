@@ -1,0 +1,65 @@
+name: Bump version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        description: 'new version'
+        required: true
+
+
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
+
+jobs:
+  create_version:
+    runs-on: ubuntu-latest
+    name: Create version from tag
+    steps:
+      - name: GH_TOKEN
+        if: env.GH_TOKEN == ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "GH_TOKEN=${GITHUB_TOKEN}" >> $GITHUB_ENV
+      - name: 🔀 checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: "${{ env.GH_TOKEN }}"
+      - name: 🐍 python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+          cache: pip
+      - name: node
+        uses: actions/setup-node@v2
+        continue-on-error: true
+        with:
+          node-version: 16
+          cache: npm
+      - name: 📦 install commitizen and release-it
+        run: |
+          pip install commitizen --break-system-packages
+          npm install -g release-it
+      - name: configure git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+      - name: 📝 bump version
+        run: |
+          cz changelog --incremental --file-name body.md --unreleased ${{ github.event.inputs.version }}
+          release-it ${{ github.event.inputs.version }}
+      - name: create release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        with:
+          name: simulat ${{ github.event.inputs.version }}
+          tag_name: ${{ github.event.inputs.version }}
+          body_path: body.md
+          draft: true
+      - name: ✅ done
+        run: |
+          rm body.md
+          echo "Release created"
