@@ -1,3 +1,54 @@
+## 0.5.0-alpha.1 (2023-10-22)
+
+### Feat
+
+- **menu_widget.py**: make `self.MENU_SIZE` dependent on widget's size
+- **container.py**: add `description` field to `Container` class constructor
+- **menu_widget.py**: add `_display_info` method
+- **menu_widget.py**: add vim keybindings (`j` (down) & `k` (up)) to `_input`
+- **menu_widget.py**: add ability to change selection using `PageUp` and `PageDown`
+- **main.py**: modify `test()` to now use `MenuWidget` instead of `DebugWidget`
+- **menu_widget.py**: add a `MenuWidget` class.
+- **container.py**: add a `loop` method
+- **container.py**: add `move_relative` method
+- **container.py**: add `move` method with centering functionality
+- **container.py**: modify name of `draw_widget` to `refresh_all`
+- **widget.py**: add `WidgetLoopEnd` Exception class
+- **widget.py**: add `_wrap_str_to_width` method
+- **window.py**: add `mvwin` method
+- **window.py**: add `erase` method
+- **window.py**: add call to `update_size` in `refresh`
+- **window.py**: add `update_size` method
+- **window.py**: add `self.beg_y` and `self.beg_x` variables
+- **window.py**: add call to `self.keypad(True)` in `_common_init()`
+- **map_layout.py**: add call to `main.test()`(the example container) from the `GameMap`
+- **container.py**: add centering of the container relative to `content_win`
+- **main.py**: move example container to its own function
+- **main.py**: add a 'container' button for debugging purposes
+- **debug_widget.py**: add a `DebugWidget` for debugging of `Container` and `Widget` classes
+- **widget.py**: add `Widget` class
+- **container.py**: add `Container` class
+- **window.py**: modify title alignment (center > left)
+- **window.py**: add `set_title()` method
+
+### Fix
+
+- **container.py**: fix error when calling `move` method of `Container` class
+- **menu_widget.py**: fix TypeError when `None` provided as `info` argument in `MenuEntry`
+- **menu_widget.py**: fix TypeError when `None` provided as `description`
+- **container.py**: fix visual glitch when moving the container
+- **menu_widget.py**: fix selection bugging out when `self.items` is smaller than `self.MENU_SIZE`
+- **window.py**: fix wrong `beg_y` and `beg_x` being set when `update_size()` called
+- **container.py**: fix info details appearing only for 0.1 seconds while `GameMap` loaded
+- **main.py**: fix typo in import in `test()`
+- fix double init of curses
+- **window.py**: fix error when `set_title()` calls `window.refresh()` if it's a pad
+- **window.py**: fix error when using `addstr()` with `-1` as `y` or `x`
+
+### Refactor
+
+- **main.py**: modify `main_menu` to use `Container` and `MenuWidget` instead of old `Menu` class
+
 ## 0.4.0 (2023-09-06)
 
 ### Feat
