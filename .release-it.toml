@@ -1,0 +1,8 @@
+[hooks]
+"before:init" = ["git pull origin main"]
+"after:bump" = ["cz changelog --incremental --unreleased ${version}"]
+
+[git]
+requireBranch = "main"
+commitMessage = "chore(release): ${version}"
+changelog = "cz changelog --dry-run --start-rev ${latestTag}"
