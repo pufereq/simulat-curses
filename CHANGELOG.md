@@ -1,3 +1,120 @@
+## 0.5.0-alpha.1 (2023-10-22)
+
+### Feat
+
+- **menu_widget.py**: make `self.MENU_SIZE` dependent on widget's size
+- **container.py**: add `description` field to `Container` class constructor
+- **menu_widget.py**: add `_display_info` method
+- **menu_widget.py**: add vim keybindings (`j` (down) & `k` (up)) to `_input`
+- **menu_widget.py**: add ability to change selection using `PageUp` and `PageDown`
+- **main.py**: modify `test()` to now use `MenuWidget` instead of `DebugWidget`
+- **menu_widget.py**: add a `MenuWidget` class.
+- **container.py**: add a `loop` method
+- **container.py**: add `move_relative` method
+- **container.py**: add `move` method with centering functionality
+- **container.py**: modify name of `draw_widget` to `refresh_all`
+- **widget.py**: add `WidgetLoopEnd` Exception class
+- **widget.py**: add `_wrap_str_to_width` method
+- **window.py**: add `mvwin` method
+- **window.py**: add `erase` method
+- **window.py**: add call to `update_size` in `refresh`
+- **window.py**: add `update_size` method
+- **window.py**: add `self.beg_y` and `self.beg_x` variables
+- **window.py**: add call to `self.keypad(True)` in `_common_init()`
+- **map_layout.py**: add call to `main.test()`(the example container) from the `GameMap`
+- **container.py**: add centering of the container relative to `content_win`
+- **main.py**: move example container to its own function
+- **main.py**: add a 'container' button for debugging purposes
+- **debug_widget.py**: add a `DebugWidget` for debugging of `Container` and `Widget` classes
+- **widget.py**: add `Widget` class
+- **container.py**: add `Container` class
+- **window.py**: modify title alignment (center > left)
+- **window.py**: add `set_title()` method
+
+### Fix
+
+- **container.py**: fix error when calling `move` method of `Container` class
+- **menu_widget.py**: fix TypeError when `None` provided as `info` argument in `MenuEntry`
+- **menu_widget.py**: fix TypeError when `None` provided as `description`
+- **container.py**: fix visual glitch when moving the container
+- **menu_widget.py**: fix selection bugging out when `self.items` is smaller than `self.MENU_SIZE`
+- **window.py**: fix wrong `beg_y` and `beg_x` being set when `update_size()` called
+- **container.py**: fix info details appearing only for 0.1 seconds while `GameMap` loaded
+- **main.py**: fix typo in import in `test()`
+- fix double init of curses
+- **window.py**: fix error when `set_title()` calls `window.refresh()` if it's a pad
+- **window.py**: fix error when using `addstr()` with `-1` as `y` or `x`
+
+### Refactor
+
+- **main.py**: modify `main_menu` to use `Container` and `MenuWidget` instead of old `Menu` class
+
+## 0.4.0 (2023-09-06)
+
+### Feat
+
+- **game_map.py**: add camera controls
+- **game_map.py**: modify `GameMap()` class to use cell classes
+- add cell classes
+- **game_map.py**: replace `INTERACTIONS` with `self.interactions` in `_interact()` to avoid possible conflict
+- **map_layout.py**: add some doors to the map for showcase
+- **map_layout.py**: add functionality to `example_action()`
+- **game_map.py**: modify behavior of interacting with interactions to be more intuitive
+- **init.py**: change floor color to be more realistic
+- **init.py**: add colors for door characters
+- **game_map.py**: add door character `"d"` and `"D"` which use `Door()` class
+- **door.py**: add `Door()` class
+- **map_layout.py**: add floor to building
+- **game_map.py**: modify texture of floor to add knots and cracks
+- **game_map.py**: modify `self.grass_chars` for more realism
+- **game_map.py**: add coordinates to `topbar.details_win`
+- **init.py**: modify color of `GRASS_PAIR`
+- **game_map.py**: modify not specified cells to be grass in _map_init()
+- **game_map.py**: improve grass rendering
+- **game_map.py**: utilize color; add floor, grass char
+- **init.py**: add color support
+- **game_map.py**: modify _move_player() to restore the original character before moving the player
+- **game_map.py**: change _draw_map() to set attribute of interactive chars to cs.A_REVERSE
+- **game_map.py**: change interaction behavior
+- **loop.py**: add game_map._refresh_map() call
+- **loop.py**: add terminal resize handling
+- **game_map.py**: add _resize method
+- **loop.py**: handle keypresses directly from loop and use new arguments in call to game_map._input()
+- **game_map.py**: add _refresh_map() method for future use
+- **game_map.py**: make _input() accept key presses as argument to work with game_loop()
+- **game_map.py**: limit camera to not exceed positive map limit
+- **main.py**: modify main_menu() to call game map
+- **init.py**: add init_game_map()
+- **loop.py**: add game loop
+- **map_layout.py**: add map layout
+- **game_map.py**: add open world
+- **pad.py**: add curses pad support
+- **window.py**: add *args and **kwargs for future pad management
+- **window.py**: remove refresh() calls from border() and addstr() for more classic behavior
+
+### Fix
+
+- **init.py**: fix AttributeError when calling content_win.panel
+- **game_map.py**: fix player moving when camera move called
+- **game_map.py**: fix door glitching when interacted while door's position = player's position
+- **door.py**: fix `__repr__()` not returning a string
+- **game_map.py**: fix pad restricting map by being too small
+- **game_map.py**: fix typo in calculation of `self.max_displayed_pad_size` in `_resize()` method
+- **game_map.py**: adjust `pad_view_left` and `pad_view_top` calculations
+- **game_map.py**: fix title not being displayed properly on topbar
+- **game_map.py**: fix pad not spanning whole terminal
+- **game_map.py**: fix player leaving behind a black box when moving first time
+- **game_map.py**: fix player not appearing when map loaded
+- **game_map.py**: fix error when going out of negative bounds
+- **game_map.py**: fix screen flicker when moving
+- **menu.py**: fix menu disappearing when content_win.panel's window replaced
+
+### Refactor
+
+- refactor curses initialization
+- **game_map.py**: change variable name
+- **game_map.py**: remove unnecessary additions in self.pad_size
+
 ## 0.3.0 (2023-07-31)
 
 ### Feat
