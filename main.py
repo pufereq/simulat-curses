@@ -20,6 +20,7 @@ def main(stdscr):
 def main_menu(stdscr):
     from simulat.core.ui.windows.topbar import topbar
     from simulat.core.ui.windows.window_management.container import container_test
+    from simulat.core.ui.windows.widgets.text_input_widget import test_textinputwidget
 
 
     topbar.title_win.addstr(0, -1, "main menu")
@@ -31,6 +32,7 @@ def main_menu(stdscr):
                                  MenuEntry("exit", "exit", "the most useful button", sys.exit),
                                  MenuEntry("board", "DEBUG: Example Board", None, None),
                                  MenuEntry("container", "DEBUG: Example Container", None, None),
+                                 MenuEntry("text_input", "DEBUG: Text Input Widget", None, None)
                              ]
                              )
 
@@ -44,6 +46,11 @@ def main_menu(stdscr):
     elif result == 'board':
         from simulat.core.init import init_game_map
         init_game_map()
+
+    elif result == 'text_input':
+        menu.erase()
+        menu.refresh()
+        test_textinputwidget()
 
 
 
