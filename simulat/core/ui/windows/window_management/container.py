@@ -43,6 +43,8 @@ class Container(Window):
             Any: The result of the widget's loop.
         """
 
+        result = None  # default
+
         while True:
             key = self.getch()
 
@@ -51,7 +53,8 @@ class Container(Window):
 
             try:
                 self.widget._input(key)
-            except WidgetLoopEnd:
+            except WidgetLoopEnd as e:
+                result = e.args[0]
                 break
 
             if key == ord('d'):
@@ -61,7 +64,7 @@ class Container(Window):
             elif key == ord('q'):
                 break
 
-        return self.widget.result
+        return result
 
     def update_title(self, title: str):
         """Updates the title of the window.
