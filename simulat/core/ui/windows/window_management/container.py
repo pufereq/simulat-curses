@@ -57,9 +57,7 @@ class Container(Window):
                 result = e.args[0]
                 break
 
-            if key == ord('d'):
-                self.move_relative(1, 1)
-            elif key == cs.KEY_RESIZE:
+            if key == cs.KEY_RESIZE:
                 self.move("center", "center")
             elif key == ord('q'):
                 break
