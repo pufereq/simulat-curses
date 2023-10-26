@@ -1,6 +1,6 @@
 [hooks]
 "before:init" = ["git pull origin main"]
-"after:bump" = ["cz changelog --incremental --unreleased ${version}"]
+"after:bump" = ["cz changelog --dry-run --start-rev ${latestTag} --unreleased ${version} | cat - CHANGELOG.md | tee ch_body.md && mv ch_body.md CHANGELOG.md"]
 
 [git]
 requireBranch = "main"
