@@ -1,3 +1,13 @@
+## 0.5.0-alpha.2 (2023-10-26)
+
+### Feat
+
+- **text_input_widget.py**: add `TextInputWidget` class
+
+### Fix
+
+- **container.py**: fix `loop()` not using result included in `WidgetEndLoop` exception
+
 ## 0.5.0-alpha.1 (2023-10-22)
 
 ### Feat
