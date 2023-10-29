@@ -1,8 +1,7 @@
 [hooks]
 "before:init" = ["git pull origin main"]
-"after:bump" = ["cz changelog --dry-run --start-rev ${latestTag} --unreleased ${version} | cat - CHANGELOG.md | tee ch_body.md && mv ch_body.md CHANGELOG.md"]
+"after:bump" = ["git-cliff -o CHANGELOG.md -t ${version}", "git add CHANGELOG.md"]
 
 [git]
 requireBranch = "main"
 commitMessage = "chore(release): ${version}"
-changelog = "cz changelog --dry-run --start-rev ${latestTag}"
