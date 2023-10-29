@@ -85,7 +85,7 @@ class MenuWidget(Widget):
             else:
                 self.addstr(i + self.MENU_OFFSET, 1, text, attr)
 
-        info_text = self.selected_entry.info
+        info_text = ("locked: " if self.selected_entry.locked else "") + self.selected_entry.info
         info_text = self._wrap_str_to_width(info_text).split("\n")[0]
 
         if len(info_text.split("\n")[0]) > self.max_x - 4:
