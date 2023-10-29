@@ -163,6 +163,10 @@ class MenuWidget(Widget):
             self._display_info()
 
         elif key == cs.KEY_ENTER or key == ord('\n'):
+            # cancel if locked
+            if self.items[self.selected].locked:
+                return
+
             if self.items[self.selected].target is not None:
                 self.items[self.selected].target()
                 raise WidgetLoopEnd(None)
