@@ -19,7 +19,10 @@ class Widget(DerWindow):
         Args:
             parent (Container): The parent container window.
         """
-        super().__init__(parent.window, parent.max_y - 4, parent.max_x - 2, 3, 1, make_panel=False)
+        if parent.description:
+            super().__init__(parent.window, parent.max_y - 4, parent.max_x - 2, 3, 1, make_panel=False)
+        else:
+            super().__init__(parent.window, parent.max_y - 2, parent.max_x - 2, 1, 1, make_panel=False)
 
         self.result = None
 

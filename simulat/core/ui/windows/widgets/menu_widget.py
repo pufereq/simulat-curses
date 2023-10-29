@@ -6,16 +6,10 @@ from .widget import Widget, WidgetLoopEnd
 
 
 class MenuEntry():
-    """A menu entry for the MenuWidget.
-
-    Args:
-        name (str): The name of the entry.
-        label (str): The label of the entry.
-        info (str | None): The info of the entry.
-        target (callable, optional): The target of the entry. Defaults to None.
-        locked (bool, optional): Whether the entry is locked. Defaults to False.
-    """
-    def __init__(self, name: str, label: str, info: str | None, target: callable = None, /, locked: bool = False):
+    """A menu entry for the MenuWidget."""
+    def __init__(self, name: str, label: str, info: str | None,
+                 target: callable = None, /,
+                 locked: bool = False, locked_msg: str | None = None):
         """A menu entry for the MenuWidget.
 
         Args:
@@ -24,12 +18,15 @@ class MenuEntry():
             info (str | None): The info of the entry.
             target (callable, optional): The target of the entry. Defaults to None.
             locked (bool, optional): Whether the entry is locked. Defaults to False.
+            locked_msg (str | None, optional): The message to display
+            when the entry is locked. Defaults to None.
         """
         self.name = name
         self.label = label
         self.info = info if info else "No info provided."
         self.target = target
         self.locked = locked
+        self.locked_msg = locked_msg
 
     def __repr__(self):
         return f"<MenuEntry name={self.name} label={self.label} info={self.info} target={self.target}>"
@@ -85,7 +82,7 @@ class MenuWidget(Widget):
             else:
                 self.addstr(i + self.MENU_OFFSET, 1, text, attr)
 
-        info_text = self.selected_entry.info
+        info_text = ("locked: " if self.selected_entry.locked else "") + self.selected_entry.info
         info_text = self._wrap_str_to_width(info_text).split("\n")[0]
 
         if len(info_text.split("\n")[0]) > self.max_x - 4:
@@ -163,6 +160,30 @@ class MenuWidget(Widget):
             self._display_info()
 
         elif key == cs.KEY_ENTER or key == ord('\n'):
+            # show locked message if locked
+            if self.items[self.selected].locked:
+                from ..window_management.container import Container
+                import math
+
+                locked_msg = self.items[self.selected].locked_msg
+                locked_msg = f"This entry is locked. Reason:\n{locked_msg if locked_msg else 'no reason provided'}"
+                MAX_WIDTH = 32
+
+                # create container
+                lock_msg_container = Container("entry locked", None, math.ceil(len(locked_msg) / MAX_WIDTH) + 4, MAX_WIDTH + 1, "center", "center")
+                lock_msg_container.widget = Widget(lock_msg_container)
+
+                # add locked message
+                lock_msg_container.widget.addstr(0, 0, locked_msg, cs.A_BOLD)
+
+                # add tip text
+                lock_msg_container.widget.addstr(lock_msg_container.widget.max_y - 1, -1, "press `q` to return", cs.A_DIM | cs.A_ITALIC)
+
+                lock_msg_container.widget.refresh()
+                lock_msg_container.loop()
+
+                return
+
             if self.items[self.selected].target is not None:
                 self.items[self.selected].target()
                 raise WidgetLoopEnd(None)

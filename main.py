@@ -28,7 +28,7 @@ def main_menu(stdscr):
     menu = Container('main menu', 'welcome to simulat!', 12, 36, "center", "center")
     menu.widget = MenuWidget(menu,
                              [
-                                 MenuEntry("new_game", "new game", "create a new game (not implemented yet)", None),
+                                 MenuEntry("new_game", "new game", "create a new game (not implemented yet)", None, locked=True, locked_msg="not implemented"),
                                  MenuEntry("exit", "exit", "the most useful button", sys.exit),
                                  MenuEntry("board", "DEBUG: Example Board", None, None),
                                  MenuEntry("container", "DEBUG: Example Container", None, None),
