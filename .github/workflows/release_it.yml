@@ -38,9 +38,9 @@ jobs:
         with:
           node-version: 16
           cache: npm
-      - name: 📦 install commitizen and release-it
+      - name: 📦 install required utilities
         run: |
-          pip install commitizen --break-system-packages
+          pip install git-cliff --break-system-packages
           npm install -g release-it
       - name: configure git
         run: |
@@ -48,7 +48,7 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
       - name: 📝 bump version
         run: |
-          cz changelog --file-name body.md --start-rev $(git describe --tags --abbrev=0) --unreleased ${{ github.event.inputs.version }}
+          git-cliff -s header -t ${{ github.event.inputs.version }} -u -o body.md
           release-it ${{ github.event.inputs.version }}
       - name: create release
         uses: softprops/action-gh-release@v1
