@@ -29,8 +29,8 @@ class Container(Window):
 
         super().__init__(nlines, ncols, y, x, make_panel=True)
 
-        self.title = title
-        self.description = description if description else ""
+        self.title = str(title) if title else ""
+        self.description = str(description) if description else ""
         self.widget = None
 
         self.update_title(self.title)
