@@ -189,7 +189,7 @@ class MenuWidget(Widget):
             self.selected_entry = self.items[self.selected]
 
         elif key == ord('i'):
-            self._display_info()
+            self._display_notification(self.selected_entry.info)
 
         # toggle entry
         elif key in [ord(' '), cs.KEY_ENTER, ord('\n')]:
