@@ -92,23 +92,33 @@ class MenuWidget(Widget):
         self.addstr(self.max_y - 1, 1, "press `i` for more info", cs.A_DIM | cs.A_ITALIC)
 
     def _display_info(self):
-        """Displays the info of the selected entry."""
-        info_text = self.selected_entry.info
-        info_text = self._wrap_str_to_width(info_text)
-        info_text_split = info_text.strip().split("\n")
+        """Displays the info of the selected entry.
 
+        Obsolete by `_display_notification()` but kept for reference.
+        """
+        self._display_notification(self.selected_entry.info)
+
+    def _display_notification(self, text: str):
+        """Displays a notification.
+
+        Args:
+            text (str): The text to display.
+        """
         self.erase()
 
         self.addstr(0, 1, f"{self.selected_entry.label:^{self.max_x - 2}}", cs.A_BOLD)
+        text = self._wrap_str_to_width(text)
+        text_split = text.strip().split("\n")
 
-        for idx, line in enumerate(info_text_split):
-            info_text_formatted = line, cs.A_DIM
+        for idx, line in enumerate(text_split):
+            text_formatted = line, cs.A_DIM
 
-            self.addstr(idx + 1, 1, *info_text_formatted)
+            self.addstr(idx + 1, 1, *text_formatted)
 
         self.addstr(self.max_y - 1, 1, "press any key to return", cs.A_DIM | cs.A_ITALIC)
 
         self.getch()
+        self.display()
         self.refresh()
 
     def _input(self, key: int):
