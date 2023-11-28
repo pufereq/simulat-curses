@@ -23,6 +23,7 @@ class MenuEntry():
         """
         self.name = name
         self.label = label
+        self.formatted_label = label
         self.info = info if info else "No info provided."
         self.target = target
         self.locked = locked
@@ -30,6 +31,23 @@ class MenuEntry():
 
     def __repr__(self):
         return f"<MenuEntry name={self.name} label={self.label} info={self.info} target={self.target}>"
+
+
+class ToggleEntry(MenuEntry):
+    """A toggle entry for the MenuWidget."""
+    def __init__(self, name: str, label: str, info: str | None, *, default_value: bool, locked: bool = False, locked_msg: str | None = None):
+        super().__init__(name, label, info, None, locked, locked_msg)
+
+        self.value = default_value
+        self.update_label()
+
+    def update_label(self):
+        """Updates the label of the entry."""
+        self.formatted_label = f"{self.label} [{'x' if self.value else ' '}]"
+
+    def toggle(self):
+        """Toggles the value of the entry."""
+        self.value = not self.value
 
 
 class MenuWidget(Widget):
@@ -71,7 +89,7 @@ class MenuWidget(Widget):
         self.MENU_OFFSET = self.MENU_SIZE // 2 - len(displayed_items) // 2
 
         for i, item in enumerate(displayed_items):
-            text = f"<{item.label:^{self.max_x - 4}}>"
+            text = f"<{item.formatted_label:^{self.max_x - 4}}>"
             if item.locked:
                 attr = cs.A_DIM
             else:
@@ -121,6 +139,10 @@ class MenuWidget(Widget):
         self.display()
         self.refresh()
 
+    def _show_locked_msg(self, entry: MenuEntry | ToggleEntry):
+        """Checks if the selected entry is locked and displays a message if it is."""
+        self._display_notification(f"this entry is locked. reason:\n{entry.locked_msg if entry.locked_msg else 'no reason provided'}")
+
     def _input(self, key: int):
         """Handles the input of the widget.
 
@@ -169,37 +191,33 @@ class MenuWidget(Widget):
         elif key == ord('i'):
             self._display_info()
 
-        elif key == cs.KEY_ENTER or key == ord('\n'):
+        # toggle entry
+        elif key in [ord(' '), cs.KEY_ENTER, ord('\n')]:
             # show locked message if locked
             if self.items[self.selected].locked:
-                from ..window_management.container import Container
-                import math
-
-                locked_msg = self.items[self.selected].locked_msg
-                locked_msg = f"This entry is locked. Reason:\n{locked_msg if locked_msg else 'no reason provided'}"
-                MAX_WIDTH = 32
-
-                # create container
-                lock_msg_container = Container("entry locked", None, math.ceil(len(locked_msg) / MAX_WIDTH) + 4, MAX_WIDTH + 1, "center", "center")
-                lock_msg_container.widget = Widget(lock_msg_container)
-
-                # add locked message
-                lock_msg_container.widget.addstr(0, 0, locked_msg, cs.A_BOLD)
-
-                # add tip text
-                lock_msg_container.widget.addstr(lock_msg_container.widget.max_y - 1, -1, "press `q` to return", cs.A_DIM | cs.A_ITALIC)
-
-                lock_msg_container.widget.refresh()
-                lock_msg_container.loop()
-
+                self._show_locked_msg(self.items[self.selected])
                 return
 
-            if self.items[self.selected].target is not None:
-                self.items[self.selected].target()
-                raise WidgetLoopEnd(None)
-            else:
-                self.result = self.items[self.selected].name
-                raise WidgetLoopEnd(self.items[self.selected].name)
+            if key == ord(' '):
+                if isinstance(self.items[self.selected], ToggleEntry):
+                    self.items[self.selected].toggle()
+                    self.items[self.selected].update_label()
+                    self.display()
+                    self.refresh()
+                    return
+                else:
+                    self._display_notification("this entry is not toggleable. to select instead, press `ENTER`")
+
+            elif key in [cs.KEY_ENTER, ord('\n')]:
+                if isinstance(self.items[self.selected], ToggleEntry):
+                    self._display_notification("this entry is not selectable. to toggle instead, press `SPACE`")
+                else:  # prevent selecting toggle entries
+                    if self.items[self.selected].target is not None:
+                        self.items[self.selected].target()
+                        raise WidgetLoopEnd(None)
+                    else:
+                        self.result = self.items[self.selected].name
+                        raise WidgetLoopEnd(self.items[self.selected].name)
 
         self.display()
         self.refresh()
