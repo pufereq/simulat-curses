@@ -107,7 +107,7 @@ class MenuWidget(Widget):
             info_text = info_text[:-1] + "…"
 
         self.addstr(self.max_y - 2, 1, info_text, cs.A_DIM)
-        self.addstr(self.max_y - 1, 1, "press `i` for more info", cs.A_DIM | cs.A_ITALIC)
+        self.addstr(self.max_y - 1, 1, "press `?` for help", cs.A_DIM | cs.A_ITALIC)
 
     def _display_info(self):
         """Displays the info of the selected entry.
@@ -190,6 +190,44 @@ class MenuWidget(Widget):
 
         elif key == ord('i'):
             self._display_notification(self.selected_entry.info)
+
+        # display help
+        elif key == ord('?'):
+            from ..window_management.container import Container
+
+            help_text = [
+                ["`UP`", "focus the previous entry"],
+                ["`DOWN`", "focus the next entry"],
+                ["`PAGE UP`", "scroll half screen up"],
+                ["`PAGE DOWN`", "scroll half screen down"],
+                ["`ENTER`", "select the current entry"],
+                ["`SPACE`", "toggle the current entry"],
+                ["`q`", "return to the previous menu"],
+                ["`?`", "display this help message"],
+            ]
+
+            MAX_WIDTH = 40
+
+            # create container
+            help_container = Container(None, None, len(help_text) + 3, MAX_WIDTH, "center", "center")
+            help_container.widget = Widget(help_container)
+
+            # add help text
+            for idx, line in enumerate(help_text):
+                help_container.widget.addstr(idx, 0, f"{'.' * (MAX_WIDTH - 3)}", cs.A_DIM)
+                help_container.widget.addstr(idx, 0, f"{line[0]}", cs.A_BOLD)
+                help_container.widget.addstr(idx, -3, f"{line[1]}", cs.A_ITALIC)
+
+            # add tip text
+            help_container.widget.addstr(help_container.widget.max_y - 1, -1, "press `q` to return", cs.A_DIM | cs.A_ITALIC)
+
+            help_container.widget.refresh()
+            help_container.loop()
+            help_container.widget.erase()
+            help_container.erase()
+            help_container.refresh_all()
+
+            return
 
         # toggle entry
         elif key in [ord(' '), cs.KEY_ENTER, ord('\n')]:
