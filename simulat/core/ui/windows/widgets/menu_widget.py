@@ -160,6 +160,7 @@ class MenuWidget(Widget):
             `enter`: Select the current entry.
             `i`: Display the info of the current entry.
         """
+        # one entry up
         if key in [cs.KEY_UP, ord('k')]:
             self.selected = max(self.selected - 1, -1)
             if self.selected == -1:
@@ -167,6 +168,7 @@ class MenuWidget(Widget):
 
             self.selected_entry = self.items[self.selected]
 
+        # one entry down
         elif key in [cs.KEY_DOWN, ord('j')]:
             self.selected = min(self.selected + 1, len(self.items) - 0)
             if self.selected == len(self.items):
@@ -174,6 +176,7 @@ class MenuWidget(Widget):
 
             self.selected_entry = self.items[self.selected]
 
+        # half page up
         elif key == cs.KEY_NPAGE:
             self.selected = min(self.selected + (self.MENU_SIZE // 2), len(self.items) - 0)
             if self.selected == len(self.items):
@@ -181,6 +184,7 @@ class MenuWidget(Widget):
 
             self.selected_entry = self.items[self.selected]
 
+        # half page down
         elif key == cs.KEY_PPAGE:
             self.selected = max(self.selected - (self.MENU_SIZE // 2), -1)
             if self.selected == -1:
@@ -188,6 +192,7 @@ class MenuWidget(Widget):
 
             self.selected_entry = self.items[self.selected]
 
+        # display info
         elif key == ord('i'):
             self._display_notification(self.selected_entry.info)
 
