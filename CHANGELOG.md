@@ -2,6 +2,50 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.5.0] - 2023-12-03
+
+### Bug Fixes
+
+- [`71028ab`](https://github.com/pufereq/simulat/commit/71028abc86764b79b70e6a80366e193e7c0850f8) **container.py**: fix error when `title` or `description` is not of type `str`
+
+### Documentation
+
+- [`7571ed7`](https://github.com/pufereq/simulat/commit/7571ed7f642991685ab845e4818a473324f8aff3) **CHANGELOG.md**: modify changelog to make commit messages lowercase
+
+### Features
+
+- [`1d24a89`](https://github.com/pufereq/simulat/commit/1d24a89c7a568e662d2d67fb5057acdb6d7b7ab5) **menu_widget.py**: add `get_toggle_entries` method to `MenuWidget`
+- [`de8fc1f`](https://github.com/pufereq/simulat/commit/de8fc1f1ecc654a957c3b1a636c250e618350fa8) **meni_widget.py**: add help screen triggered by `?` key
+- [`64f9760`](https://github.com/pufereq/simulat/commit/64f976052a5f4f66b199ce92faa6c26c1cafa8e2) **menu_widget.py**: add toggleable entries (`ToggleEntry`)
+- [`7a4c318`](https://github.com/pufereq/simulat/commit/7a4c3182672df2c5760ebd8ed18b94776e146734) **menu_widget.py**: add `_display_notification` method
+
+### Miscellaneous Tasks
+
+- [`a75ae4d`](https://github.com/pufereq/simulat/commit/a75ae4d39a6d16479c6fc7f42ea29abae452de42) **menu_widget_tests.py**: add test for `[MenuWidget].get_toggle_entries()` method
+- [`3544515`](https://github.com/pufereq/simulat/commit/35445150c4fea0b25930fe3982588a6759fd44df) **menu_widget.py**: set default_value of `ToggleEntry` as bool
+- [`de82f6d`](https://github.com/pufereq/simulat/commit/de82f6da6a620f80457fa9e10915af4387327d26) **menu_widget.py**: add title to help menu
+- [`5877b1c`](https://github.com/pufereq/simulat/commit/5877b1c2b3c8df053c410ba9edbf49b630ff7f3c) **menu_widget.py**: add `i` hotkey to help menu
+- [`ebd53ab`](https://github.com/pufereq/simulat/commit/ebd53abfa90ca75e99c6234099f41916c7eb7a37) **main.py**: add menu entries for menu widget tests
+- [`456899d`](https://github.com/pufereq/simulat/commit/456899d0175c3dadae7b8bf07193036d8b35263a) **menu_widget.py**: replace obsolete call to `_display_info` with `_display_notification`
+- [`da32268`](https://github.com/pufereq/simulat/commit/da3226852135672fe9a840ab8aa8bc545a661927) **cliff.toml**: modify template to make all letters of commit message lowercase
+
+### Refactor
+
+- [`d9208c9`](https://github.com/pufereq/simulat/commit/d9208c9e3f99bf5c7c8fa1ec5218f1df1ecb005d) **menu_widget.py**: split `_input()` method into smaller methods
+- [`214af10`](https://github.com/pufereq/simulat/commit/214af109aaeec218eb3d6ed5a643e2199f6ef1a9) **menu_widget.py**: improve help menu formatting
+
+### Styling
+
+- [`9e6decb`](https://github.com/pufereq/simulat/commit/9e6decb0e9956459c0c3a76918a6a9b79d01b549) **menu_widget.py**: add comments describing keybindings for better readability
+
+### Testing
+
+- [`20a6c84`](https://github.com/pufereq/simulat/commit/20a6c84b4bc291dbacd012c6326da3d2734c84c7) **menu_widget_tests.py**: add tests for menu widget
+
+### Build
+
+- [`da90e90`](https://github.com/pufereq/simulat/commit/da90e90f60397dc359e68e9e10bf2e3978898c87) remove `.pre-commit-config.yaml`
+
 ## [0.5.0-alpha.3] - 2023-10-29
 
 ### Documentation
@@ -14,7 +58,6 @@ All notable changes to this project will be documented in this file.
 
 ### Miscellaneous Tasks
 
-- [`da32268`](https://github.com/pufereq/simulat/commit/da3226852135672fe9a840ab8aa8bc545a661927) **cliff.toml**: modify template to make all letters of commit message lowercase
 - [`5319d98`](https://github.com/pufereq/simulat/commit/5319d98d480c9d2576d8e9d423254fc0259dec27) **release**: 0.5.0-alpha.3
 - [`06ad077`](https://github.com/pufereq/simulat/commit/06ad077bc4385cae5e082948b668e16dfa8a9ec3) **release_it.yml**: update release_it workflow to use git-cliff
 - [`167fe61`](https://github.com/pufereq/simulat/commit/167fe612aa6d956c9e812cd05f78ea066e5c9200) **.release-it.toml**: modify calls to now point to git-cliff
