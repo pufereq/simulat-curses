@@ -155,6 +155,93 @@ class MenuWidget(Widget):
         """Checks if the selected entry is locked and displays a message if it is."""
         self._display_notification(f"this entry is locked. reason:\n{entry.locked_msg if entry.locked_msg else 'no reason provided'}")
 
+    def _display_help(self):
+        """Displays the help message."""
+        from ..window_management.container import Container
+
+        help_text = {
+            "Navigation": [
+                ["`UP`", "focus the previous entry"],
+                ["`DOWN`", "focus the next entry"],
+                ["`PAGE UP`", "scroll half screen up"],
+                ["`PAGE DOWN`", "scroll half screen down"],
+            ],
+            "Interaction": [
+                ["`ENTER`", "select the current entry"],
+                ["`SPACE`", "toggle the current entry"],
+                ["`i`", "display info of current entry"],
+            ],
+            "Miscellaneous": [
+                ["`q`", "return to the previous menu"],
+                ["`?`", "display this help message"],
+            ],
+        }
+
+        MAX_WIDTH = 40
+
+        # create container
+        help_container = Container("MenuWidget help", None, 18, MAX_WIDTH, "center", "center")
+        help_container.widget = Widget(help_container)
+
+        # add help text
+        line = 0
+        for idx, (category, contents) in enumerate(help_text.items()):
+            help_container.widget.addstr(line, -1, f"{category: ^{MAX_WIDTH - 10}}", cs.A_BOLD | cs.A_UNDERLINE)
+            line += 1
+            for _idx, help_line in enumerate(contents):
+                help_container.widget.addstr(line, 0, '.' * (MAX_WIDTH - 3), cs.A_DIM)
+                help_container.widget.addstr(line, 0, help_line[0], cs.A_BOLD)
+                help_container.widget.addstr(line, -3, help_line[1], cs.A_ITALIC)
+                line += 1
+            line += 1
+
+        # add tip text
+        help_container.widget.addstr(help_container.widget.max_y - 1, -1, "press `q` to return", cs.A_DIM | cs.A_ITALIC)
+
+        help_container.widget.refresh()
+        help_container.loop()
+        help_container.widget.erase()
+        help_container.erase()
+        help_container.refresh_all()
+
+    def _select_entry(self, entry: MenuEntry):
+        """Selects the entry.
+
+        Args:
+            entry (MenuEntry): The entry to select.
+        """
+        if entry.locked:
+            self._show_locked_msg(entry)
+            return
+
+        if isinstance(entry, ToggleEntry):
+            self._display_notification("this entry is not selectable. to toggle instead, press `SPACE`")
+        else:
+            if entry.target is not None:
+                entry.target()
+                raise WidgetLoopEnd(None)
+            else:
+                self.result = entry.name
+                raise WidgetLoopEnd(self.result)
+
+    def _toggle_entry(self, entry: ToggleEntry):
+        """Toggles the entry.
+
+        Args:
+            entry (ToggleEntry): The entry to toggle.
+        """
+        if entry.locked:
+            self._show_locked_msg(entry)
+            return
+
+        if isinstance(entry, ToggleEntry):
+            entry.toggle()
+            entry.update_label()
+            self.display()
+            self.refresh()
+        else:
+            self._display_notification("this entry is not toggleable. to select instead, press `ENTER`")
+
     def _input(self, key: int):
         """Handles the input of the widget.
 
@@ -210,82 +297,15 @@ class MenuWidget(Widget):
 
         # display help
         elif key == ord('?'):
-            from ..window_management.container import Container
+            self._display_help()
 
-            help_text = {
-                "Navigation": [
-                    ["`UP`", "focus the previous entry"],
-                    ["`DOWN`", "focus the next entry"],
-                    ["`PAGE UP`", "scroll half screen up"],
-                    ["`PAGE DOWN`", "scroll half screen down"],
-                ],
-                "Interaction": [
-                    ["`ENTER`", "select the current entry"],
-                    ["`SPACE`", "toggle the current entry"],
-                    ["`i`", "display info of current entry"],
-                ],
-                "Miscellaneous": [
-                    ["`q`", "return to the previous menu"],
-                    ["`?`", "display this help message"],
-                ],
-            }
-
-            MAX_WIDTH = 40
-
-            # create container
-            help_container = Container("MenuWidget help", None, 18, MAX_WIDTH, "center", "center")
-            help_container.widget = Widget(help_container)
-
-            # add help text
-            line = 0
-            for idx, (category, contents) in enumerate(help_text.items()):
-                help_container.widget.addstr(line, -1, f"{category: ^{MAX_WIDTH - 10}}", cs.A_BOLD | cs.A_UNDERLINE)
-                line += 1
-                for _idx, help_line in enumerate(contents):
-                    help_container.widget.addstr(line, 0, '.' * (MAX_WIDTH - 3), cs.A_DIM)
-                    help_container.widget.addstr(line, 0, help_line[0], cs.A_BOLD)
-                    help_container.widget.addstr(line, -3, help_line[1], cs.A_ITALIC)
-                    line += 1
-                line += 1
-
-            # add tip text
-            help_container.widget.addstr(help_container.widget.max_y - 1, -1, "press `q` to return", cs.A_DIM | cs.A_ITALIC)
-
-            help_container.widget.refresh()
-            help_container.loop()
-            help_container.widget.erase()
-            help_container.erase()
-            help_container.refresh_all()
-
-            return
+        # select entry
+        elif key in [cs.KEY_ENTER, ord('\n')]:
+            self._select_entry(self.selected_entry)
 
         # toggle entry
-        elif key in [ord(' '), cs.KEY_ENTER, ord('\n')]:
-            # show locked message if locked
-            if self.items[self.selected].locked:
-                self._show_locked_msg(self.items[self.selected])
-                return
-
-            if key == ord(' '):
-                if isinstance(self.items[self.selected], ToggleEntry):
-                    self.items[self.selected].toggle()
-                    self.items[self.selected].update_label()
-                    self.display()
-                    self.refresh()
-                    return
-                else:
-                    self._display_notification("this entry is not toggleable. to select instead, press `ENTER`")
-
-            elif key in [cs.KEY_ENTER, ord('\n')]:
-                if isinstance(self.items[self.selected], ToggleEntry):
-                    self._display_notification("this entry is not selectable. to toggle instead, press `SPACE`")
-                else:  # prevent selecting toggle entries
-                    if self.items[self.selected].target is not None:
-                        self.items[self.selected].target()
-                        raise WidgetLoopEnd(None)
-                    else:
-                        self.result = self.items[self.selected].name
-                        raise WidgetLoopEnd(self.items[self.selected].name)
+        elif key == ord(' '):
+            self._toggle_entry(self.selected_entry)
 
         self.display()
         self.refresh()
