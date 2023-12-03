@@ -200,28 +200,40 @@ class MenuWidget(Widget):
         elif key == ord('?'):
             from ..window_management.container import Container
 
-            help_text = [
-                ["`UP`", "focus the previous entry"],
-                ["`DOWN`", "focus the next entry"],
-                ["`PAGE UP`", "scroll half screen up"],
-                ["`PAGE DOWN`", "scroll half screen down"],
-                ["`ENTER`", "select the current entry"],
-                ["`SPACE`", "toggle the current entry"],
-                ["`q`", "return to the previous menu"],
-                ["`?`", "display this help message"],
-            ]
+            help_text = {
+                "Navigation": [
+                    ["`UP`", "focus the previous entry"],
+                    ["`DOWN`", "focus the next entry"],
+                    ["`PAGE UP`", "scroll half screen up"],
+                    ["`PAGE DOWN`", "scroll half screen down"],
+                ],
+                "Interaction": [
+                    ["`ENTER`", "select the current entry"],
+                    ["`SPACE`", "toggle the current entry"],
+                ],
+                "Miscellaneous": [
+                    ["`q`", "return to the previous menu"],
+                    ["`?`", "display this help message"],
+                ],
+            }
 
             MAX_WIDTH = 40
 
             # create container
-            help_container = Container(None, None, len(help_text) + 3, MAX_WIDTH, "center", "center")
+            help_container = Container(None, None, 17, MAX_WIDTH, "center", "center")
             help_container.widget = Widget(help_container)
 
             # add help text
-            for idx, line in enumerate(help_text):
-                help_container.widget.addstr(idx, 0, f"{'.' * (MAX_WIDTH - 3)}", cs.A_DIM)
-                help_container.widget.addstr(idx, 0, f"{line[0]}", cs.A_BOLD)
-                help_container.widget.addstr(idx, -3, f"{line[1]}", cs.A_ITALIC)
+            line = 0
+            for idx, (category, contents) in enumerate(help_text.items()):
+                help_container.widget.addstr(line, -1, f"{category: ^{MAX_WIDTH - 10}}", cs.A_BOLD | cs.A_UNDERLINE)
+                line += 1
+                for _idx, help_line in enumerate(contents):
+                    help_container.widget.addstr(line, 0, '.' * (MAX_WIDTH - 3), cs.A_DIM)
+                    help_container.widget.addstr(line, 0, help_line[0], cs.A_BOLD)
+                    help_container.widget.addstr(line, -3, help_line[1], cs.A_ITALIC)
+                    line += 1
+                line += 1
 
             # add tip text
             help_container.widget.addstr(help_container.widget.max_y - 1, -1, "press `q` to return", cs.A_DIM | cs.A_ITALIC)
