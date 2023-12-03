@@ -109,6 +109,18 @@ class MenuWidget(Widget):
         self.addstr(self.max_y - 2, 1, info_text, cs.A_DIM)
         self.addstr(self.max_y - 1, 1, "press `?` for help", cs.A_DIM | cs.A_ITALIC)
 
+    def get_toggle_entries(self, *, whole_class: bool = False) -> dict[ToggleEntry, bool]:
+        """Returns a dict of all toggle entries and their values.
+
+        Args:
+            whole_class (bool, optional): Whether to return the whole class.\
+        If not, return only the `name` attribute. Defaults to False.
+
+        Returns:
+            dict[ToggleEntry, bool]: The dict of toggle entries and their values.
+        """
+        return {entry if whole_class else entry.name: bool(entry.value) for entry in self.items if isinstance(entry, ToggleEntry)}
+
     def _display_info(self):
         """Displays the info of the selected entry.
 
