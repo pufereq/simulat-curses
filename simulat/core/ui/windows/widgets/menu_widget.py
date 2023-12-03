@@ -38,7 +38,7 @@ class ToggleEntry(MenuEntry):
     def __init__(self, name: str, label: str, info: str | None, *, default_value: bool, locked: bool = False, locked_msg: str | None = None):
         super().__init__(name, label, info, None, locked, locked_msg)
 
-        self.value = default_value
+        self.value = bool(default_value)
         self.update_label()
 
     def update_label(self):
