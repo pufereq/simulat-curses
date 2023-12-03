@@ -221,7 +221,7 @@ class MenuWidget(Widget):
             MAX_WIDTH = 40
 
             # create container
-            help_container = Container(None, None, 18, MAX_WIDTH, "center", "center")
+            help_container = Container("MenuWidget help", None, 18, MAX_WIDTH, "center", "center")
             help_container.widget = Widget(help_container)
 
             # add help text
