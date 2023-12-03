@@ -210,6 +210,7 @@ class MenuWidget(Widget):
                 "Interaction": [
                     ["`ENTER`", "select the current entry"],
                     ["`SPACE`", "toggle the current entry"],
+                    ["`i`", "display info of current entry"],
                 ],
                 "Miscellaneous": [
                     ["`q`", "return to the previous menu"],
@@ -220,7 +221,7 @@ class MenuWidget(Widget):
             MAX_WIDTH = 40
 
             # create container
-            help_container = Container(None, None, 17, MAX_WIDTH, "center", "center")
+            help_container = Container(None, None, 18, MAX_WIDTH, "center", "center")
             help_container.widget = Widget(help_container)
 
             # add help text
