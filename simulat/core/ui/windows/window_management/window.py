@@ -22,11 +22,7 @@ class Window():
             self.window.attrset(cs.A_REVERSE)
 
         if make_panel:
-            from .subwindow import SubWindow
-            if type(self.window) is SubWindow:
-                self.panel = curses.panel.new_panel(self.window.window)
-            else:
-                self.panel = curses.panel.new_panel(self.window)
+            self.panel = curses.panel.new_panel(self.window)
 
         self.keypad(True)
 
