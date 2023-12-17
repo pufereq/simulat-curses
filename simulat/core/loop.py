@@ -42,5 +42,10 @@ def _loop(keypress: int):
     Args:
         keypress (int): The keypress to handle.
     """
+    if keypress == ord("`"):
+        from .init import console
+        console.loop()
+
+
     game_map._input(keypress)
     game_map._refresh_map()
