@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import curses as cs
+import curses.panel
 
 from .window import Window
 
@@ -35,6 +36,16 @@ class Container(Window):
 
         self.update_title(self.title)
         self.update_description(self.description)
+        self.panel.hide()
+        curses.panel.update_panels()
+
+    def display(self):
+        self.panel.show()
+        self.panel.top()
+        self.widget.panel.show()
+        self.widget.panel.top()
+        curses.panel.update_panels()
+        self.refresh_all()
 
     def loop(self):
         """Starts the loop of the container window.
@@ -44,6 +55,7 @@ class Container(Window):
         """
 
         result = None  # default
+        self.display()
 
         while True:
             key = self.getch()
