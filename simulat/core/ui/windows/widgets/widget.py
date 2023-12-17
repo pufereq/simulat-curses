@@ -20,11 +20,16 @@ class Widget(DerWindow):
             parent (Container): The parent container window.
         """
         if parent.description:
-            super().__init__(parent.window, parent.max_y - 4, parent.max_x - 2, 3, 1, make_panel=False)
+            super().__init__(parent.window, parent.max_y - 4, parent.max_x - 2, 3, 1, make_panel=True)
         else:
-            super().__init__(parent.window, parent.max_y - 2, parent.max_x - 2, 1, 1, make_panel=False)
+            super().__init__(parent.window, parent.max_y - 2, parent.max_x - 2, 1, 1, make_panel=True)
 
         self.result = None
+        self.panel.hide()
+
+    def loop_start_hook(self):
+        self.panel.top()
+        self.panel.show()
 
     def _wrap_str_to_width(self, text: str) -> str:
         """Wraps a string to the width of the widget.
