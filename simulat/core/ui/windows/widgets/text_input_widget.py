@@ -32,8 +32,11 @@ class TextInputWidget(Widget):
         self.refresh()
         self.input_window.refresh()
 
-        # set cursor
+    def loop_start_hook(self):
+        super().loop_start_hook()
+
         cs.curs_set(2)  # show cursor
+        self.input_window.window.refresh()
 
     def _input(self, key):
         if key in [cs.KEY_ENTER, 10] and self.is_one_line or key == 7:
