@@ -93,6 +93,7 @@ def init_curses_inner(stdscr):
     init_colors()
     init_content_win()
     init_topbar(stdscr)
+    init_console()
 
 
 def init_game_map():
@@ -102,3 +103,11 @@ def init_game_map():
 
     game_map = GameMap()
     game_map._start_loop()
+
+
+def init_console():
+    global console
+    # Console
+    from simulat.core.ui.windows.console import Console
+
+    console = Console("console", None, 16, 64, "center", "center")
