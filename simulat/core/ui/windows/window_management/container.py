@@ -56,6 +56,7 @@ class Container(Window):
 
         result = None  # default
         self.display()
+        self.widget.loop_start_hook()
 
         while True:
             key = self.getch()
