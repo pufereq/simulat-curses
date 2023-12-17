@@ -20,9 +20,8 @@ class TextInputWidget(Widget):
 
         self.textbox = Textbox(self.input_window.window, insert_mode=True)
 
-        # format input window
-        self.input_window.attron(cs.A_UNDERLINE)
-        self.input_window.window.bkgd(" ", cs.A_UNDERLINE)
+        # add default text
+        self.input_window.addstr(0, 0, self.default_text)
 
         # add tip text
         self.addstr(self.max_y - 1, 1,
@@ -33,8 +32,11 @@ class TextInputWidget(Widget):
         self.refresh()
         self.input_window.refresh()
 
-        # set cursor
+    def loop_start_hook(self):
+        super().loop_start_hook()
+
         cs.curs_set(2)  # show cursor
+        self.input_window.window.refresh()
 
     def _input(self, key):
         if key in [cs.KEY_ENTER, 10] and self.is_one_line or key == 7:
