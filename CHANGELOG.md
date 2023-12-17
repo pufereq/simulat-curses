@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.0] - 2023-12-17
+
+### Bug Fixes
+
+- [`682457a`](https://github.com/pufereq/simulat/commit/682457a6c8d40aefad41a9adfc88169bec49831c) **console.py**: fix error when exiting console with `q` key
+- [`43571fe`](https://github.com/pufereq/simulat/commit/43571fe1111566803ec356422b180903000c02e3) **console.py**: fix result always being `None`
+- [`6260735`](https://github.com/pufereq/simulat/commit/62607357dfe1114d4a3f14ee7ec33395b7997014) **text_input_widget.py**: fix `default_text` not being written to the input field
+- [`ef77d51`](https://github.com/pufereq/simulat/commit/ef77d5115a09cb02e8c0694b3a7083082297a33d) **text_input_widget.py**: fix text being overwritten on insert
+
+### Features
+
+- [`8020b3f`](https://github.com/pufereq/simulat/commit/8020b3f633163731a466c3307cc24745202750ee) **console.py**: add Console
+- [`a0eb85e`](https://github.com/pufereq/simulat/commit/a0eb85ec0fc740cbbacfa08a34a22134e203c2cb) **widget.py**: make widgets panels and hide after init
+- [`49a3873`](https://github.com/pufereq/simulat/commit/49a3873b9246b7cef118d490feedba1e9165d7fe) **container.py**: make containers' panel hidden after init
+
+### Miscellaneous Tasks
+
+- [`640fe97`](https://github.com/pufereq/simulat/commit/640fe97f91a1855a2093eb8a8b4ff6aba2783a86) **loop.py**: show console after pressing ` [backtick]
+- [`f0af471`](https://github.com/pufereq/simulat/commit/f0af471d347b9ee8cf0890ff059fb85f8d1d11a7) **init.py**: add `Console` init function
+- [`a0390b1`](https://github.com/pufereq/simulat/commit/a0390b119b8edb4e0eeead32cfbe6e1d19e5fb44) **text_input_widget.py**: move `cs.curs_set` call into the new `loop_start_hook()` method
+- [`1bae156`](https://github.com/pufereq/simulat/commit/1bae15633706c5eab2aa90fde710f6a466b95b41) **container.py**: add call to `widget.loop_start_hook()`
+
+### Refactor
+
+- [`a765780`](https://github.com/pufereq/simulat/commit/a76578049de71aec540979878a8f5fd5b6a6b7f0) **window.py**: remove unnecessary type checking in `_common_init()`
+
 ## [0.5.0] - 2023-12-03
 
 ### Bug Fixes
@@ -21,6 +47,7 @@ All notable changes to this project will be documented in this file.
 
 ### Miscellaneous Tasks
 
+- [`704a66a`](https://github.com/pufereq/simulat/commit/704a66a6f8e5eece728d52bdf66d7b0ff8b696ba) **release**: 0.5.0
 - [`a75ae4d`](https://github.com/pufereq/simulat/commit/a75ae4d39a6d16479c6fc7f42ea29abae452de42) **menu_widget_tests.py**: add test for `[MenuWidget].get_toggle_entries()` method
 - [`3544515`](https://github.com/pufereq/simulat/commit/35445150c4fea0b25930fe3982588a6759fd44df) **menu_widget.py**: set default_value of `ToggleEntry` as bool
 - [`de82f6d`](https://github.com/pufereq/simulat/commit/de82f6da6a620f80457fa9e10915af4387327d26) **menu_widget.py**: add title to help menu
