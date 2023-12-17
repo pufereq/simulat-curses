@@ -14,7 +14,7 @@ class Console(Container):
         self.widget = TextInputWidget(self, default_text="command")
 
     def loop(self):
-        result = super().loop().replace("\n", "")
+        result = str(super().loop()).replace("\n", "")
         try:
             parsed = compile(result, "<string>", "eval")
         except Exception as e:
