@@ -20,6 +20,9 @@ class TextInputWidget(Widget):
 
         self.textbox = Textbox(self.input_window.window, insert_mode=True)
 
+        # add default text
+        self.input_window.addstr(0, 0, self.default_text)
+
         # add tip text
         self.addstr(self.max_y - 1, 1,
                     "press `Return` to submit" if self.is_one_line
