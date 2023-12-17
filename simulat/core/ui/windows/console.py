@@ -14,9 +14,9 @@ class Console(Container):
         self.widget = TextInputWidget(self, default_text="command")
 
     def loop(self):
-        result = ("import simulat; " + (super().loop() or "")).replace("\n", "")
+        result = super().loop().replace("\n", "")
         try:
-            parsed = compile(result, "<string>", "exec")
+            parsed = compile(result, "<string>", "eval")
         except Exception as e:
             self.show_result(f"{e.__class__.__name__}: {e}")
             return
@@ -45,6 +45,7 @@ class Console(Container):
             command (str): The command to execute.
         """
         try:
-            return eval(command)
+            import simulat
+            return str(eval(command, {"simulat": simulat}))
         except Exception as e:
             self.show_result(f"{e.__class__.__name__}: {e}")
