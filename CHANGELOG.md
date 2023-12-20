@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.6.1] - 2023-12-20
+
+### Bug Fixes
+
+- [`6c5fd55`](https://github.com/pufereq/simulat/commit/6c5fd55683d56911b3628b67fa14f44d52c47150) **container.py**: fix menus not disappearing after loop finish
+
 ## [0.6.0] - 2023-12-17
 
 ### Bug Fixes
@@ -19,6 +25,7 @@ All notable changes to this project will be documented in this file.
 
 ### Miscellaneous Tasks
 
+- [`05f83c5`](https://github.com/pufereq/simulat/commit/05f83c5e1237d2d687422cfe89bc813be124eb9a) **release**: 0.6.0
 - [`640fe97`](https://github.com/pufereq/simulat/commit/640fe97f91a1855a2093eb8a8b4ff6aba2783a86) **loop.py**: show console after pressing ` [backtick]
 - [`f0af471`](https://github.com/pufereq/simulat/commit/f0af471d347b9ee8cf0890ff059fb85f8d1d11a7) **init.py**: add `Console` init function
 - [`a0390b1`](https://github.com/pufereq/simulat/commit/a0390b119b8edb4e0eeead32cfbe6e1d19e5fb44) **text_input_widget.py**: move `cs.curs_set` call into the new `loop_start_hook()` method
