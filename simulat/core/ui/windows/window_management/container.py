@@ -75,6 +75,8 @@ class Container(Window):
             elif key == ord('q'):
                 break
 
+        self.panel.hide()
+        self.widget.panel.hide()
         return result
 
     def update_title(self, title: str):
