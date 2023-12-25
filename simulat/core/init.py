@@ -18,6 +18,13 @@ def init_stdscr(_scr):
     cs.start_color()
 
 
+def init_wrapper_win(size_y: int, size_x: int):
+    global wrapper_win, wrapper_win_height, wrapper_win_width
+
+    wrapper_win = Window(size_y, size_x, 0, 0, make_panel=False)
+    wrapper_win_height, wrapper_win_width = wrapper_win.getmaxyx()
+
+
 def init_content_win():
     global content_win, content_win_height, content_win_width
 
@@ -90,6 +97,7 @@ def init_colors():
 def init_curses_inner(stdscr):
     global content_win
     init_stdscr(stdscr)
+    init_wrapper_win(34, 100)
     init_colors()
     init_content_win()
     init_topbar(stdscr)
