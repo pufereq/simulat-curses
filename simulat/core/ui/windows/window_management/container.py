@@ -21,12 +21,12 @@ class Container(Window):
             y (int | str): The y position of the window. Accepts "center".
             x (int | str): The x position of the window. Accepts "center".
         """
-        from simulat.core.init import content_win
+        from simulat.core.init import wrapper_win
 
         if y == "center":
-            y = (content_win.max_y - nlines) // 2
+            y = (wrapper_win.max_y - nlines) // 2
         if x == "center":
-            x = (content_win.max_x - ncols) // 2
+            x = (wrapper_win.max_x - ncols) // 2
 
         super().__init__(nlines, ncols, y, x, make_panel=True)
 
@@ -127,11 +127,11 @@ class Container(Window):
             new_y (int | str): The new y position of the window. Accepts "center".
             new_x (int | str): The new x position of the window. Accepts "center".
         """
-        from simulat.core.init import content_win
+        from simulat.core.init import wrapper_win
         if new_y == "center":
-            new_y = (content_win.getmaxyx()[0] - self.max_y) // 2
+            new_y = (wrapper_win.max_y - self.max_y) // 2
         if new_x == "center":
-            new_x = (content_win.getmaxyx()[1] - self.max_x) // 2
+            new_x = (wrapper_win.max_x - self.max_x) // 2
 
         self.beg_x, self.beg_y = new_x, new_y
 
