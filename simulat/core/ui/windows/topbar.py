@@ -3,7 +3,7 @@
 import curses as cs
 
 from simulat.core.decorators.error_handler import error_handler
-from .window_management.window import Window
+from .window_management.derwindow import DerWindow
 
 
 class TopBar():
@@ -30,17 +30,18 @@ class TopBar():
     """
     @error_handler
     def __init__(self, stdscr, debug_text: str = 'simulat'):
-        global top_bar
         """Initialize top bar.
         Args:
             stdscr (_CursesWindow): Standard (main) screen.
             debug_text (str): Debug text. Defaults to 'simulat'.
         """
+        from simulat.core.init import wrapper_win
+        global top_bar
 
         stdscr_height, stdscr_width = stdscr.getmaxyx()
 
         # create top bar
-        self.top_bar = Window(1, stdscr_width, 0, 0, make_panel=False, reverse=True)
+        self.top_bar = wrapper_win.derwin(1, wrapper_win.max_x, 0, 0, reverse=True)
         self.top_bar_height, self.top_bar_width = self.top_bar.getmaxyx()
 
         # create debug subwindow
