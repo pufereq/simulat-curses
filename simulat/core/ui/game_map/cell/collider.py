@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from simulat.core.init import COLLIDER_COLOR
+from simulat.core.init.init_colors import COLLIDER_COLOR
 
 from .cell import Cell
 
