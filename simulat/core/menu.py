@@ -43,7 +43,7 @@ class Menu():
             ]
         """
 
-        from simulat.core.init import content_win
+        from simulat.core.init.init_ui import content_win
         self.old_panel_window = content_win.panel.window()
         content_win.panel.replace(content_win.window)
 
@@ -320,7 +320,7 @@ class Menu():
 
         self.panel.hide()
 
-        from simulat.core.init import content_win
+        from simulat.core.init.init_ui import content_win
         content_win.panel.replace(self.old_panel_window)
 
         panel.update_panels()
