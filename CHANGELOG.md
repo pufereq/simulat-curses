@@ -2,11 +2,41 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.0] - 2023-12-30
+
+### Bug Fixes
+
+- [`f40428e`](https://github.com/pufereq/simulat/commit/f40428ec6b04dea599a77ef12676ce2c16f75ff2) **loop.py**: fix windows resizing incorrectly
+- [`c364b47`](https://github.com/pufereq/simulat/commit/c364b4799568360028a494487de390ec2dd47d4e) **loop.py**: fix error when screen resized below required size
+
+### Features
+
+- [`a9af2d7`](https://github.com/pufereq/simulat/commit/a9af2d7d72bf69a9491a3f7a420555bb4a4e9d79) **init.py**: add wrapper window
+
+### Miscellaneous Tasks
+
+- [`c3de0a6`](https://github.com/pufereq/simulat/commit/c3de0a6d5cbe5e059248b4350c13376b165bbdde) **main.py**: remove unnecessary arguments from `main_menu()`
+- [`79c48a7`](https://github.com/pufereq/simulat/commit/79c48a778f20e0d9cd3b061558b15f01ae455e3b) **loop.py**: resize and redraw topbar on screen resize
+- [`1cf1aff`](https://github.com/pufereq/simulat/commit/1cf1aff1e6e5195e579c6289773840394cbfce18) **init.py**: add `init_topbar()` method for topbar initialization
+- [`235e372`](https://github.com/pufereq/simulat/commit/235e372294eba5d199cca5b890967b2199e4a1c0) **game_map.py**: modify `max_displayed_pad_size` set pad size using `wrapper_win` window
+- [`0d3e267`](https://github.com/pufereq/simulat/commit/0d3e267991ce7de52bffed8befa7fe13b283612b) **container.py**: modify `move()` to center against `wrapper_win`
+- [`383f930`](https://github.com/pufereq/simulat/commit/383f9306aabbe55bd1f449dbc95b74fba868b864) **topbar.py**: make topbar a derwin of `wrapper_win`
+
+### Refactor
+
+- [`9eb617b`](https://github.com/pufereq/simulat/commit/9eb617b5f6b29aa24d4280b20e4c4efe8550fc00) **game_map.py**: modify `topbar` calls to match rewrite
+- [`4866888`](https://github.com/pufereq/simulat/commit/48668882443c60cd5ba44b950be4e9c577f4bd74) **main.py**: modify `topbar` calls to match rewrite
+- [`83b5bde`](https://github.com/pufereq/simulat/commit/83b5bdea829d0c7f0a2d6c3ba8577509a31686e9) **topbar.py**: rewrite topbar
+
 ## [0.6.1] - 2023-12-20
 
 ### Bug Fixes
 
 - [`6c5fd55`](https://github.com/pufereq/simulat/commit/6c5fd55683d56911b3628b67fa14f44d52c47150) **container.py**: fix menus not disappearing after loop finish
+
+### Miscellaneous Tasks
+
+- [`d6f5bc6`](https://github.com/pufereq/simulat/commit/d6f5bc6531e957bc26dd417afe9c14ba6cb53206) **release**: 0.6.1
 
 ## [0.6.0] - 2023-12-17
 
