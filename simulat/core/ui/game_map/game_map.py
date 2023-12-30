@@ -5,10 +5,9 @@ import curses as cs
 
 from typing import Final
 
-from simulat.core.ui.windows.topbar import topbar
-from simulat.core.init import stdscr
+from simulat.core.init import stdscr, topbar
 
-from simulat.core.init import content_win
+from simulat.core.init import wrapper_win, content_win
 from simulat.core.init import INTERACTION_COLOR, INTERACTION_RADIUS_COLOR, PLAYER_COLOR
 
 from simulat.core.ui.windows.window_management.pad import Pad
@@ -84,7 +83,7 @@ class GameMap():
             'open': "·",  # open door, will display if `self.doors[(y, x)]['open'] == True`
         }
 
-        self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 1, stdscr.getmaxyx()[1] - 1
+        self.max_displayed_pad_size = wrapper_win.getmaxyx()[0] - 1, wrapper_win.getmaxyx()[1] - 1
 
         # set title
         topbar.title_win.clear()
@@ -241,7 +240,7 @@ class GameMap():
 
     def _resize(self):
         """Resizes the map to fit the terminal size."""
-        self.max_displayed_pad_size = stdscr.getmaxyx()[0] - 1, stdscr.getmaxyx()[1] - 1
+        self.max_displayed_pad_size = wrapper_win.getmaxyx()[0] - 1, wrapper_win.getmaxyx()[1] - 1
         self._refresh_map()
 
     def _refresh_map(self):
@@ -362,9 +361,7 @@ class GameMap():
             self.map.cs_addstr(self.player_pos[0], self.player_pos[1], self.player_char, PLAYER_COLOR)
             self._refresh_map()
 
-        topbar.details_win.clear()
-        topbar.details_win.addstr(0, -1, f"y: {self.player_pos[0]}, x: {self.player_pos[1]}")
-        topbar.details_win.refresh()
+        topbar.update_details(f"y: {self.player_pos[0]}, x: {self.player_pos[1]}")
 
     def _interact(self):
         """Interacts with the closest interaction.
