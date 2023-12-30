@@ -27,7 +27,7 @@ def error_handler(func):
 
 
 def error_menu(full_path: str, func_name: str, exc: Exception):
-    from simulat.core.init import content_win
+    from simulat.core.init.init_ui import content_win
 
     exc_name = type(exc).__name__
 
