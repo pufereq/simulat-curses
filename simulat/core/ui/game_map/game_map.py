@@ -5,10 +5,9 @@ import curses as cs
 
 from typing import Final
 
-from simulat.core.init import stdscr, topbar
+from simulat.core.init.init_ui import stdscr, topbar, wrapper_win, content_win
 
-from simulat.core.init import wrapper_win, content_win
-from simulat.core.init import INTERACTION_COLOR, INTERACTION_RADIUS_COLOR, PLAYER_COLOR
+from simulat.core.init.init_colors import INTERACTION_COLOR, INTERACTION_RADIUS_COLOR, PLAYER_COLOR
 
 from simulat.core.ui.windows.window_management.pad import Pad
 
