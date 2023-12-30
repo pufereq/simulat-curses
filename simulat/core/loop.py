@@ -3,7 +3,7 @@
 import curses as cs
 import time
 
-from simulat.core.init import game_map
+from simulat.core.init import game_map, topbar
 
 
 def game_loop():
@@ -37,6 +37,8 @@ def game_loop():
         if keypress == cs.KEY_RESIZE:
             cs.update_lines_cols()
             wrapper_win.resize(*required_size)
+            topbar.fix_size()
+            topbar.draw_all()
             game_map._resize()
 
         if current_time - last_frame_time >= FRAME_TIME:
