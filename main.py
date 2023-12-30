@@ -18,12 +18,11 @@ def main(stdscr):
 
 @error_handler
 def main_menu(stdscr):
-    from simulat.core.ui.windows.topbar import topbar
+    from simulat.core.init import topbar
     from simulat.tests.ui_tests.containers.menu_widget_tests import menu_widget_test
     from simulat.core.ui.windows.widgets.text_input_widget import test_textinputwidget
 
-
-    topbar.title_win.addstr(0, -1, "main menu")
+    topbar.update_title("main menu")
 
     menu = Container('main menu', 'welcome to simulat!', 13, 36, "center", "center")
     menu.widget = MenuWidget(menu,

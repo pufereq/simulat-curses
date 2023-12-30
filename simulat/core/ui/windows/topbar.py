@@ -1,82 +1,106 @@
 #!/usr/bin/env python3
 
-import curses as cs
-
 from simulat.core.decorators.error_handler import error_handler
 from .window_management.derwindow import DerWindow
 
 
-class TopBar():
-    """
-    Top Bar class. Used to inform user of basic game state (debug text,
-    title of current screen, details). Layout as follows:
-    /----------------------------------------------------------------\
-    |debug text                   title                      details |
-    |----------------------------------------------------------------|
-    |                                                                |
-    |                                                                |
-    |                                                                |
-    |                                                                |
-    |                                                                |
-    |                                                                |
-    |                                                                |
-    |                                                                |
-    |                                                                |
-   ...                                                              ...
-    debug text - used to display debug statuses. Defaults to 'simulat'
-    on __init__.
-    title - set to current screen (action) name e.g. panel.
-    details - displays game time. (TODO)
-    """
-    @error_handler
-    def __init__(self, stdscr, debug_text: str = 'simulat'):
-        """Initialize top bar.
+class TopBar(DerWindow):
+    def __init__(self, parent, *, debug_text: str = "simulat"):
+        """A bar with basic information about the game.
+
         Args:
-            stdscr (_CursesWindow): Standard (main) screen.
-            debug_text (str): Debug text. Defaults to 'simulat'.
+            parent: Parent window of the topbar.
+            debug_text (str): Debug text. Defaults to "simulat".
+
+        Layout:
+            /----------------------------------------------------------------\
+            |debug text                   title                      details |
+            +----------------------------------------------------------------+
+            |                                                                |
+            |                                                                |
+            |                                                                |
+            |                                                                |
+            |                                                                |
+            |                                                                |
+            |                                                                |
+            |                                                                |
+            |                                                                |
+           ...                                                              ...
+            debug text: Field for displaying debug statuses. Can custom-set via the argument.
+            title: The title of the contents.
+            details: Miscellaneous information.
         """
-        from simulat.core.init import wrapper_win
-        global top_bar
+        super().__init__(parent.window, 1, parent.getmaxyx()[1], 0, 0, make_panel=False, reverse=True)
 
-        stdscr_height, stdscr_width = stdscr.getmaxyx()
+        self.parent = parent
 
-        # create top bar
-        self.top_bar = wrapper_win.derwin(1, wrapper_win.max_x, 0, 0, reverse=True)
-        self.top_bar_height, self.top_bar_width = self.top_bar.getmaxyx()
+        self.debug_text: str = debug_text
+        self.title_text: str = "test"
+        self.details_text: str = "test"
 
-        # create debug subwindow
-        self.debug_win = self.top_bar.subwin(0, 20, 0, 0)
-        self.debug_win_height, self.debug_win_width = self.debug_win.getmaxyx()
+        # calculate subwindows size
+        proportion: tuple = (3, 4, 3)
+        self.subwin_sizes: list = []
+        for seg in proportion:
+            self.subwin_sizes.append(int((self.max_x * seg) / sum(proportion)))
 
-        # create title subwindow
-        self.title_win = self.top_bar.subwin(0, self.top_bar_width - 40, 0, 20)
-        self.title_height, self.title_width = self.title_win.getmaxyx()
+        # init subwindows
+        self.debug_win = self.derwin(1, self.subwin_sizes[0], 0, 0)
+        self.title_win = self.derwin(1, self.subwin_sizes[1], 0, self.subwin_sizes[0])
+        self.details_win = self.derwin(1, self.subwin_sizes[2], 0, (self.subwin_sizes[0] + self.subwin_sizes[1]))
 
-        # create details subwindow
-        self.details_win = self.top_bar.subwin(0, 20, 0, self.top_bar_width - 20)
-        self.details_height, self.details_width = self.details_win.getmaxyx()
+        self.window.bkgd("#")
 
-        # add debug text
-        self.debug_win.addstr(-2, -2, debug_text)
+        self.update_debug(self.debug_text)
 
-        # DEBUG: add details text
-        self.details_win.addstr(0, -3, 'TEST1234#')
+        self.draw_debug()
+        self.draw_title()
+        self.draw_details()
 
-        # DEBUG: add title
-        self.title_win.addstr(0, -1, 'TEST1234#')
+        self.refresh_all()
 
-        # top_bar.addstr(str(len(main_character.first_name)))
-        # details = ("time: soon")
-        # self.top_bar.addstr(0, stdscr_width - len(details) - 1, details)
-        stdscr.refresh()
+    def refresh_all(self):
+        self.refresh()
         self.debug_win.refresh()
         self.title_win.refresh()
         self.details_win.refresh()
-        self.top_bar.refresh()
 
+    def fix_size(self):
+        self.resize(1, self.parent.getmaxyx()[1])
+        self.debug_win.resize(1, self.subwin_sizes[0])
+        self.title_win.resize(1, self.subwin_sizes[1])
+        self.details_win.resize(1, self.subwin_sizes[2])
+        self.refresh_all()
 
-@error_handler
-def init_topbar(stdscr, debug_text: str = 'simulat'):
-    global topbar
+    def draw_debug(self):
+        self.debug_win.erase()
+        self.debug_win.addstr(0, 1, self.debug_text)
+        self.debug_win.refresh()
 
-    topbar = TopBar(stdscr, debug_text)
+    def draw_title(self):
+        self.title_win.erase()
+        self.title_win.addstr(0, -1, self.title_text)
+        self.title_win.refresh()
+
+    def draw_details(self):
+        self.details_win.erase()
+        self.details_win.addstr(0, -3, self.details_text)
+        self.details_win.refresh()
+
+    def draw_all(self):
+        self.draw_debug()
+        self.draw_title()
+        self.draw_details()
+
+    def update_debug(self, text: str):
+        self.debug_text = text
+        self.draw_debug()
+
+    def update_title(self, text: str):
+        self.title_text = text
+        self.draw_title()
+
+    def update_details(self, text: str):
+        self.details_text = text
+        self.draw_details()
+
