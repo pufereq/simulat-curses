@@ -10,15 +10,15 @@ from simulat.core.decorators.error_handler import error_handler
 
 
 def main(stdscr):
-    from simulat.core.init import init_curses_inner
-    init_curses_inner(stdscr)
+    from simulat.core.init.init_simulat import init_simulat
+    init_simulat(stdscr)
 
     main_menu()
 
 
 @error_handler
 def main_menu():
-    from simulat.core.init import topbar
+    from simulat.core.init.init_ui import topbar
     from simulat.tests.ui_tests.containers.menu_widget_tests import menu_widget_test
     from simulat.core.ui.windows.widgets.text_input_widget import test_textinputwidget
 
@@ -44,7 +44,7 @@ def main_menu():
         menu_widget_test()
 
     elif result == 'board':
-        from simulat.core.init import init_game_map
+        from simulat.core.init.init_ui import init_game_map
         init_game_map()
 
     elif result == 'text_input':

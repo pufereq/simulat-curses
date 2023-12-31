@@ -3,7 +3,7 @@
 import curses as cs
 import time
 
-from simulat.core.init import game_map, topbar
+from simulat.core.init.init_ui import game_map, topbar
 
 
 def game_loop():
@@ -12,7 +12,7 @@ def game_loop():
     NOTE: This function is only the handler of the main loop. The actual
     loop is in `_loop()`.
     """
-    from simulat.core.init import stdscr, wrapper_win, wrapper_win_height, wrapper_win_width
+    from simulat.core.init.init_ui import stdscr, wrapper_win, wrapper_win_height, wrapper_win_width
 
     FPS: int = 20  # frames per second
     FRAME_TIME: float = 1 / FPS
@@ -55,7 +55,7 @@ def _loop(keypress: int):
         keypress (int): The keypress to handle.
     """
     if keypress == ord("`"):
-        from .init import console
+        from .init.init_ui import console
         console.loop()
 
 

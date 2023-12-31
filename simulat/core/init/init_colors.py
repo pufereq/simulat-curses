@@ -2,34 +2,6 @@
 
 import curses as cs
 
-from simulat.core.ui.windows.window_management.window import Window
-
-
-def init_stdscr(_scr):
-    global stdscr, stdscr_height, stdscr_width
-
-    stdscr = _scr
-    stdscr_height, stdscr_width = stdscr.getmaxyx()
-
-    cs.noecho()
-    cs.cbreak()
-    cs.curs_set(0)
-    cs.start_color()
-
-
-def init_wrapper_win(size_y: int, size_x: int):
-    global wrapper_win, wrapper_win_height, wrapper_win_width
-
-    wrapper_win = Window(size_y, size_x, 0, 0, make_panel=False)
-    wrapper_win_height, wrapper_win_width = wrapper_win.getmaxyx()
-
-
-def init_content_win():
-    global content_win, content_win_height, content_win_width
-
-    content_win = Window(stdscr_height - 1, stdscr_width, 1, 0, make_panel=True)
-    content_win_height, content_win_width = content_win.getmaxyx()
-
 
 def init_colors():
     global COLLIDER_COLOR, GRASS_COLOR, FLOOR_COLOR, INTERACTION_COLOR, INTERACTION_RADIUS_COLOR, PLAYER_COLOR, EMPTY_COLOR, DOOR_COLOR, LOCKED_DOOR_COLOR
@@ -70,6 +42,7 @@ def init_colors():
     COLOR_DARK_BROWN: int = 94
     COLOR_GRASS_GREEN: int = 22
 
+    cs.start_color()
     cs.use_default_colors()
 
     cs.init_pair(COLLIDER_PAIR, COLOR_GRAY, COLOR_WHITE)
@@ -91,37 +64,3 @@ def init_colors():
     EMPTY_COLOR = cs.color_pair(EMPTY_PAIR)
     DOOR_COLOR = cs.color_pair(DOOR_PAIR) | cs.A_BOLD
     LOCKED_DOOR_COLOR = cs.color_pair(LOCKED_DOOR_PAIR) | cs.A_BOLD
-
-
-def init_topbar(debug_text: str = "simulat"):
-    from simulat.core.ui.windows.topbar import TopBar
-    global topbar
-
-    topbar = TopBar(wrapper_win, debug_text=debug_text)
-
-
-def init_curses_inner(stdscr):
-    global content_win
-    init_stdscr(stdscr)
-    init_wrapper_win(34, 100)
-    init_colors()
-    init_content_win()
-    init_console()
-    init_topbar()
-
-
-def init_game_map():
-    global topbar, game_map
-    # Map
-    from simulat.core.ui.game_map.game_map import GameMap
-
-    game_map = GameMap()
-    game_map._start_loop()
-
-
-def init_console():
-    global console
-    # Console
-    from simulat.core.ui.windows.console import Console
-
-    console = Console("console", None, 16, 64, "center", "center")

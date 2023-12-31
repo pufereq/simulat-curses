@@ -21,7 +21,7 @@ class Container(Window):
             y (int | str): The y position of the window. Accepts "center".
             x (int | str): The x position of the window. Accepts "center".
         """
-        from simulat.core.init import wrapper_win
+        from simulat.core.init.init_ui import wrapper_win
 
         if y == "center":
             y = (wrapper_win.max_y - nlines) // 2

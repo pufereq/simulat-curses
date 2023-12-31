@@ -2,7 +2,7 @@
 
 import random as rn
 
-from simulat.core.init import GRASS_COLOR, FLOOR_COLOR
+from simulat.core.init.init_colors import GRASS_COLOR, FLOOR_COLOR
 
 from .cell import Cell
 

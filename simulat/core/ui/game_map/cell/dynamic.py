@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from simulat.core.init import DOOR_COLOR, LOCKED_DOOR_COLOR
+from simulat.core.init.init_colors import DOOR_COLOR, LOCKED_DOOR_COLOR
 
 from .cell import Cell
 
